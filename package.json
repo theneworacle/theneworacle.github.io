@@ -17,7 +17,12 @@
     "remark-html": "^16.0.1"
   },
   "devDependencies": {
+    "@types/node": "^22.15.18",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "antd": "^5.25.1",
     "eslint": "latest",
-    "eslint-config-next": "latest"
+    "eslint-config-next": "latest",
+    "typescript": "^5.8.3"
   }
 }
