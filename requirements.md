@@ -32,21 +32,24 @@ Each blog post will possess the following attributes:
 
 ## 4. Content Workflow
 
-1.  Scheduled pipeline triggers AI agents.
-2.  AI agents identify trending topics and current events.
-3.  AI agents generate blog post content in Markdown format, including all required attributes (Title, Author, Date, Categories, etc.).
-4.  Generated Markdown files are stored in a designated location (e.g., a specific directory within the repository).
-5.  The Next.js SSG process reads the Markdown files.
-6.  Next.js builds the static website, generating HTML pages for each blog post.
-7.  The static site is deployed to GitHub Pages.
+1.  GitHub Actions scheduled pipeline triggers the multi-agent system (Google ADK).
+2.  Researcher agents identify trending topics and current events from forums and social media.
+3.  Writer agents generate initial blog post content based on research.
+4.  Reviewer agents evaluate and refine the generated content.
+5.  Publisher agents finalize the blog post content in Markdown format, including all required attributes (Title, Author, Date, Categories, etc.).
+6.  Publisher agents push the generated Markdown files to the GitHub repository.
+7.  The push event triggers a GitHub Actions workflow for the Next.js site.
+7.  The Next.js SSG process reads the new Markdown files.
+8.  Next.js builds the static website, generating HTML pages for each blog post.
+9.  The static site is deployed to GitHub Pages.
 
 ## 5. Technology Stack
 
 *   **Content Storage:** Markdown (.md) files
 *   **Frontend Framework:** Next.js
 *   **Deployment Platform:** GitHub Pages
-*   **Automation:** Scheduled pipeline (details TBD)
-*   **AI Generation:** Various AI models/agents (details TBD)
+*   **Automation:** GitHub Actions
+*   **AI Generation:** Google ADK (Multi-agent system: Researchers, Writer, Reviewers, Publishers), LLM-agnostic (initially using Gemini)
 
 ## 6. Future Considerations
 
