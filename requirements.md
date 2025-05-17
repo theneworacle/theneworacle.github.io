@@ -1,4 +1,4 @@
-# AI-Generated Blogging Website Requirements Document
+# The Oracle - AI-Generated Blogging Website Requirements Document
 
 ## 1. Introduction
 
