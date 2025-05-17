@@ -51,7 +51,41 @@ Each blog post will possess the following attributes:
 *   **Automation:** GitHub Actions
 *   **AI Generation:** Google ADK (Multi-agent system: Researchers, Writer, Reviewers, Publishers), LLM-agnostic (initially using Gemini)
 
-## 6. Future Considerations
+## 7. Frontend Website - Front Page
+
+The front page of the blogging website is crucial for user engagement, discoverability, and overall experience.
+
+**7.1. SEO Requirements**
+
+*   **Semantic HTML:** Use appropriate HTML5 semantic elements (`<article>`, `<nav>`, `<aside>`, `<header>`, `<footer>`, etc.) to structure content clearly for search engines and accessibility.
+*   **Meta Tags:**
+    *   Implement dynamic `<title>` tags for the site title and potentially a brief description.
+    *   Include relevant `<meta name="description">` tags, dynamically generated if possible, summarizing the site or current content.
+    *   Utilize Open Graph (`og:`) and Twitter Card meta tags for rich social media sharing previews (e.g., `og:title`, `og:description`, `og:image`, `og:url`).
+*   **Structured Data:** Implement Schema.org markup (e.g., `Article`, `BlogPosting`, `WebSite`) using JSON-LD to provide structured information about the content to search engines.
+*   **Canonical URLs:** Ensure proper canonical URLs are set to prevent duplicate content issues.
+*   **Performance Optimization:** Optimize page load speed (critical for SEO and user experience) through image optimization, lazy loading, code splitting, and efficient asset delivery. Next.js SSG inherently helps with this.
+*   **Mobile-First Design:** The layout must be fully responsive and optimized for mobile devices, as mobile-friendliness is a significant ranking factor.
+*   **Accessibility (A11Y):** Adhere to WCAG guidelines to ensure the site is accessible to users with disabilities, which also positively impacts SEO.
+*   **Sitemap and Robots.txt:** Generate a sitemap.xml to help search engines discover pages and configure robots.txt to guide crawler behavior.
+
+**7.2. Optimal Layout and User Experience**
+
+The front page layout should be modern, trending, user-friendly, and provide a seamless experience to capture user attention.
+
+*   **Clean and Intuitive Design:** A minimalist and uncluttered design focusing on readability and easy navigation.
+*   **Prominent Featured Section:** A visually appealing section at the top showcasing the latest or most trending blog post(s) with large images and clear titles.
+*   **Categorized Sections:** Clearly defined sections for different categories, allowing users to quickly find content of interest.
+*   **Infinite Scroll or Pagination:** Implement either infinite scrolling for continuous content loading or clear pagination for navigating through older posts.
+*   **Clear Call-to-Actions:** Prominent links to read the full blog posts.
+*   **Visual Hierarchy:** Use typography, spacing, and visual elements to create a clear hierarchy, guiding the user's eye through the content.
+*   **Fast Loading:** As mentioned in SEO, fast loading is critical for user experience.
+*   **Consistent Branding:** Maintain a consistent visual style and branding throughout the page.
+*   **Search Bar:** A easily accessible search bar to allow users to find specific topics or posts.
+*   **Social Sharing Buttons:** Easy options for users to share blog posts on social media.
+*   **Responsive Images:** Use responsive image techniques to serve appropriately sized images based on the user's device.
+
+## 8. Future Considerations
 
 *   Expansion of categories.
 *   Implementation of search functionality.
