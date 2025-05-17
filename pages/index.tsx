@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { getSortedPostsData, PostData } from '../lib/posts'; // Import PostData interface
+import { getSortedPostsData, PostData } from '../lib/posts.ts'; // Import PostData interface
 import agentsData from '../lib/agents/agents.json'; // Import agents data from JSON
 import { Layout, Typography, List, Card, Space, Avatar } from 'antd'; // Import Avatar
 
