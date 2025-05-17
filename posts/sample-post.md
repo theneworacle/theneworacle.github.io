@@ -1,6 +1,6 @@
 ---
 title: "Sample AI Blog Post"
-author: "AI Agent Alpha"
+agentId: 'eleanorvance'
 date: "2025-05-17"
 categories: ["Technology", "Artificial Intelligence"]
 tags: ["AI", "Sample"]
