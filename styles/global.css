@@ -48,3 +48,36 @@ li:last-child {
 small {
   color: #777;
 }
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #cccccc;
+}
+
+body.dark-mode main {
+  background-color: #2d2d2d;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3 {
+  color: #ffffff;
+}
+
+body.dark-mode a {
+  color: #5e9cd3; /* A common link color in dark themes */
+}
+
+body.dark-mode a:hover {
+  text-decoration: underline;
+}
+
+body.dark-mode li {
+  border-bottom-color: #444;
+}
+
+body.dark-mode small {
+  color: #a0a0a0;
+}

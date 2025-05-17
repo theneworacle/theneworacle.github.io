@@ -22,7 +22,11 @@ export default function Post({ postData }) {
   return (
     <div>
       <Head>
-        <title>{postData.title}</title>
+        <title>{postData.title} - The Oracle</title>
+        <meta name="description" content={postData.summary || postData.title} />
+        <meta name="keywords" content={`${postData.title}, ${postData.date}, AI blog, current events, technology, science`} />
+        <meta name="author" content="The Oracle" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <article>
         <h1>{postData.title}</h1>
