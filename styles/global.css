@@ -1,83 +1,200 @@
-/* Basic styling for the Oracle blog */
+/* Professional, modern, and mobile-friendly styling for the Oracle blog */
 
+/* --- Variables --- */
+:root {
+  --primary-color: #007bff; /* A vibrant blue for links and accents */
+  --secondary-color: #6c757d; /* Muted grey for secondary text */
+  --text-color: #333; /* Dark grey for main text */
+  --background-color: #f8f9fa; /* Light grey background */
+  --surface-color: #ffffff; /* White background for content areas */
+  --border-color: #dee2e6; /* Light grey for borders */
+  --font-family-sans: 'Inter', sans-serif; /* Modern sans-serif font */
+  --font-family-serif: 'Merriweather', serif; /* Serif font for body text (optional, depending on desired look) */
+  --spacing-unit: 1rem; /* Base spacing unit */
+}
+
+/* --- Base Styles --- */
 body {
-  font-family: sans-serif;
+  font-family: var(--font-family-sans); /* Use sans-serif for general UI */
   line-height: 1.6;
   margin: 0;
-  padding: 20px;
-  background-color: #f4f4f4;
-  color: #333;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-main {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-sans); /* Use sans-serif for headings */
+  color: var(--text-color);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
 }
 
-h1, h2, h3 {
-  color: #333;
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: 1rem;
 }
 
 a {
-  color: #007bff;
+  color: var(--primary-color);
   text-decoration: none;
+  transition: color 0.2s ease-in-out;
 }
 
 a:hover {
+  color: darken(var(--primary-color), 10%); /* Darken on hover */
   text-decoration: underline;
 }
 
 ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 li {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #eee;
-}
-
-li:last-child {
-  border-bottom: none;
+  margin-bottom: var(--spacing-unit);
 }
 
 small {
-  color: #777;
+  color: var(--secondary-color);
+  font-size: 0.875rem;
 }
 
-/* Dark mode styles */
+/* --- Layout --- */
+.container {
+  max-width: 960px; /* Standard max width for content */
+  margin: 0 auto; /* Center the container */
+  padding: 0 var(--spacing-unit); /* Add padding on the sides */
+}
+
+main {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background-color: var(--surface-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  border-radius: 8px; /* Rounded corners */
+}
+
+/* --- Blog Post List --- */
+.post-list {
+  margin-top: 2rem;
+}
+
+.post-list-item {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.post-list-item:last-child {
+  border-bottom: none;
+}
+
+.post-list-item h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.post-list-item small {
+  display: block; /* Date on its own line */
+  margin-bottom: 0.5rem;
+}
+
+/* --- Individual Blog Post --- */
+.post-article h1 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.post-article small {
+  display: block;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.post-content {
+  font-family: var(--font-family-serif); /* Use serif for body content */
+  font-size: 1.125rem; /* Slightly larger font size for readability */
+  line-height: 1.8;
+}
+
+.post-content p {
+  margin-bottom: 1.5rem;
+}
+
+.post-content img {
+  max-width: 100%; /* Ensure images are responsive */
+  height: auto;
+  display: block;
+  margin: 1.5rem auto; /* Center images */
+  border-radius: 4px;
+}
+
+.post-content pre {
+  background-color: #f4f4f4;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto; /* Enable horizontal scrolling for code blocks */
+}
+
+.post-content code {
+  font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+
+  main {
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .post-content {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}
+
+/* --- Dark mode styles (improved) --- */
 body.dark-mode {
-  background-color: #1e1e1e;
-  color: #cccccc;
-}
-
-body.dark-mode main {
-  background-color: #2d2d2d;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  --text-color: #cccccc;
+  --background-color: #1e1e1e;
+  --surface-color: #2d2d2d;
+  --border-color: #444;
+  --primary-color: #5e9cd3; /* A common link color in dark themes */
+  --secondary-color: #a0a0a0;
 }
 
 body.dark-mode h1,
 body.dark-mode h2,
-body.dark-mode h3 {
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
   color: #ffffff;
 }
 
-body.dark-mode a {
-  color: #5e9cd3; /* A common link color in dark themes */
-}
-
 body.dark-mode a:hover {
-  text-decoration: underline;
+  color: lighten(var(--primary-color), 10%); /* Lighten on hover in dark mode */
 }
 
-body.dark-mode li {
-  border-bottom-color: #444;
-}
-
-body.dark-mode small {
-  color: #a0a0a0;
+body.dark-mode .post-content pre {
+  background-color: #3a3a3a;
+  color: #cccccc;
 }
