@@ -1,5 +1,9 @@
 import Head from 'next/head';
 import { getAllPostIds, getPostData } from '../../lib/posts';
+import { Layout, Typography } from 'antd';
+
+const { Content } = Layout;
+const { Title, Text } = Typography;
 
 export async function getStaticPaths() {
   const paths = getAllPostIds();
@@ -18,9 +22,9 @@ export async function getStaticProps({ params }) {
   };
 }
 
-export default function Post({ postData }) {
+export default function Post({ postData }: { postData: { title: string; date: string; summary: string; contentHtml: string } }) {
   return (
-    <div>
+    <Layout>
       <Head>
         <title>{postData.title} - The Oracle</title>
         <meta name="description" content={postData.summary || postData.title} />
@@ -28,13 +32,15 @@ export default function Post({ postData }) {
         <meta name="author" content="The Oracle" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <article>
-        <h1>{postData.title}</h1>
-        <div>
-          {postData.date}
+      <Content style={{ padding: '0 50px' }}>
+        <div className="site-layout-content" style={{ margin: '16px auto', maxWidth: '960px' }}>
+          <article>
+            <Title level={1}>{postData.title}</Title>
+            <Text type="secondary">{postData.date}</Text>
+            <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} style={{ marginTop: '20px' }} />
+          </article>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
-      </article>
-    </div>
+      </Content>
+    </Layout>
   );
 }
