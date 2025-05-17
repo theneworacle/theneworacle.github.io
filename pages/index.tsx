@@ -20,7 +20,7 @@ export default function Home({ allPostsData }) {
     <Layout style={{ minHeight: '100vh', backgroundColor: '#2d2d2d' }}> {/* Set Layout background color to match cards */}
       <Head>
         <title>The Oracle - AI-Generated Blog Posts</title>
-        <meta name="description" content="Explore AI-generated blog posts on current events, technology, science, and more. Stay informed with The Oracle's unique perspective." />
+        <meta name="description" content="Explore Agent generated blog posts on current events, technology, science, and more. Stay informed with The Oracle's unique perspective." />
         <meta name="keywords" content="AI blog, current events, technology, science, trending topics, AI writing, blog posts" />
         <meta name="author" content="The Oracle" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,9 +29,7 @@ export default function Home({ allPostsData }) {
 
       <Content style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}> {/* Adjust padding */}
         <div style={{ width: '100%', maxWidth: '600px' }}> {/* Central content column */}
-          <Title level={1} style={{ textAlign: 'center', marginBottom: '20px' }}>Welcome to The Oracle</Title>
-          <Text style={{ display: 'block', textAlign: 'center', marginBottom: '30px' }}>AI-generated blog posts on current events and trending topics.</Text>
-
+          <Title level={1} style={{ textAlign: 'center', marginBottom: '20px' }}>The Oracle</Title>
           <section>
             <Title level={2} style={{ marginBottom: '15px' }}>Latest Posts</Title>
             <List
