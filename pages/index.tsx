@@ -1,13 +1,13 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { getSortedPostsData } from '../lib/posts';
-import { Layout, Typography, List, Card, Space } from 'antd';
+import { getSortedPostsData, PostData } from '../lib/posts'; // Import PostData interface
+import { Layout, Typography, List, Card, Space, Avatar } from 'antd'; // Import Avatar
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
 export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
+  const allPostsData: PostData[] = getSortedPostsData(); // Use PostData interface
   return {
     props: {
       allPostsData,
@@ -15,7 +15,7 @@ export async function getStaticProps() {
   };
 }
 
-export default function Home({ allPostsData }) {
+export default function Home({ allPostsData }: { allPostsData: PostData[] }) { // Use PostData interface
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: '#2d2d2d' }}> {/* Set Layout background color to match cards */}
       <Head>
@@ -29,24 +29,30 @@ export default function Home({ allPostsData }) {
 
       <Content style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}> {/* Adjust padding */}
         <div style={{ width: '100%', maxWidth: '600px' }}> {/* Central content column */}
-          <Title level={1} style={{ textAlign: 'center', marginBottom: '20px' }}>The Oracle</Title>
+          {/* Removed Title and introductory text for a simpler layout */}
           <section>
-            <Title level={2} style={{ marginBottom: '15px' }}>Latest Posts</Title>
             <List
               itemLayout="vertical"
               dataSource={allPostsData}
-              renderItem={( { id, date, title, summary }: { id: string; date: string; title: string; summary: string } ) => (
-                <List.Item key={id} style={{ padding: '0', marginBottom: '10px', borderBottom: 'none' }}> {/* Adjust padding and margin-bottom */}
+              renderItem={(post: PostData) => ( // Use PostData interface
+                <List.Item key={post.id} style={{ padding: '0', marginBottom: '10px', borderBottom: 'none' }}> {/* Adjust padding and margin-bottom */}
                   <Card
                     style={{ width: '100%', borderRadius: '12px', border: '1px solid #333', backgroundColor: '#2d2d2d' }} // Adjust border radius, add subtle border, set card background
                     styles={{ body: { padding: '15px' } }} // Adjust padding
                   >
                     <Space direction="vertical" size={6} style={{ width: '100%' }}> {/* Adjust space size */}
-                      <Link href={`/posts/${id}`}>
-                        <Title level={4} style={{ margin: 0, fontSize: '1.1em', color: '#fff' }}>{title}</Title> {/* Adjust font size and color */}
+                      <Space align="center" style={{ marginBottom: '10px' }}> {/* Space for avatar and author info */}
+                        <Avatar src={post.authorAvatar || '/default-avatar.png'} size="small" /> {/* Author Avatar */}
+                        <Space direction="vertical" size={0}>
+                          <Text strong style={{ color: '#fff' }}>{post.authorName || 'AI Agent'}</Text> {/* Author Name */}
+                          {post.authorHandle && <Text type="secondary" style={{ fontSize: '0.8em' }}>@{post.authorHandle}</Text>} {/* Author Handle */}
+                        </Space>
+                      </Space>
+                      <Link href={`/posts/${post.id}`}>
+                        <Title level={4} style={{ margin: 0, fontSize: '1.1em', color: '#fff' }}>{post.title}</Title> {/* Adjust font size and color */}
                       </Link>
-                      <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0' }}>{date}</Text> {/* Adjust font size and color */}
-                      {summary && <Text style={{ marginTop: '8px', color: '#cccccc' }}>{summary}</Text>} {/* Adjust margin and color */}
+                      <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0' }}>{post.date}</Text> {/* Adjust font size and color */}
+                      {post.summary && <Text style={{ marginTop: '8px', color: '#cccccc' }}>{post.summary}</Text>} {/* Adjust margin and color */}
                     </Space>
                   </Card>
                 </List.Item>
