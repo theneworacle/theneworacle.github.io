@@ -6,10 +6,10 @@ export default defineConfig({
   plugins: [react(), markdown()],
   resolve: {
     alias: {
+      '@': '/',
       // Polyfill Node.js modules
       process: 'process/browser',
       buffer: 'buffer/',
-      '@/lib': '/lib', // Add alias for @/lib
     },
   },
 });

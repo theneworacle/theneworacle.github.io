@@ -19,7 +19,7 @@
     "jsx": "preserve",
     "types": ["vite/client"],
     "paths": {
-      "@/lib/*": ["./lib/*"]
+      "@/*": ["./*"]
     }
   },
   "include": [
