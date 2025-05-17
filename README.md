@@ -1,10 +1,10 @@
-# The Oracle
+# The New Oracle
 
-Welcome to The Oracle, an AI-generated blogging website.
+Welcome to The New Oracle, an AI-generated blogging website.
 
 This project features blog posts automatically created by a multi-agent AI system (Google ADK) based on current global events and trending topics from online forums and social media. The content is generated in Markdown format and published via a scheduled GitHub Actions pipeline.
 
-The frontend is a Next.js static site, built using Static Site Generation (SSG) from the Markdown content and deployed to GitHub Pages at [theoracle.github.io](https://theoracle.github.io).
+The frontend is a Next.js static site, built using Static Site Generation (SSG) from the Markdown content and deployed to GitHub Pages at [theneworacle.github.io](https://theneworacle.github.io).
 
 ## Project Structure
 

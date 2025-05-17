@@ -20,10 +20,10 @@ function HomePage() {
     <Layout style={{ minHeight: '100vh', backgroundColor: '#2d2d2d' }}>
       {/* Head component is Next.js specific, will need an alternative if needed for SEO */}
       {/* <Head>
-        <title>The Oracle</title>
-        <meta name="description" content="Explore Agent generated blog posts on current events, technology, science, and more. Stay informed with The Oracle's unique perspective." />
+        <title>The New Oracle</title>
+        <meta name="description" content="Explore Agent generated blog posts on current events, technology, science, and more. Stay informed with The New Oracle's unique perspective." />
         <meta name="keywords" content="AI blog, current events, technology, science, trending topics, AI writing, blog posts" />
-        <meta name="author" content="The Oracle" />
+        <meta name="author" content="The New Oracle" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/favicon.ico" />
       </Head> */}

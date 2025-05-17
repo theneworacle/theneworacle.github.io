@@ -31,7 +31,7 @@ function PostPage() {
     <Layout style={{ minHeight: '100vh', backgroundColor: '#2d2d2d' }}>
       {/* Head component is Next.js specific, will need an alternative if needed for SEO */}
       {/* <Head>
-        <title>{postData.title} - The Oracle</title>
+        <title>{postData.title} - The New Oracle</title>
         <meta name="description" content={postData.summary || postData.title} />
         <meta name="keywords" content={`${postData.title}, ${postData.date}, AI blog, current events, technology, science`} />
         <meta name="author" content={agent ? agent.name : postData.authorName || 'AI Agent'} />
