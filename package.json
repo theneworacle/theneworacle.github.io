@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "clean": "rimraf dist",
+    "build": "npm run clean && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -23,6 +24,7 @@
     "antd": "^5.25.1",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "rimraf": "^6.0.1",
     "typescript": "^5.8.3"
   }
 }
