@@ -13,6 +13,7 @@ function HomePage() {
   useEffect(() => {
     // Data fetching will be handled here
     const posts = getSortedPostsData(); // This function might need adaptation
+    console.log('Posts fetched by getSortedPostsData:', posts);
     setAllPostsData(posts);
   }, []);
 

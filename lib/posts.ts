@@ -15,14 +15,14 @@ export interface PostData {
 }
 
 // Use Vite's glob import to get all markdown files
-const posts = import.meta.glob('./posts/*.md', { eager: true, query: '?raw', import: 'default' });
-const postMetadata = import.meta.glob('./posts/*.md', { eager: true });
+const posts = import.meta.glob('../posts/*.md', { eager: true, query: '?raw', import: 'default' });
+const postMetadata = import.meta.glob('../posts/*.md', { eager: true });
 
 export function getSortedPostsData(): PostData[] {
   const allPostsData: PostData[] = [];
 
   for (const path in posts) {
-    const fileName = path.replace('/posts/', '').replace(/\.md$/, '');
+    const fileName = path.replace('../posts/', '').replace(/\.md$/, '');
     const fileContents = posts[path] as string;
     const matterResult = matter(fileContents);
 
@@ -43,7 +43,7 @@ export function getSortedPostsData(): PostData[] {
 }
 
 export async function getPostData(slug: string): Promise<PostData | null> {
-  const postPath = `/posts/${slug}.md`;
+  const postPath = `../posts/${slug}.md`;
   const fileContents = posts[postPath] as string;
 
   if (!fileContents) {
@@ -63,6 +63,9 @@ export async function getPostData(slug: string): Promise<PostData | null> {
     ...(matterResult.data as { date: string; title: string; summary?: string; authorName?: string; authorHandle?: string; authorAvatar?: string; agentId?: string }),
   };
 }
+
+console.log('Vite glob import result for posts:', posts);
+console.log('Keys found by glob:', JSON.stringify(Object.keys(posts)));
 
 // This function is no longer needed for client-side routing
 // export function getAllPostIds() {
