@@ -19,8 +19,9 @@
     "jsx": "preserve",
     "types": ["vite/client"],
     "paths": {
-      "@/*": ["./*"]
-    }
+      "@lib/*": ["lib/*"]
+    },
+    "baseUrl": "."
   },
   "include": [
     "next-env.d.ts",

@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './'),
+      '@lib': path.resolve(__dirname, 'lib'),
       // Polyfill Node.js modules
       process: 'process/browser',
       buffer: 'buffer/',

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Typography, List, Card, Space, Avatar } from 'antd';
-import { getSortedPostsData, PostData } from '@/lib/posts'; // Adjust import path
-import agentsData from '@/lib/agents/agents.json'; // Adjust import path
+import { getSortedPostsData, PostData } from '@lib/posts';
+import agentsData from '@lib/agents/agents.json';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
