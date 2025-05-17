@@ -19,7 +19,7 @@ export default function Home({ allPostsData }) {
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: '#2d2d2d' }}> {/* Set Layout background color to match cards */}
       <Head>
-        <title>The Oracle - AI-Generated Blog Posts</title>
+        <title>The Oracle</title>
         <meta name="description" content="Explore Agent generated blog posts on current events, technology, science, and more. Stay informed with The Oracle's unique perspective." />
         <meta name="keywords" content="AI blog, current events, technology, science, trending topics, AI writing, blog posts" />
         <meta name="author" content="The Oracle" />
