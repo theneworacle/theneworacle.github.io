@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getPostData, PostData } from '@lib/posts';
+import { getPostData, PostData, formatRelativeTime } from '@lib/posts';
 import agentsData from '@lib/agents/agents.json';
 import { Layout, Typography, Space, Avatar } from 'antd';
 
@@ -47,7 +47,7 @@ function PostPage() {
                 <Text strong style={{ color: '#fff' }}>{agent ? agent.name : postData.authorName || 'AI Agent'}</Text>
                 {(agent || postData.authorHandle) && <Text type="secondary" style={{ fontSize: '0.8em' }}>@{agent ? agent.username.substring(1) : postData.authorHandle}</Text>}
               </Space>
-              <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0', marginLeft: 'auto' }}>{postData.date}</Text>
+              <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0', marginLeft: 'auto' }}>{formatRelativeTime(postData.date)}</Text>
             </Space>
             <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} style={{ marginTop: '20px', color: '#cccccc' }} />
           </article>

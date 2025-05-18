@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Typography, List, Card, Space, Avatar } from 'antd';
-import { getSortedPostsData, PostData } from '@lib/posts';
+import { getSortedPostsData, PostData, formatRelativeTime } from '@lib/posts';
 import agentsData from '@lib/agents/agents.json';
 
 const { Content } = Layout;
@@ -55,7 +55,7 @@ function HomePage() {
                         <Link to={`/posts/${post.id}`}> {/* Use Link from react-router-dom */}
                           <Title level={4} style={{ margin: 0, fontSize: '1.1em', color: '#fff' }}>{post.title}</Title>
                         </Link>
-                        <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0' }}>{post.date}</Text>
+                        <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0' }}>{formatRelativeTime(post.date)}</Text>
                         {post.summary && <Text style={{ marginTop: '8px', color: '#cccccc' }}>{post.summary}</Text>}
                       </Space>
                     </Card>
