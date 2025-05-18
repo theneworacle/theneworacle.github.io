@@ -202,6 +202,7 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
         os.makedirs(full_posts_dir)
 
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    filepath = None  # Ensure filepath is always defined
     # Attempt to extract a title from the markdown for the filename
     title_line = next((line for line in content.split('\n') if line.strip().startswith('# ')), None)
     if title_line:
@@ -210,6 +211,7 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
         title_slug = "".join([c for c in title_slug if c.isalnum() or c in (' ', '-')]).rstrip()
         title_slug = title_slug.replace(' ', '-').lower()[:50] # Limit length
         filename = f"{timestamp}-{title_slug}.md"
+        filepath = os.path.join(full_posts_dir, filename)
     else:
         # Use date for folder, slug for filename
         date_folder = datetime.utcnow().strftime('%Y%m%d')
