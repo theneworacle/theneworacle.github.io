@@ -47,6 +47,40 @@ def read_agents(agents_file="lib/agents/agents.json"):
         return None
 
 # Tools for ADK agents
+
+def fetch_top_stories() -> list:
+    """Fetches top stories using DuckDuckGo News search for 'top news'."""
+    print("Fetching top stories from DuckDuckGo News...")
+    try:
+        results = []
+        with DDGS() as ddgs:
+            for r in ddgs.news(keywords="top news", max_results=10):
+                results.append({'title': r['title'], 'url': r['url']})
+        return results
+    except Exception as e:
+        print(f"Error fetching DuckDuckGo top news: {e}")
+        return []
+
+def check_if_story_posted(title: str) -> bool:
+    """Checks if a story with a similar title has already been posted."""
+    posts_dir = "posts/"
+    script_dir = os.path.dirname(__file__)
+    repo_root = os.path.abspath(os.path.join(script_dir, '..'))
+    full_posts_dir = os.path.join(repo_root, posts_dir)
+    for root, _, files in os.walk(full_posts_dir):
+        for filename in files:
+            if filename.endswith('.md'):
+                filepath = os.path.join(root, filename)
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    if title.lower() in f.read().lower():
+                        return True
+    return False
+
+def search_social_sentiment(query: str) -> str:
+    """Stub: Search social media for sentiment on the topic (to be implemented with real APIs)."""
+    # In production, integrate with Twitter/X, Reddit, etc.
+    return f"[Simulated social sentiment for '{query}': Mostly positive, some debate.]"
+
 def search_news_tool(query: str) -> str:
     """Searches for news using DuckDuckGo Search and returns a formatted string of results."""
     print(f"Searching news for: {query}")
@@ -219,83 +253,66 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
         print(f"Error saving file {filepath}: {e}")
         return f"Error saving file: {e}"
 
+def pick_unpublished_top_story() -> dict:
+    """Fetches top stories and returns the first one that hasn't been posted yet."""
+    stories = fetch_top_stories()
+    for story in stories:
+        if not check_if_story_posted(story['title']):
+            return story
+    return {}  # Return empty dict if all are posted
+
 # Define agents for the SequentialAgent pipeline
 # Pass agents_data to the writer agent's instruction or make it read it internally
 # Reading internally is simpler for this structure.
 
+lead_author_agent = Agent(
+    name="lead_author",
+    model=GEMINI_MODEL,
+    description="Lead author who selects top stories from DuckDuckGo News, checks for duplicates, and assigns research tasks.",
+    instruction="You are the lead author. Use pick_unpublished_top_story to select the first top story that hasn't been posted yet. Hand it to the researcher agent to gather more information from other news sources and social media sentiment. Wait for the researcher's findings before writing your draft.",
+    tools=[pick_unpublished_top_story],
+    output_key="selected_story"
+)
+
 researcher_agent = Agent(
     name="researcher",
-    model=GEMINI_MODEL, # Use the model name string
-    description="Gathers comprehensive information about the latest top news and trends using search and scraping tools.",
-    instruction="You are a research assistant for a blog writing team focused on top news and trends. Your task is to find the latest top news and trends. "
-                "Utilize the available tools (search_news_tool, scrape_article_tool) to find relevant articles and insights. "
-                "Synthesize your findings into a detailed summary, including titles, links, and key content snippets or scraped text. "
-                "Focus on providing factual information. "
-                "Once research is complete, provide the summary as your final response.",
-    tools=[search_news_tool, scrape_article_tool],
+    model=GEMINI_MODEL,
+    description="Researcher who gathers more information and social sentiment for a given story.",
+    instruction="You are the researcher. Given a story (title and url), use search_news_tool, scrape_article_tool, and search_social_sentiment to gather more information from other news sources and social media. Summarize your findings for the lead author.",
+    tools=[search_news_tool, scrape_article_tool, search_social_sentiment],
     output_key="research_findings"
 )
 
 writer_agent = Agent(
     name="writer",
-    model=GEMINI_MODEL, # Use the model name string
-    description="Transforms research findings into a compelling and well-structured blog post in markdown format.",
-    instruction="""You are a skilled blog post writer, part of a team including a lead journalist focused on top news and trends.
-    Your role is to transform the research findings provided into a compelling and well-structured blog post in markdown format.
-    Craft an engaging title, a concise excerpt (a brief summary), and detailed content based on the research findings.
-    Ensure the content flows logically and is easy for readers to understand.
-    Identify relevant tags (keywords) for the post and list the sources (the actual URL links from the research findings).
-
-    The final output should be a JSON string containing a dictionary with the following keys: "title" (string), "excerpt" (string), "content" (string, markdown format), "tags" (list of strings), and "sources" (list of strings).
-    Provide ONLY the JSON string as your final response, with no other text or formatting.
-
-    **Research Findings:**
-    {research_findings}
-    """,
-    tools=[], # This agent uses the LLM directly for generation
+    model=GEMINI_MODEL,
+    description="Writer who drafts the blog post based on research findings.",
+    instruction="You are the writer. Use the research findings to write a compelling, well-structured blog post in markdown. Include title, excerpt, content, tags, and sources. Output a JSON string with these fields.",
+    tools=[],
     output_key="blog_post_json_string"
 )
 
-duplicate_checker_agent = Agent(
-    name="duplicate_checker",
-    model=GEMINI_MODEL, # Use the model name string
-    description="Checks if the generated blog post content is a duplicate of existing posts.",
-    instruction="""You are a content checker. Your task is to determine if the provided blog post content is a duplicate of existing posts.
-    Use the `is_duplicate_post_tool` with the blog post content.
-    Based on the tool's result, respond with either "DUPLICATE" or "UNIQUE".
-    Provide ONLY "DUPLICATE" or "UNIQUE" as your final response.
-
-    **Blog Post Content to Check:**
-    {blog_post_json_string}
-    """,
-    tools=[is_duplicate_post_tool],
-    output_key="duplicate_check_result"
+reviewer_agent = Agent(
+    name="reviewer",
+    model=GEMINI_MODEL,
+    description="Reviewer who checks the draft for quality and accuracy.",
+    instruction="You are the reviewer. Review the blog post draft for factual accuracy, clarity, and style. Suggest improvements if needed, or approve for publishing.",
+    tools=[],
+    output_key="reviewed_blog_post_json_string"
 )
 
 publisher_agent = Agent(
     name="publisher",
-    model=GEMINI_MODEL, # Use the model name string
-    description="Publishes the final blog post if it is not a duplicate.",
-    instruction="""You are the blog post publisher. Your task is to finalize and publish the blog post if the duplicate check indicates it is unique.
-    You have access to the blog post data (as a JSON string) from the writer and the duplicate check result.
-
-    If the duplicate check result is "UNIQUE", parse the blog post JSON string and call the `save_and_set_pr_details_tool` with the extracted title, excerpt, content, tags, and sources.
-    If the duplicate check result is "DUPLICATE", do nothing and respond with "Post is a duplicate, skipping publishing."
-
-    Example tool call (if unique):
-    `save_and_set_pr_details_tool(title=parsed_data['title'], excerpt=parsed_data['excerpt'], content=parsed_data['content'], tags=parsed_data['tags'], sources=parsed_data['sources'])`
-
-    After successfully calling the tool (if unique), indicate completion by stating "Blog post published successfully."
-    """,
+    model=GEMINI_MODEL,
+    description="Publishes the final blog post if approved.",
+    instruction="You are the publisher. If the reviewer approves, publish the post using save_and_set_pr_details_tool. Otherwise, do not publish.",
     tools=[save_and_set_pr_details_tool],
     output_key="publishing_status"
 )
 
-
-# Agent chain
 pipeline = SequentialAgent(
     name="NewsResearchPipeline",
-    sub_agents=[researcher_agent, writer_agent, duplicate_checker_agent, publisher_agent]
+    sub_agents=[lead_author_agent, researcher_agent, writer_agent, reviewer_agent, publisher_agent]
 )
 
 # Runner setup
