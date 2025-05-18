@@ -78,8 +78,11 @@ export async function getPostData(slug: string): Promise<PostData> {
   // Use gray-matter to parse the post metadata section
   const matterResult = matter(fileContents);
 
-  // Temporarily skip markdown processing for debugging
-  const contentHtml = matterResult.content; // Return raw markdown content
+  // Use remark to convert markdown into HTML string
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content);
+  const contentHtml = processedContent.toString();
 
   // Parse authors array from frontmatter if present
   let authors: AuthorInfo[] | undefined = undefined;

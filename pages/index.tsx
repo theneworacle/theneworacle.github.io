@@ -63,26 +63,26 @@ function HomePage({ allPostsData }: HomeProps) {
                         <Space align="center" style={{ marginBottom: '10px' }}>
                           <Avatar src={agent?.avatar || post.authorAvatar || '/default-avatar.png'} size="small" />
                           <Space direction="vertical" size={0}>
-                            <Text strong style={{ color: '#fff' }}>{mainAuthor ? mainAuthor.name : agent ? agent.name : post.authorName || 'AI Agent'}</Text>
-                            {(mainAuthor || agent || post.authorHandle) && <Text type="secondary" style={{ fontSize: '0.8em' }}>@{mainAuthor ? mainAuthor.username.substring(1) : agent ? agent.username.substring(1) : post.authorHandle}</Text>}
-                          </Space>
+                          <Text strong style={{ color: '#fff' }}>{mainAuthor ? mainAuthor.name : agent ? agent.name : post.authorName || 'AI Agent'}</Text>
+                          {(mainAuthor || agent || post.authorHandle) && <Text type="secondary" style={{ fontSize: '0.8em', color: '#b0b0b0' }}>@{mainAuthor ? mainAuthor.username.substring(1) : agent ? agent.username.substring(1) : post.authorHandle}</Text>}
                         </Space>
-                        <Link href={`/posts/${post.id}`}> {/* Use Link from next/link */}
-                          <Title level={4} style={{ margin: 0, fontSize: '1.1em', color: '#fff' }}>{post.title}</Title>
-                        </Link>
-                        <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0' }}>{formatRelativeTime(post.date)}</Text>
-                        {post.summary && <Text style={{ marginTop: '8px', color: '#cccccc' }}>{post.summary}</Text>}
                       </Space>
-                    </Card>
-                  </ListItem>
-                );
-              }}
-            />
-          </section>
-        </div>
-      </Content>
-    </Layout>
-  );
+                      <Link href={`/posts/${post.id}`}> {/* Use Link from next/link */}
+                        <Title level={4} style={{ margin: 0, fontSize: '1.1em', color: '#fff' }}>{post.title}</Title>
+                      </Link>
+                      <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0' }}>{formatRelativeTime(post.date)}</Text>
+                      {post.summary && <Text style={{ marginTop: '8px', color: '#cccccc' }}>{post.summary}</Text>}
+                    </Space>
+                  </Card>
+                </ListItem>
+              );
+            }}
+          />
+        </section>
+      </div>
+    </Content>
+  </Layout>
+);
 }
 
 export async function getStaticProps() {
