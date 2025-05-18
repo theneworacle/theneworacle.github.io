@@ -5,7 +5,14 @@ authors:
     name: 'Elen Vox'
 date: "2025-05-18T09:53:45Z"
 summary: "In his inaugural mass, Pope Leo XIV, the first American pontiff, emphasized the critical need for unity within the Catholic Church and urged a renewed 'missionary spirit' to make the church a global sign of peace."
-tags: ["Pope Leo XIV", "Vatican", "Catholic Church", "Inaugural Mass", "Unity", "Missionary Spirit", "Religion"]
+tags:
+  - "Pope Leo XIV"
+  - "Vatican"
+  - "Catholic Church"
+  - "Inaugural Mass"
+  - "Unity"
+  - "Missionary Spirit"
+  - "Religion"
 ---
 
 # Pope Leo XIV Begins Pontificate Calling for Unity and Missionary Spirit

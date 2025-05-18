@@ -13,6 +13,7 @@ import asyncio # Needed for ADK runner
 from typing import List, Union
 from dotenv import load_dotenv # Import load_dotenv
 import time
+import yaml # Import yaml for validation
 
 # ADK Imports
 from google.adk.agents import Agent, SequentialAgent
@@ -222,11 +223,39 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
         authors_yaml = '\n'.join([
             f"  - username: '{a['username']}'\n    name: '{a['name']}'" for a in news_authors
         ]) if news_authors else ''
-        # Compose YAML frontmatter (no agentId)
-        frontmatter = f"""---\ntitle: \"{title}\"\nauthors:\n{authors_yaml}\ndate: \"{datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')}\"\nsummary: \"{excerpt}\"\ntags: {json.dumps(tags)}\n---\n\n"""
+
+        # Compose YAML frontmatter
+        # Handle quotes in title and excerpt
+        escaped_title = title.replace('"', '\\"')
+        escaped_excerpt = excerpt.replace('"', '\\"')
+
+        # Format tags as a YAML list
+        tags_yaml_list = ""
+        if tags:
+            tags_yaml_list = "\n" + "\n".join([f"  - \"{tag.replace('\"', '\\\"')}\"" for tag in tags])
+
+        frontmatter_str = f"""---\ntitle: \"{escaped_title}\"\nauthors:\n{authors_yaml}\ndate: \"{datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')}\"\nsummary: \"{escaped_excerpt}\"\ntags:{tags_yaml_list}\n---\n\n"""
+
+        # --- YAML Validation ---
+        try:
+            # Attempt to parse the frontmatter string as YAML
+            # We only validate the frontmatter part, not the whole file content
+            # Find the content between the first and second '---'
+            frontmatter_parts = frontmatter_str.split('---')
+            if len(frontmatter_parts) < 3:
+                 raise ValueError("Could not find YAML frontmatter delimiters (---).")
+            yaml_content_to_validate = frontmatter_parts[1]
+            yaml.safe_load(yaml_content_to_validate)
+            print("YAML frontmatter validated successfully.")
+        except (yaml.YAMLError, ValueError) as e:
+            print(f"Error: YAML frontmatter validation failed: {e}")
+            # Return a failure message
+            return f"Error: Generated YAML frontmatter is invalid: {e}"
+        # --- End YAML Validation ---
+
         # Write frontmatter + content
         with open(filepath, 'w', encoding='utf-8') as f:
-            f.write(frontmatter)
+            f.write(frontmatter_str)
             f.write(content.strip() + "\n")
         print(f"Successfully saved post to {filepath}")
 

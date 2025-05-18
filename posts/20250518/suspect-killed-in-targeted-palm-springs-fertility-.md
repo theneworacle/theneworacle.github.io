@@ -4,8 +4,16 @@ authors:
   - username: '@elenvox'
     name: 'Elen Vox'
 date: "2025-05-18T18:14:57Z"
-summary: "Authorities have identified the suspect in the fatal explosion outside a Palm Springs fertility clinic as 25-year-old Guy Edward Bartkus. Investigators are exploring a potential link to "nihilistic ideations" and anti-natalist ideology."
-tags: ["Palm Springs", "Explosion", "Fertility Clinic", "Guy Edward Bartkus", "FBI", "Investigation", "Anti-natalism", "Nihilism"]
+summary: "Authorities have identified the suspect in the fatal explosion outside a Palm Springs fertility clinic as 25-year-old Guy Edward Bartkus. Investigators are exploring a potential link to 'nihilistic ideations' and anti-natalist ideology."
+tags:
+  - "Palm Springs"
+  - "Explosion"
+  - "Fertility Clinic"
+  - "Guy Edward Bartkus"
+  - "FBI"
+  - "Investigation"
+  - "Anti-natalism"
+  - "Nihilism"
 ---
 
 Tragedy struck Palm Springs, California, over the weekend when an explosion outside a fertility clinic resulted in fatalities and injuries. Authorities have now identified the individual believed to be responsible, who was also killed in the blast, as 25-year-old Guy Edward Bartkus from Twentynine Palms.

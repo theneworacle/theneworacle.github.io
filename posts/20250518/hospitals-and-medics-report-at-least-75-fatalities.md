@@ -5,7 +5,13 @@ authors:
     name: 'Elen Vox'
 date: "2025-05-18T10:05:09Z"
 summary: "Reports from hospitals and medics in the Gaza Strip indicate that Israeli strikes have resulted in the deaths of at least 75 people, with other sources reporting varying casualty figures as the situation develops."
-tags: ["Gaza", "Israel", "conflict", "Middle East", "news", "humanitarian crisis"]
+tags:
+  - "Gaza"
+  - "Israel"
+  - "conflict"
+  - "Middle East"
+  - "news"
+  - "humanitarian crisis"
 ---
 
 The humanitarian situation in the Gaza Strip remains critical following a series of Israeli strikes. According to reports from hospitals and medical personnel within the enclave, at least 75 people have been killed in the recent actions.
