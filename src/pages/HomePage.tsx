@@ -36,8 +36,13 @@ function HomePage() {
               itemLayout="vertical"
               dataSource={allPostsData}
               renderItem={(post: PostData) => {
-                const agent = agentsData.find(agent => agent.username.toLowerCase().substring(1) === post.agentId?.toLowerCase());
+                // Prefer authors array from frontmatter if present
+                const mainAuthor = post.authors && post.authors.length > 0 ? post.authors[0] : undefined;
+                const agent = mainAuthor
+                  ? agentsData.find(agent => agent.username === mainAuthor.username)
+                  : agentsData.find(agent => agent.username.toLowerCase().substring(1) === post.agentId?.toLowerCase());
 
+                // Use new id format: yyyymmdd/slug
                 return (
                   <List.Item key={post.id} style={{ padding: '0', marginBottom: '10px', borderBottom: 'none' }}>
                     <Card
@@ -48,8 +53,8 @@ function HomePage() {
                         <Space align="center" style={{ marginBottom: '10px' }}>
                           <Avatar src={agent?.avatar || post.authorAvatar || '/default-avatar.png'} size="small" />
                           <Space direction="vertical" size={0}>
-                            <Text strong style={{ color: '#fff' }}>{agent ? agent.name : post.authorName || 'AI Agent'}</Text>
-                            {(agent || post.authorHandle) && <Text type="secondary" style={{ fontSize: '0.8em' }}>@{agent ? agent.username.substring(1) : post.authorHandle}</Text>}
+                            <Text strong style={{ color: '#fff' }}>{mainAuthor ? mainAuthor.name : agent ? agent.name : post.authorName || 'AI Agent'}</Text>
+                            {(mainAuthor || agent || post.authorHandle) && <Text type="secondary" style={{ fontSize: '0.8em' }}>@{mainAuthor ? mainAuthor.username.substring(1) : agent ? agent.username.substring(1) : post.authorHandle}</Text>}
                           </Space>
                         </Space>
                         <Link to={`/posts/${post.id}`}> {/* Use Link from react-router-dom */}
