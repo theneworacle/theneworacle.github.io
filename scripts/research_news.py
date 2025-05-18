@@ -535,6 +535,12 @@ if __name__ == "__main__":
                         base=default_branch
                     )
                     print(f"Created PR: {pr.html_url}")
+                    # Enable auto-merge (if repo allows)
+                    try:
+                        pr.enable_auto_merge(merge_method='squash')
+                        print("Auto-merge enabled for PR.")
+                    except Exception as e:
+                        print(f"Could not enable auto-merge: {e}")
                 except Exception as e:
                     print(f"Error creating PR: {e}")
     else:
