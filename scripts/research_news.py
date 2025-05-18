@@ -349,6 +349,77 @@ async def run_news_research_pipeline(prompt: str):
     # Exit code based on final status? Or let GitHub Actions handle it.
     # For now, assume success if pipeline runs.
 
+# --- GitHub PR Automation ---
+import base64
+import subprocess
+
+def is_github_actions() -> bool:
+    """Detect if running in GitHub Actions."""
+    return os.environ.get("GITHUB_ACTIONS", "false").lower() == "true"
+
+def get_github_token() -> str:
+    """Get GitHub token from env."""
+    return os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+
+
+def create_branch_and_pr(
+    repo: str,
+    base_branch: str,
+    new_branch: str,
+    file_path: str,
+    file_content: str,
+    pr_title: str,
+    pr_body: str,
+    github_token: str
+):
+    """Create a branch, commit the file, push, and open a PR using the GitHub API."""
+    from github import Github
+    from github import InputGitAuthor
+    g = Github(github_token)
+    user = g.get_user()
+    repo_obj = g.get_repo(repo)
+    # Get base branch ref
+    base = repo_obj.get_branch(base_branch)
+    # Create new branch from base
+    ref_name = f"refs/heads/{new_branch}"
+    try:
+        repo_obj.create_git_ref(ref_name, base.commit.sha)
+    except Exception as e:
+        print(f"Branch may already exist: {e}")
+    # Prepare file path relative to repo root
+    with open(file_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    # Try to create or update the file in the new branch
+    try:
+        repo_obj.create_file(
+            path=file_path.replace(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) + os.sep, ''),
+            message=pr_title,
+            content=content,
+            branch=new_branch
+        )
+    except Exception as e:
+        # If file exists, update it
+        contents = repo_obj.get_contents(
+            file_path.replace(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) + os.sep, ''),
+            ref=new_branch
+        )
+        repo_obj.update_file(
+            contents.path,
+            pr_title,
+            content,
+            contents.sha,
+            branch=new_branch
+        )
+    # Create PR
+    pr = repo_obj.create_pull(
+        title=pr_title,
+        body=pr_body,
+        head=new_branch,
+        base=base_branch
+    )
+    print(f"Pull request created: {pr.html_url}")
+    return pr.html_url
+
 # Main execution
 if __name__ == "__main__":
     # The prompt for the researcher agent
@@ -357,6 +428,114 @@ if __name__ == "__main__":
     # Run the async pipeline
     asyncio.run(run_news_research_pipeline(initial_prompt))
 
-    # The script will exit with status 0 if it reaches here without unhandled exceptions.
-    # The duplicate check and save tool handle their own success/failure logging.
-    # GitHub Actions will rely on the script's exit code and the presence of GITHUB_OUTPUT.
+    # --- GitHub Actions PR creation logic ---
+    def ensure_pygithub():
+        try:
+            import github
+            return github
+        except ImportError:
+            import subprocess
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "PyGithub"])
+            import github
+            return github
+
+    def get_latest_post_info(posts_dir="posts"):
+        """Finds the most recently created post file and returns its path, title, and content."""
+        script_dir = os.path.dirname(__file__)
+        repo_root = os.path.abspath(os.path.join(script_dir, '..'))
+        full_posts_dir = os.path.join(repo_root, posts_dir)
+        latest_file = None
+        latest_mtime = 0
+        for root, _, files in os.walk(full_posts_dir):
+            for f in files:
+                if f.endswith('.md'):
+                    fp = os.path.join(root, f)
+                    mtime = os.path.getmtime(fp)
+                    if mtime > latest_mtime:
+                        latest_mtime = mtime
+                        latest_file = fp
+        if not latest_file:
+            return None, None, None
+        with open(latest_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+        # Extract title from YAML frontmatter
+        m = re.search(r'^---.*?^title:\s*\"?(.*?)\"?$', content, re.DOTALL | re.MULTILINE)
+        title = m.group(1).strip() if m else os.path.splitext(os.path.basename(latest_file))[0]
+        return latest_file, title, content
+
+    def slugify(text, maxlen=50):
+        slug = text.lower()
+        slug = re.sub(r'[^a-z0-9\s-]', '', slug)
+        slug = re.sub(r'[\s-]+', '-', slug)
+        slug = slug.strip('-')
+        return slug[:maxlen]
+
+    # Only run PR creation in GitHub Actions (not locally)
+    if os.environ.get('GITHUB_ACTIONS', '').lower() == 'true':
+        print("Detected GitHub Actions environment. Attempting to create PR for new post...")
+        github = ensure_pygithub()
+        from github import Github
+        from github import InputGitAuthor
+        import base64
+
+        # Get repo info from env
+        repo_name = os.environ.get('GITHUB_REPOSITORY')
+        github_token = os.environ.get('GITHUB_TOKEN') or os.environ.get('GH_TOKEN')
+        if not repo_name or not github_token:
+            print("GITHUB_REPOSITORY or GITHUB_TOKEN not set. Skipping PR creation.")
+        else:
+            g = Github(github_token)
+            repo = g.get_repo(repo_name)
+            default_branch = repo.default_branch
+
+            # Get latest post info
+            post_path, post_title, post_content = get_latest_post_info()
+            if not post_path or not post_title or not post_content:
+                print("Could not find latest post for PR creation.")
+            else:
+                # Compute branch and PR title
+                branch_slug = slugify(post_title)
+                branch_name = branch_slug
+                pr_title = branch_slug
+                pr_body = post_content
+
+                # Compute relative path for the post file
+                script_dir = os.path.dirname(__file__)
+                repo_root = os.path.abspath(os.path.join(script_dir, '..'))
+                rel_post_path = os.path.relpath(post_path, repo_root).replace('\\', '/')
+
+                # Create new branch from default
+                sb = repo.get_branch(default_branch)
+                base_sha = sb.commit.sha
+                try:
+                    repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=base_sha)
+                    print(f"Created branch {branch_name}")
+                except Exception as e:
+                    print(f"Branch {branch_name} may already exist: {e}")
+
+                # Add or update the post file in the new branch
+                try:
+                    # Check if file exists in branch
+                    try:
+                        contents = repo.get_contents(rel_post_path, ref=branch_name)
+                        repo.update_file(rel_post_path, f"Update post {post_title}", post_content, contents.sha, branch=branch_name)
+                        print(f"Updated {rel_post_path} in branch {branch_name}")
+                    except Exception:
+                        repo.create_file(rel_post_path, f"Add post {post_title}", post_content, branch=branch_name)
+                        print(f"Created {rel_post_path} in branch {branch_name}")
+                except Exception as e:
+                    print(f"Error creating/updating post file in branch: {e}")
+
+                # Create PR
+                try:
+                    pr = repo.create_pull(
+                        title=pr_title,
+                        body=pr_body,
+                        head=branch_name,
+                        base=default_branch
+                    )
+                    print(f"Created PR: {pr.html_url}")
+                except Exception as e:
+                    print(f"Error creating PR: {e}")
+    else:
+        print("Not running in GitHub Actions. Skipping PR creation.")
