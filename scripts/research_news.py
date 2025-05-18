@@ -12,6 +12,7 @@ import re
 import asyncio # Needed for ADK runner
 from typing import List, Union
 from dotenv import load_dotenv # Import load_dotenv
+import time
 
 # ADK Imports
 from google.adk.agents import Agent, SequentialAgent
@@ -49,17 +50,25 @@ def read_agents(agents_file="lib/agents/agents.json"):
 # Tools for ADK agents
 
 def fetch_top_stories() -> list:
-    """Fetches top stories using DuckDuckGo News search for 'top news'."""
+    """Fetches top stories using DuckDuckGo News search for 'top news'. Includes exponential backoff on rate limit."""
     print("Fetching top stories from DuckDuckGo News...")
-    try:
-        results = []
-        with DDGS() as ddgs:
-            for r in ddgs.news(keywords="top news", max_results=10):
-                results.append({'title': r['title'], 'url': r['url']})
-        return results
-    except Exception as e:
-        print(f"Error fetching DuckDuckGo top news: {e}")
-        return []
+    max_retries = 5
+    delay = 2
+    for attempt in range(max_retries):
+        try:
+            results = []
+            with DDGS() as ddgs:
+                for r in ddgs.news(keywords="top news", max_results=10):
+                    results.append({'title': r['title'], 'url': r['url']})
+            return results
+        except Exception as e:
+            print(f"Error fetching DuckDuckGo top news (attempt {attempt+1}): {e}")
+            if attempt < max_retries - 1:
+                time.sleep(delay)
+                delay *= 2
+            else:
+                print("Max retries reached. Returning empty list.")
+                return []
 
 def check_if_story_posted(title: str) -> bool:
     """Checks if a story with a similar title has already been posted."""
@@ -82,25 +91,30 @@ def search_social_sentiment(query: str) -> str:
     return f"[Simulated social sentiment for '{query}': Mostly positive, some debate.]"
 
 def search_news_tool(query: str) -> str:
-    """Searches for news using DuckDuckGo Search and returns a formatted string of results."""
+    """Searches for news using DuckDuckGo Search and returns a formatted string of results. Includes exponential backoff on rate limit."""
     print(f"Searching news for: {query}")
-    results = []
-    try:
-        with DDGS() as ddgs:
-            # Limit results to avoid overwhelming context
-            for r in ddgs.news(keywords=query, max_results=5):
-                results.append(r)
-    except Exception as e:
-        print(f"Error during DuckDuckGo search: {e}")
-        return f"Error during search: {e}"
-
+    max_retries = 5
+    delay = 2
+    for attempt in range(max_retries):
+        results = []
+        try:
+            with DDGS() as ddgs:
+                # Limit results to avoid overwhelming context
+                for r in ddgs.news(keywords=query, max_results=5):
+                    results.append(r)
+            break
+        except Exception as e:
+            print(f"Error during DuckDuckGo search (attempt {attempt+1}): {e}")
+            if attempt < max_retries - 1:
+                time.sleep(delay)
+                delay *= 2
+            else:
+                return f"Error during search after {max_retries} attempts: {e}"
     if not results:
         return "No news results found."
-
     formatted_results = "News Search Results:\n\n"
     for i, r in enumerate(results):
         formatted_results += f"{i+1}. Title: {r['title']}\n   Link: {r['url']}\n   Snippet: {r['body']}\n\n"
-
     return formatted_results
 
 def scrape_article_tool(url: str) -> str:
