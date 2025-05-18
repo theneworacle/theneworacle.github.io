@@ -70,21 +70,6 @@ def fetch_top_stories() -> list:
                 print("Max retries reached. Returning empty list.")
                 return []
 
-def check_if_story_posted(title: str) -> bool:
-    """Checks if a story with a similar title has already been posted."""
-    posts_dir = "posts/"
-    script_dir = os.path.dirname(__file__)
-    repo_root = os.path.abspath(os.path.join(script_dir, '..'))
-    full_posts_dir = os.path.join(repo_root, posts_dir)
-    for root, _, files in os.walk(full_posts_dir):
-        for filename in files:
-            if filename.endswith('.md'):
-                filepath = os.path.join(root, filename)
-                with open(filepath, 'r', encoding='utf-8') as f:
-                    if title.lower() in f.read().lower():
-                        return True
-    return False
-
 def search_social_sentiment(query: str) -> str:
     """Stub: Search social media for sentiment on the topic (to be implemented with real APIs)."""
     # In production, integrate with Twitter/X, Reddit, etc.
@@ -146,11 +131,11 @@ def scrape_article_tool(url: str) -> str:
         print(f"An unexpected error occurred during scraping {url}: {e}")
         return f"Error scraping {url}: {e}"
 
-def is_duplicate_post_tool(new_content: str) -> bool:
-    """Checks if similar content already exists in the posts directory."""
-    print("Checking for duplicate posts...")
-    new_content_hash = hashlib.md5(new_content.encode('utf-8')).hexdigest()
+def get_existing_post_excerpts() -> List[str]:
+    """Reads existing markdown files and returns a list of their excerpts."""
+    print("Fetching existing post excerpts...")
     posts_dir = "posts/" # Relative to repo root
+    excerpts = []
 
     # Adjust path for script execution context
     script_dir = os.path.dirname(__file__)
@@ -158,25 +143,25 @@ def is_duplicate_post_tool(new_content: str) -> bool:
     full_posts_dir = os.path.join(repo_root, posts_dir)
 
     if not os.path.exists(full_posts_dir):
-        print(f"Posts directory not found at {full_posts_dir}. No duplicates to check against.")
-        return False
+        print(f"Posts directory not found at {full_posts_dir}. No existing posts found.")
+        return []
 
-    for filename in os.listdir(full_posts_dir):
-        if filename.endswith(".md"):
-            filepath = os.path.join(full_posts_dir, filename)
-            try:
-                with open(filepath, 'r', encoding='utf-8') as f:
-                    existing_content = f.read()
-                    existing_content_hash = hashlib.md5(existing_content.encode('utf-8')).hexdigest()
-                    # Simple hash comparison - can be improved with more sophisticated methods
-                    if new_content_hash == existing_content_hash:
-                        print(f"Duplicate found: {filename}")
-                        return True
-            except Exception as e:
-                print(f"Error reading file {filepath} for duplicate check: {e}")
-                continue
-    print("No duplicates found.")
-    return False
+    for root, _, files in os.walk(full_posts_dir):
+        for filename in files:
+            if filename.endswith(".md"):
+                filepath = os.path.join(root, filename)
+                try:
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                        # Extract excerpt from YAML frontmatter
+                        m = re.search(r'^---.*?^summary:\s*\"?(.*?)\"?$', content, re.DOTALL | re.MULTILINE)
+                        if m:
+                            excerpts.append(m.group(1).strip())
+                except Exception as e:
+                    print(f"Error reading file {filepath} for excerpt extraction: {e}")
+                    continue
+    print(f"Found {len(excerpts)} existing post excerpts.")
+    return excerpts
 
 def generate_slug(title: str) -> str:
     # Convert to lowercase
@@ -269,14 +254,6 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
         print(f"Error saving file {filepath}: {e}")
         return f"Error saving file: {e}"
 
-def pick_unpublished_top_story() -> dict:
-    """Fetches top stories and returns the first one that hasn't been posted yet."""
-    stories = fetch_top_stories()
-    for story in stories:
-        if not check_if_story_posted(story['title']):
-            return story
-    return {}  # Return empty dict if all are posted
-
 # Define agents for the SequentialAgent pipeline
 # Pass agents_data to the writer agent's instruction or make it read it internally
 # Reading internally is simpler for this structure.
@@ -284,9 +261,9 @@ def pick_unpublished_top_story() -> dict:
 lead_author_agent = Agent(
     name="lead_author",
     model=GEMINI_MODEL,
-    description="Lead author who selects top stories from DuckDuckGo News, checks for duplicates, and assigns research tasks.",
-    instruction="You are the lead author. Use pick_unpublished_top_story to select the first top story that hasn't been posted yet. Hand it to the researcher agent to gather more information from other news sources and social media sentiment. Wait for the researcher's findings before writing your draft.",
-    tools=[pick_unpublished_top_story],
+    description="Lead author who selects top stories from DuckDuckGo News, checks for duplicates against existing post excerpts, and assigns research tasks.",
+    instruction="You are the lead author. Fetch top stories using fetch_top_stories. Get existing post excerpts using get_existing_post_excerpts. Iterate through the fetched top stories and compare their titles/summaries against the existing post excerpts to find the first story that is NOT a duplicate. Output the title and url of the selected story as a JSON string.",
+    tools=[fetch_top_stories, get_existing_post_excerpts],
     output_key="selected_story"
 )
 
@@ -294,7 +271,7 @@ researcher_agent = Agent(
     name="researcher",
     model=GEMINI_MODEL,
     description="Researcher who gathers more information and social sentiment for a given story.",
-    instruction="You are the researcher. Given a story (title and url), use search_news_tool, scrape_article_tool, and search_social_sentiment to gather more information from other news sources and social media. Summarize your findings for the lead author.",
+    instruction="You are the researcher. Given a story (title and url) from the lead author, use search_news_tool, scrape_article_tool, and search_social_sentiment to gather more information from other news sources and social media. Summarize your findings for the writer agent.",
     tools=[search_news_tool, scrape_article_tool, search_social_sentiment],
     output_key="research_findings"
 )
@@ -302,8 +279,8 @@ researcher_agent = Agent(
 writer_agent = Agent(
     name="writer",
     model=GEMINI_MODEL,
-    description="Writer who drafts the blog post based on research findings.",
-    instruction="You are the writer. Use the research findings to write a compelling, well-structured blog post in markdown. Include title, excerpt, content, tags, and sources. Output a JSON string with these fields.",
+    description="Writer who drafts the blog post based on selected story details and research findings.",
+    instruction="You are the writer. Given the selected story details (title, url) and research findings, write a compelling, well-structured blog post in markdown. Include title, excerpt, content, tags, and sources. Output a JSON string with these fields.",
     tools=[],
     output_key="blog_post_json_string"
 )
