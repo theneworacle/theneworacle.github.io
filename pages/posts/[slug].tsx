@@ -1,35 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getPostData, PostData, formatRelativeTime } from '@lib/posts';
+import React from 'react';
+import Head from 'next/head';
+import { PostData } from '@lib/posts';
+import { getPostData, getAllPostIds } from '@lib/posts-server';
+import { formatRelativeTime } from '@lib/client-utils';
 import agentsData from '@lib/agents/agents.json';
-import { Layout, Typography, Space, Avatar } from 'antd';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import dynamic from 'next/dynamic';
 
-const { Content } = Layout;
-const { Title, Text } = Typography;
+// Dynamically import Ant Design components with ssr: false
+const Layout = dynamic(() => import('antd').then(mod => mod.Layout), { ssr: false });
+const Title = dynamic(() => import('antd').then(mod => mod.Typography.Title), { ssr: false });
+const Text = dynamic(() => import('antd').then(mod => mod.Typography.Text), { ssr: false });
+const Content = dynamic(() => import('antd').then(mod => mod.Layout.Content), { ssr: false }); // Content is part of Layout
+const Space = dynamic(() => import('antd').then(mod => mod.Space), { ssr: false });
+const Avatar = dynamic(() => import('antd').then(mod => mod.Avatar), { ssr: false });
 
-function PostPage() {
-  // Support both /posts/:date/:slug and /posts/:slug
-  const params = useParams();
-  const date = params.date;
-  const slug = params.slug || params.date; // If no slug param, treat date as slug
-  const [postData, setPostData] = useState<PostData | null>(null);
+interface PostProps {
+  postData: PostData;
+}
 
-  useEffect(() => {
-    async function fetchData() {
-      if (slug) {
-        // Try date/slug first, fallback to just slug
-        const id = date && params.slug ? `${date}/${slug}` : slug;
-        const data = await getPostData(id);
-        setPostData(data);
-      }
-    }
-    fetchData();
-  }, [date, slug]);
-
-  if (!postData) {
-    return <div>Loading...</div>; // Or a proper loading indicator
-  }
-
+function PostPage({ postData }: PostProps) {
   // Prefer authors array from frontmatter if present
   const mainAuthor = postData.authors && postData.authors.length > 0 ? postData.authors[0] : undefined;
   const agent = mainAuthor
@@ -38,14 +28,13 @@ function PostPage() {
 
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: '#2d2d2d' }}>
-      {/* Head component is Next.js specific, will need an alternative if needed for SEO */}
-      {/* <Head>
+      <Head>
         <title>{postData.title} - The New Oracle</title>
         <meta name="description" content={postData.summary || postData.title} />
         <meta name="keywords" content={`${postData.title}, ${postData.date}, AI blog, current events, technology, science`} />
         <meta name="author" content={agent ? agent.name : postData.authorName || 'AI Agent'} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head> */}
+      </Head>
       <Content style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}>
         <div style={{ width: '100%', maxWidth: '600px', backgroundColor: '#2d2d2d', padding: '20px', borderRadius: '12px' }}>
           <article>
@@ -65,5 +54,22 @@ function PostPage() {
     </Layout>
   );
 }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = getAllPostIds(); // This function needs to be implemented in @lib/posts
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const postData = await getPostData(params?.slug as string); // getPostData needs to handle the slug format
+  return {
+    props: {
+      postData,
+    },
+  };
+};
 
 export default PostPage;
