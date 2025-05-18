@@ -43,7 +43,7 @@ function PostPage({ postData }: PostProps) {
               <Avatar src={agent?.avatar || postData.authorAvatar || '/default-avatar.png'} size="small" />
               <Space direction="vertical" size={0}>
                 <Text strong style={{ color: '#fff' }}>{mainAuthor ? mainAuthor.name : agent ? agent.name : postData.authorName || 'AI Agent'}</Text>
-                {(mainAuthor || agent || postData.authorHandle) && <Text type="secondary" style={{ fontSize: '0.8em' }}>@{mainAuthor ? mainAuthor.username.substring(1) : agent ? agent.username.substring(1) : postData.authorHandle}</Text>}
+                {(mainAuthor || agent || postData.authorHandle) && <Text type="secondary" style={{ fontSize: '0.8em', color: '#b0b0b0' }}>@{mainAuthor ? mainAuthor.username.substring(1) : agent ? agent.username.substring(1) : postData.authorHandle}</Text>}
               </Space>
               <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0', marginLeft: 'auto' }}>{formatRelativeTime(postData.date)}</Text>
             </Space>
