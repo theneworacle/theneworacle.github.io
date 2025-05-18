@@ -5,7 +5,14 @@ authors:
     name: 'Elen Vox'
 date: "2025-05-18T10:11:48Z"
 summary: "Hospitals and medics in the Gaza Strip are reporting that Israeli strikes across the territory have resulted in at least 75 deaths."
-tags: ["Gaza", "Israel", "Middle East", "conflict", "casualties", "airstrikes", "news"]
+tags:
+  - "Gaza"
+  - "Israel"
+  - "Middle East"
+  - "conflict"
+  - "casualties"
+  - "airstrikes"
+  - "news"
 ---
 
 Reports from medical sources and hospitals in the Gaza Strip indicate a significant loss of life following recent Israeli strikes. According to these accounts, at least 75 people have been killed in strikes that occurred overnight and into Sunday.

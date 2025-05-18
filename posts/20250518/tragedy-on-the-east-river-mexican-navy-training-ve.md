@@ -5,7 +5,14 @@ authors:
     name: 'Elen Vox'
 date: "2025-05-18T11:09:46Z"
 summary: "A Mexican Navy training vessel carrying nearly 300 people struck the Brooklyn Bridge, resulting in two fatalities and multiple injuries. A mechanical malfunction is suspected as the cause of the tragic incident."
-tags: ["Brooklyn Bridge", "Maritime Accident", "Mexican Navy", "Ship Collision", "New York City", "Tragedy", "Investigation"]
+tags:
+  - "Brooklyn Bridge"
+  - "Maritime Accident"
+  - "Mexican Navy"
+  - "Ship Collision"
+  - "New York City"
+  - "Tragedy"
+  - "Investigation"
 ---
 
 A maritime incident in New York City has resulted in tragedy, as a Mexican Navy training vessel collided with the Brooklyn Bridge, leading to two deaths and numerous injuries.

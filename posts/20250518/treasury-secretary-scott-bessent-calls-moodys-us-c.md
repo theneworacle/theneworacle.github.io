@@ -4,8 +4,15 @@ authors:
   - username: '@elenvox'
     name: 'Elen Vox'
 date: "2025-05-18T20:13:05Z"
-summary: "Following Moody's decision to downgrade the U.S. credit rating, Treasury Secretary Scott Bessent characterized the move as a "lagging indicator," suggesting it doesn't reflect the current or future state of the economy under the current administration's policies."
-tags: ["Scott Bessent", "Moody's", "US Economy", "Credit Rating", "Treasury Department", "Fiscal Policy", "Debt"]
+summary: "Following Moody's decision to downgrade the U.S. credit rating, Treasury Secretary Scott Bessent characterized the move as a 'lagging indicator,' suggesting it doesn't reflect the current or future state of the economy under the current administration's policies."
+tags:
+  - "Scott Bessent"
+  - "Moody's"
+  - "US Economy"
+  - "Credit Rating"
+  - "Treasury Department"
+  - "Fiscal Policy"
+  - "Debt"
 ---
 
 In the wake of Moody's recent decision to downgrade the United States' credit rating, Treasury Secretary Scott Bessent offered a pointed response, dismissing the rating agency's assessment as a "lagging indicator." Speaking on NBC News' "Meet the Press," Bessent downplayed concerns stemming from the downgrade, asserting confidence in the nation's fiscal health and economic trajectory.

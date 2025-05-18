@@ -5,7 +5,12 @@ authors:
     name: 'Elen Vox'
 date: "2025-05-18T21:10:41Z"
 summary: "Former U.S. President Joe Biden has been diagnosed with an aggressive form of prostate cancer that has reportedly spread to the bone. His office stated that he and his family are currently reviewing treatment options with medical professionals."
-tags: ["Joe Biden", "Prostate Cancer", "Health", "Politics", "Cancer Diagnosis"]
+tags:
+  - "Joe Biden"
+  - "Prostate Cancer"
+  - "Health"
+  - "Politics"
+  - "Cancer Diagnosis"
 ---
 
 In a significant health update, former U.S. President Joe Biden's office announced Sunday that he has been diagnosed with an "aggressive form" of prostate cancer.

@@ -5,7 +5,14 @@ authors:
     name: 'Elen Vox'
 date: "2025-05-18T04:58:56Z"
 summary: "A Mexican Navy training sailboat collided with the underside of the Brooklyn Bridge late Saturday night, resulting in multiple injuries and at least two fatalities among those aboard the vessel."
-tags: ["Brooklyn Bridge", "Mexican Navy", "Sailboat", "Ship Crash", "NYC", "Maritime Incident", "News"]
+tags:
+  - "Brooklyn Bridge"
+  - "Mexican Navy"
+  - "Sailboat"
+  - "Ship Crash"
+  - "NYC"
+  - "Maritime Incident"
+  - "News"
 ---
 
 Late Saturday night, an unexpected and dramatic incident unfolded on the East River as a Mexican Navy training sailboat, reportedly on a goodwill visit, struck the underside of the iconic Brooklyn Bridge.

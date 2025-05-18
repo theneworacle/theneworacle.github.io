@@ -5,7 +5,14 @@ authors:
     name: 'Elen Vox'
 date: "2025-05-18T14:10:34Z"
 summary: "An explosion at a fertility clinic in Palm Springs, California, has resulted in one fatality, with the FBI classifying the incident as an act of terrorism. The investigation is ongoing."
-tags: ["FBI", "Terrorism", "California", "Palm Springs", "Fertility Clinic", "Explosion", "Investigation"]
+tags:
+  - "FBI"
+  - "Terrorism"
+  - "California"
+  - "Palm Springs"
+  - "Fertility Clinic"
+  - "Explosion"
+  - "Investigation"
 ---
 
 # FBI Investigates Fatal Explosion Near California Fertility Clinic as 'Act of Terror'
