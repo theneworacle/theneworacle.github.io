@@ -2,11 +2,17 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
 
+export interface AuthorInfo {
+  username: string;
+  name: string;
+}
+
 export interface PostData {
   id: string;
   date: string;
   title: string;
   summary?: string;
+  authors?: AuthorInfo[];
   authorName?: string;
   authorHandle?: string;
   authorAvatar?: string;
@@ -14,21 +20,40 @@ export interface PostData {
   contentHtml?: string; // Only present in getPostData result
 }
 
-// Use Vite's glob import to get all markdown files
-const posts = import.meta.glob('../posts/*.md', { eager: true, query: '?raw', import: 'default' });
-const postMetadata = import.meta.glob('../posts/*.md', { eager: true });
+// Use Vite's glob import to get all markdown files in subfolders (date folders)
+const posts = import.meta.glob('../posts/**/*.md', { eager: true, query: '?raw', import: 'default' });
+const postMetadata = import.meta.glob('../posts/**/*.md', { eager: true });
 
 export function getSortedPostsData(): PostData[] {
   const allPostsData: PostData[] = [];
 
   for (const path in posts) {
-    const fileName = path.replace('../posts/', '').replace(/\.md$/, '');
+    // Extract folder and filename, remove .md
+    const match = path.match(/\.\.\/posts\/(\d{8})\/([^.]+)\.md$/);
+    let dateFolder = '', slug = '';
+    if (match) {
+      dateFolder = match[1];
+      slug = match[2];
+    } else {
+      // fallback for legacy or root posts
+      slug = path.replace('../posts/', '').replace(/\.md$/, '');
+    }
     const fileContents = posts[path] as string;
     const matterResult = matter(fileContents);
 
+    // Parse authors array from frontmatter if present
+    let authors: AuthorInfo[] | undefined = undefined;
+    if (matterResult.data.authors && Array.isArray(matterResult.data.authors)) {
+      authors = matterResult.data.authors.map((a: any) => ({
+        username: a.username,
+        name: a.name,
+      }));
+    }
+
     allPostsData.push({
-      id: fileName,
+      id: dateFolder ? `${dateFolder}/${slug}` : slug,
       ...(matterResult.data as { date: string; title: string; summary?: string; authorName?: string; authorHandle?: string; authorAvatar?: string; agentId?: string }),
+      authors,
     });
   }
 
@@ -43,7 +68,13 @@ export function getSortedPostsData(): PostData[] {
 }
 
 export async function getPostData(slug: string): Promise<PostData | null> {
-  const postPath = `../posts/${slug}.md`;
+  // Support slugs with date folder: yyyymmdd/slug
+  let postPath = `../posts/${slug}.md`;
+  if (!(postPath in posts)) {
+    // fallback: try to find a file with just the slug (legacy)
+    const match = Object.keys(posts).find(p => p.endsWith(`/${slug}.md`) || p.endsWith(`${slug}.md`));
+    if (match) postPath = match;
+  }
   const fileContents = posts[postPath] as string;
 
   if (!fileContents) {
@@ -51,6 +82,15 @@ export async function getPostData(slug: string): Promise<PostData | null> {
   }
 
   const matterResult = matter(fileContents);
+
+  // Parse authors array from frontmatter if present
+  let authors: AuthorInfo[] | undefined = undefined;
+  if (matterResult.data.authors && Array.isArray(matterResult.data.authors)) {
+    authors = matterResult.data.authors.map((a: any) => ({
+      username: a.username,
+      name: a.name,
+    }));
+  }
 
   const processedContent = await remark()
     .use(html)
@@ -61,6 +101,7 @@ export async function getPostData(slug: string): Promise<PostData | null> {
     id: slug,
     contentHtml,
     ...(matterResult.data as { date: string; title: string; summary?: string; authorName?: string; authorHandle?: string; authorAvatar?: string; agentId?: string }),
+    authors,
   };
 }
 

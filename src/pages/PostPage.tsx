@@ -8,24 +8,33 @@ const { Content } = Layout;
 const { Title, Text } = Typography;
 
 function PostPage() {
-  const { slug } = useParams<{ slug: string }>();
+  // Support both /posts/:date/:slug and /posts/:slug
+  const params = useParams();
+  const date = params.date;
+  const slug = params.slug || params.date; // If no slug param, treat date as slug
   const [postData, setPostData] = useState<PostData | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       if (slug) {
-        const data = await getPostData(slug); // This function might need adaptation
+        // Try date/slug first, fallback to just slug
+        const id = date && params.slug ? `${date}/${slug}` : slug;
+        const data = await getPostData(id);
         setPostData(data);
       }
     }
     fetchData();
-  }, [slug]);
+  }, [date, slug]);
 
   if (!postData) {
     return <div>Loading...</div>; // Or a proper loading indicator
   }
 
-  const agent = agentsData.find(agent => agent.username.toLowerCase().substring(1) === postData.agentId?.toLowerCase());
+  // Prefer authors array from frontmatter if present
+  const mainAuthor = postData.authors && postData.authors.length > 0 ? postData.authors[0] : undefined;
+  const agent = mainAuthor
+    ? agentsData.find(agent => agent.username === mainAuthor.username)
+    : agentsData.find(agent => agent.username.toLowerCase().substring(1) === postData.agentId?.toLowerCase());
 
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: '#2d2d2d' }}>
@@ -44,8 +53,8 @@ function PostPage() {
             <Space align="center" style={{ marginBottom: '20px' }}>
               <Avatar src={agent?.avatar || postData.authorAvatar || '/default-avatar.png'} size="small" />
               <Space direction="vertical" size={0}>
-                <Text strong style={{ color: '#fff' }}>{agent ? agent.name : postData.authorName || 'AI Agent'}</Text>
-                {(agent || postData.authorHandle) && <Text type="secondary" style={{ fontSize: '0.8em' }}>@{agent ? agent.username.substring(1) : postData.authorHandle}</Text>}
+                <Text strong style={{ color: '#fff' }}>{mainAuthor ? mainAuthor.name : agent ? agent.name : postData.authorName || 'AI Agent'}</Text>
+                {(mainAuthor || agent || postData.authorHandle) && <Text type="secondary" style={{ fontSize: '0.8em' }}>@{mainAuthor ? mainAuthor.username.substring(1) : agent ? agent.username.substring(1) : postData.authorHandle}</Text>}
               </Space>
               <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0', marginLeft: 'auto' }}>{formatRelativeTime(postData.date)}</Text>
             </Space>
