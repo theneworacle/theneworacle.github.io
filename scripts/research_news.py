@@ -173,7 +173,7 @@ def generate_slug(title: str) -> str:
     slug = re.sub(r'[\s-]+', '-', slug)
     # Trim hyphens from the start and end
     slug = slug.strip('-')
-    return slug
+    return slug[:50] # Limit slug length
 
 def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: List[str], sources: List[str]) -> str:
     """Saves the markdown content to a file and sets GitHub Actions PR environment variables."""
@@ -434,10 +434,10 @@ def get_github_token() -> str:
 
 
 def create_branch_and_pr(
-    repo: str,
+    repo_name: str,
     base_branch: str,
     new_branch: str,
-    file_path: str,
+    rel_file_path: str,
     file_content: str,
     pr_title: str,
     pr_body: str,
@@ -445,51 +445,86 @@ def create_branch_and_pr(
 ):
     """Create a branch, commit the file, push, and open a PR using the GitHub API."""
     from github import Github
-    from github import InputGitAuthor
     g = Github(github_token)
-    user = g.get_user()
-    repo_obj = g.get_repo(repo)
+    repo_obj = g.get_repo(repo_name)
+
     # Get base branch ref
-    base = repo_obj.get_branch(base_branch)
+    try:
+        base = repo_obj.get_branch(base_branch)
+    except Exception as e:
+        return f"Error getting base branch '{base_branch}': {e}"
+
     # Create new branch from base
     ref_name = f"refs/heads/{new_branch}"
     try:
         repo_obj.create_git_ref(ref_name, base.commit.sha)
+        print(f"Branch '{new_branch}' created.")
     except Exception as e:
-        print(f"Branch may already exist: {e}")
-    # Prepare file path relative to repo root
-    with open(file_path, "r", encoding="utf-8") as f:
-        content = f.read()
+        print(f"Error creating branch '{new_branch}': {e}")
+        # If branch creation fails, it might already exist. Try to proceed.
+
     # Try to create or update the file in the new branch
     try:
-        repo_obj.create_file(
-            path=file_path.replace(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) + os.sep, ''),
-            message=pr_title,
-            content=content,
-            branch=new_branch
-        )
+        try:
+            # Check if file exists to decide between create and update
+            contents = repo_obj.get_contents(rel_file_path, ref=new_branch)
+            # File exists, update it
+            repo_obj.update_file(
+                contents.path,
+                pr_title, # Use PR title as commit message
+                file_content, # Use provided file_content
+                contents.sha,
+                branch=new_branch
+            )
+            print(f"File '{rel_file_path}' updated in branch '{new_branch}'.")
+        except Exception as e:
+             # File does not exist, create it
+             print(f"File '{rel_file_path}' not found in branch '{new_branch}', attempting to create.")
+             repo_obj.create_file(
+                path=rel_file_path,
+                message=pr_title, # Use PR title as commit message
+                content=file_content, # Use provided file_content
+                branch=new_branch
+            )
+             print(f"File '{rel_file_path}' created in branch '{new_branch}'.")
+
     except Exception as e:
-        # If file exists, update it
-        contents = repo_obj.get_contents(
-            file_path.replace(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) + os.sep, ''),
-            ref=new_branch
-        )
-        repo_obj.update_file(
-            contents.path,
-            pr_title,
-            content,
-            contents.sha,
-            branch=new_branch
-        )
+        print(f"Error creating or updating file '{rel_file_path}' in branch '{new_branch}': {e}")
+        # If file operation fails, clean up the branch if it was created
+        try:
+            ref_to_delete = repo_obj.get_git_ref(f"heads/{new_branch}")
+            ref_to_delete.delete()
+            print(f"Cleaned up branch {new_branch} after file operation failure.")
+        except Exception as delete_e:
+            print(f"Could not clean up branch {new_branch}: {delete_e}")
+        return f"Error creating or updating file: {e}"
+
     # Create PR
-    pr = repo_obj.create_pull(
-        title=pr_title,
-        body=pr_body,
-        head=new_branch,
-        base=base_branch
-    )
-    print(f"Pull request created: {pr.html_url}")
-    return pr.html_url
+    try:
+        pr = repo_obj.create_pull(
+            title=pr_title,
+            body=pr_body,
+            head=new_branch,
+            base=base_branch
+        )
+        print(f"Pull request created: {pr.html_url}")
+        # Enable auto-merge (if repo allows)
+        try:
+            pr.enable_auto_merge(merge_method='squash')
+            print("Auto-merge enabled for PR.")
+        except Exception as e:
+            print(f"Could not enable auto-merge: {e}")
+        return f"Pull request created: {pr.html_url}"
+    except Exception as e:
+        print(f"Error creating PR: {e}")
+        # If PR creation fails, clean up the branch
+        try:
+            ref_to_delete = repo_obj.get_git_ref(f"heads/{new_branch}")
+            ref_to_delete.delete()
+            print(f"Cleaned up branch {new_branch} after PR creation failure.")
+        except Exception as delete_e:
+            print(f"Could not clean up branch {new_branch}: {delete_e}")
+        return f"Error creating PR: {e}"
 
 # Main execution
 if __name__ == "__main__":
@@ -558,45 +593,24 @@ if __name__ == "__main__":
 
                 else:
                     print("DIRECT_PUSH_TO_MAIN is false or not set. Attempting to create PR...")
-                    github = ensure_pygithub()
-                    from github import Github
-                    from github import InputGitAuthor
-                    import base64
-
-                    g = Github(github_token)
-                    repo = g.get_repo(repo_name)
-                    default_branch = repo.default_branch
-
                     # Compute branch and PR title
                     branch_slug = slugify(post_title)
                     branch_name = f"new-post-{datetime.now().strftime('%Y%m%d%H%M%S')}-{branch_slug}" # Use timestamp in branch name for uniqueness
                     pr_title = f"{post_title}"
                     pr_body = f"{post_content}"
 
-                    # Create PR
-                    try:
-                        pr = repo.create_pull(
-                            title=pr_title,
-                            body=pr_body,
-                            head=branch_name,
-                            base=default_branch
-                        )
-                        print(f"Created PR: {pr.html_url}")
-                        # Enable auto-merge (if repo allows)
-                        try:
-                            pr.enable_auto_merge(merge_method='squash')
-                            print("Auto-merge enabled for PR.")
-                        except Exception as e:
-                            print(f"Could not enable auto-merge: {e}")
-                    except Exception as e:
-                        print(f"Error creating PR: {e}")
-                        # If PR creation fails, clean up the branch
-                        try:
-                            ref_to_delete = repo.get_git_ref(f"heads/{branch_name}")
-                            ref_to_delete.delete()
-                            print(f"Cleaned up branch {branch_name} after PR creation failure.")
-                        except Exception as delete_e:
-                            print(f"Could not clean up branch {branch_name}: {delete_e}")
+                    # Call the create_branch_and_pr function
+                    pr_result = create_branch_and_pr(
+                        repo_name=repo_name,
+                        base_branch=default_branch,
+                        new_branch=branch_name,
+                        rel_file_path=rel_post_path,
+                        file_content=post_content,
+                        pr_title=pr_title,
+                        pr_body=post_content, # Use post_content for PR body
+                        github_token=github_token
+                    )
+                    print(pr_result) # Print the result of the PR creation attempt
 
 
     else:
