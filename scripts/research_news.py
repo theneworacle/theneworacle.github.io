@@ -555,6 +555,10 @@ if __name__ == "__main__":
         if not repo_name or not github_token:
             print("GITHUB_REPOSITORY or GITHUB_TOKEN not set. Skipping Git operations.")
         else:
+            # Define the default branch
+            default_branch = "main"
+            print(f"Using default branch: {default_branch}")
+
             # Get latest post info again to ensure we have the most recent content
             post_path, post_title, post_content = get_latest_post_info()
             if not post_path or not post_title or not post_content:
@@ -595,7 +599,7 @@ if __name__ == "__main__":
                     print("DIRECT_PUSH_TO_MAIN is false or not set. Attempting to create PR...")
                     # Compute branch and PR title
                     branch_slug = slugify(post_title)
-                    branch_name = f"new-post-{datetime.now().strftime('%Y%m%d%H%M%S')}-{branch_slug}" # Use timestamp in branch name for uniqueness
+                    branch_name = f"new-post-{branch_slug}" # Use timestamp in branch name for uniqueness
                     pr_title = f"{post_title}"
                     pr_body = f"{post_content}"
 
