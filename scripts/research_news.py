@@ -383,6 +383,47 @@ async def run_news_research_pipeline(prompt: str):
 import base64
 import subprocess
 
+def ensure_pygithub():
+    try:
+        import github
+        return github
+    except ImportError:
+        import subprocess
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "PyGithub"])
+        import github
+        return github
+
+def get_latest_post_info(posts_dir="posts"):
+    """Finds the most recently created post file and returns its path, title, and content."""
+    script_dir = os.path.dirname(__file__)
+    repo_root = os.path.abspath(os.path.join(script_dir, '..'))
+    full_posts_dir = os.path.join(repo_root, posts_dir)
+    latest_file = None
+    latest_mtime = 0
+    for root, _, files in os.walk(full_posts_dir):
+        for f in files:
+            if f.endswith('.md'):
+                fp = os.path.join(root, f)
+                mtime = os.path.getmtime(fp)
+                if mtime > latest_mtime:
+                    latest_mtime = mtime
+                    latest_file = fp
+    if not latest_file:
+        return None, None, None
+    with open(latest_file, 'r', encoding='utf-8') as f:
+        content = f.read()
+    # Extract title from YAML frontmatter
+    m = re.search(r'^---.*?^title:\s*\"?(.*?)\"?$', content, re.DOTALL | re.MULTILINE)
+    title = m.group(1).strip() if m else os.path.splitext(os.path.basename(latest_file))[0]
+    return latest_file, title, content
+
+def slugify(text, maxlen=50):
+    slug = text.lower()
+    slug = re.sub(r'[^a-z0-9\s-]', '', slug)
+    slug = re.sub(r'[\s-]+', '-', slug)
+    slug = slug.strip('-')
+    return slug[:maxlen]
+
 def is_github_actions() -> bool:
     """Detect if running in GitHub Actions."""
     return os.environ.get("GITHUB_ACTIONS", "false").lower() == "true"
@@ -462,50 +503,7 @@ if __name__ == "__main__":
     # Only run PR creation in GitHub Actions (not locally) AND if a post was saved
     if post_was_saved and os.environ.get('GITHUB_ACTIONS', '').lower() == 'true':
         print("Detected GitHub Actions environment and new post saved. Attempting to create PR...")
-        def ensure_pygithub():
-            try:
-                import github
-                return github
-            except ImportError:
-                import subprocess
-                subprocess.check_call([sys.executable, "-m", "pip", "install", "PyGithub"])
-                import github
-                return github
 
-        def get_latest_post_info(posts_dir="posts"):
-            """Finds the most recently created post file and returns its path, title, and content."""
-            script_dir = os.path.dirname(__file__)
-            repo_root = os.path.abspath(os.path.join(script_dir, '..'))
-            full_posts_dir = os.path.join(repo_root, posts_dir)
-            latest_file = None
-            latest_mtime = 0
-            for root, _, files in os.walk(full_posts_dir):
-                for f in files:
-                    if f.endswith('.md'):
-                        fp = os.path.join(root, f)
-                        mtime = os.path.getmtime(fp)
-                        if mtime > latest_mtime:
-                            latest_mtime = mtime
-                            latest_file = fp
-            if not latest_file:
-                return None, None, None
-            with open(latest_file, 'r', encoding='utf-8') as f:
-                content = f.read()
-            # Extract title from YAML frontmatter
-            m = re.search(r'^---.*?^title:\s*\"?(.*?)\"?$', content, re.DOTALL | re.MULTILINE)
-            title = m.group(1).strip() if m else os.path.splitext(os.path.basename(latest_file))[0]
-            return latest_file, title, content
-
-    def slugify(text, maxlen=50):
-        slug = text.lower()
-        slug = re.sub(r'[^a-z0-9\s-]', '', slug)
-        slug = re.sub(r'[\s-]+', '-', slug)
-        slug = slug.strip('-')
-        return slug[:maxlen]
-
-    # Only run PR creation in GitHub Actions (not locally)
-    if os.environ.get('GITHUB_ACTIONS', '').lower() == 'true':
-        print("Detected GitHub Actions environment. Attempting to create PR for new post...")
         github = ensure_pygithub()
         from github import Github
         from github import InputGitAuthor
