@@ -372,10 +372,18 @@ async def run_news_research_pipeline(prompt: str):
     # Check if a post was successfully saved by the publisher agent
     post_saved_successfully = False
     for event in events:
-        if event.is_agent_output() and event.agent_name == "publisher" and event.output_key == "publishing_status":
-            if "Post saved to" in event.content.parts[0].text:
-                post_saved_successfully = True
-                break # Found the relevant event
+        # Check if the event is from the publisher agent
+        if event.author == "publisher":
+            # Check if the event contains a function_response part
+            if event.content and event.content.parts:
+                for part in event.content.parts:
+                    if part.function_response:
+                        # Check the text within the function response result
+                        if "Post saved to" in part.function_response.response.get('result', ''):
+                            post_saved_successfully = True
+                            break # Found the relevant event
+        if post_saved_successfully:
+            break # Exit outer loop once found
 
     return post_saved_successfully
 
