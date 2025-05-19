@@ -353,39 +353,27 @@ async def run_news_research_pipeline(prompt: str):
     print("--- ADK Runner Events ---")
     content = types.Content(role="user", parts=[types.Part(text=prompt)])
     events = []
-    # The runner.run method is synchronous, but ADK is often used in async contexts.
-    # Keeping it simple for this script's direct execution.
-    # If tools were async, we'd need await here.
-    events = runner.run(user_id=USER_ID, session_id=SESSION_ID, new_message=content)
+    try:
+        # The runner.run method is synchronous, but ADK is often used in async contexts.
+        # Keeping it simple for this script's direct execution.
+        # If tools were async, we'd need await here.
+        events = runner.run(user_id=USER_ID, session_id=SESSION_ID, new_message=content)
 
-    final_response_text = "Pipeline finished without a final response event."
-    for event in events:
-        print(event)
-        if event.is_final_response():
-            final_response_text = event.content.parts[0].text
-            print("\n📢 Final Pipeline Status:\n")
-            print(final_response_text)
+        final_response_text = "Pipeline finished without a final response event."
+        for event in events:
+            print(event)
+            if event.is_final_response():
+                final_response_text = event.content.parts[0].text
+                print("\n📢 Final Pipeline Status:\n")
+                print(final_response_text)
 
-    print("--- End of ADK Runner Events ---")
-    print("Gemini ADK Sequential Pipeline: Pipeline complete.")
-
-    # Check if a post was successfully saved by the publisher agent
-    post_saved_successfully = False
-    for event in events:
-        # Check if the event is from the publisher agent
-        if event.author == "publisher":
-            # Check if the event contains a function_response part
-            if event.content and event.content.parts:
-                for part in event.content.parts:
-                    if part.function_response:
-                        # Check the text within the function response result
-                        if "Post saved to" in part.function_response.response.get('result', ''):
-                            post_saved_successfully = True
-                            break # Found the relevant event
-        if post_saved_successfully:
-            break # Exit outer loop once found
-
-    return post_saved_successfully
+        print("--- End of ADK Runner Events ---")
+        print("Gemini ADK Sequential Pipeline: Pipeline complete.")
+        # If the pipeline completes without exception, assume success for the pipeline run itself
+        return True
+    except Exception as e:
+        print(f"Error running pipeline: {e}")
+        return False
 
 # --- GitHub PR Automation ---
 import base64
@@ -508,15 +496,19 @@ if __name__ == "__main__":
     # The prompt for the researcher agent
     initial_prompt = "Find the latest top news and trends relevant for a blog post."
 
-    # Run the async pipeline and check if a post was saved
-    post_was_saved = asyncio.run(run_news_research_pipeline(initial_prompt))
+    # Run the async pipeline
+    pipeline_ran_successfully = asyncio.run(run_news_research_pipeline(initial_prompt))
+
+    # Check if a new post file was created
+    post_path, post_title, post_content = get_latest_post_info()
+    post_was_saved = post_path is not None
 
     # --- GitHub Actions PR/Direct Push Logic ---
-    # Only run this logic in GitHub Actions (not locally) AND if a post was saved
+    # Only run this logic in GitHub Actions (not locally) AND if a new post was saved
     print(f"{'Running in GitHub Actions: ' + str(is_github_actions())}")
     print(f"{'Post was saved: ' + str(post_was_saved)}")
     if post_was_saved and is_github_actions(): # Use the function here
-        print("Detected GitHub Actions environment and new post saved. Proceeding with Git operations...")
+        print("Detected GitHub Actions environment and new post file found. Proceeding with Git operations...")
 
         # Check for direct push environment variable
         direct_push_to_main = os.environ.get('DIRECT_PUSH_TO_MAIN', 'false').lower() == 'true'
@@ -528,10 +520,10 @@ if __name__ == "__main__":
         if not repo_name or not github_token:
             print("GITHUB_REPOSITORY or GITHUB_TOKEN not set. Skipping Git operations.")
         else:
-            # Get latest post info
+            # Get latest post info again to ensure we have the most recent content
             post_path, post_title, post_content = get_latest_post_info()
             if not post_path or not post_title or not post_content:
-                print("Could not find latest post for Git operations.")
+                print("Could not find latest post for Git operations after pipeline run.")
             else:
                 # Compute relative path for the post file
                 script_dir = os.path.dirname(__file__)
@@ -577,49 +569,9 @@ if __name__ == "__main__":
 
                     # Compute branch and PR title
                     branch_slug = slugify(post_title)
-                    branch_name = f"automated-news-research-{datetime.now().strftime('%Y%m%d%H%M%S')}-{branch_slug}" # Use timestamp in branch name for uniqueness
-                    pr_title = f"Automated News Research: {post_title}"
-                    pr_body = f"This PR contains a new news research post generated by the automated workflow.\n\n## Post Content:\n\n{post_content}"
-
-
-                    # Create new branch from default
-                    sb = repo.get_branch(default_branch)
-                    base_sha = sb.commit.sha
-                    try:
-                        repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=base_sha)
-                        print(f"Created branch {branch_name}")
-                    except Exception as e:
-                        print(f"Branch {branch_name} may already exist: {e}")
-                        # If branch exists, try to update it
-                        try:
-                            # Get the latest commit SHA of the existing branch
-                            existing_branch = repo.get_branch(branch_name)
-                            latest_sha = existing_branch.commit.sha
-                            # Update the branch reference to the latest commit of the base branch
-                            repo.get_git_ref(f"heads/{branch_name}").edit(sha=base_sha, force=True)
-                            print(f"Updated existing branch {branch_name} to latest main commit.")
-                        except Exception as update_e:
-                            print(f"Could not update existing branch {branch_name}: {update_e}")
-                            # If updating fails, we might need to skip PR creation or handle differently
-                            print("Skipping PR creation due to branch issue.")
-                            # Exit the function if branch cannot be created or updated
-
-
-                    # Add or update the post file in the new branch
-                    try:
-                        # Check if file exists in branch
-                        try:
-                            contents = repo.get_contents(rel_post_path, ref=branch_name)
-                            repo.update_file(rel_post_path, f"Update post {post_title}", post_content, contents.sha, branch=branch_name)
-                            print(f"Updated {rel_post_path} in branch {branch_name}")
-                        except Exception: # File does not exist, create it
-                            repo.create_file(rel_post_path, f"Add post {post_title}", post_content, branch=branch_name)
-                            print(f"Created {rel_post_path} in branch {branch_name}")
-                    except Exception as e:
-                        print(f"Error creating/updating post file in branch: {e}")
-                        print("Skipping PR creation due to file update issue.")
-                        # Exit if file update fails
-
+                    branch_name = f"new-post-{datetime.now().strftime('%Y%m%d%H%M%S')}-{branch_slug}" # Use timestamp in branch name for uniqueness
+                    pr_title = f"{post_title}"
+                    pr_body = f"{post_content}"
 
                     # Create PR
                     try:
