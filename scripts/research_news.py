@@ -368,8 +368,16 @@ async def run_news_research_pipeline(prompt: str):
 
     print("--- End of ADK Runner Events ---")
     print("Gemini ADK Sequential Pipeline: Pipeline complete.")
-    # Exit code based on final status? Or let GitHub Actions handle it.
-    # For now, assume success if pipeline runs.
+
+    # Check if a post was successfully saved by the publisher agent
+    post_saved_successfully = False
+    for event in events:
+        if event.is_agent_output() and event.agent_name == "publisher" and event.output_key == "publishing_status":
+            if "Post saved to" in event.content.parts[0].text:
+                post_saved_successfully = True
+                break # Found the relevant event
+
+    return post_saved_successfully
 
 # --- GitHub PR Automation ---
 import base64
@@ -447,43 +455,46 @@ if __name__ == "__main__":
     # The prompt for the researcher agent
     initial_prompt = "Find the latest top news and trends relevant for a blog post."
 
-    # Run the async pipeline
-    asyncio.run(run_news_research_pipeline(initial_prompt))
+    # Run the async pipeline and check if a post was saved
+    post_was_saved = asyncio.run(run_news_research_pipeline(initial_prompt))
 
     # --- GitHub Actions PR creation logic ---
-    def ensure_pygithub():
-        try:
-            import github
-            return github
-        except ImportError:
-            import subprocess
-            subprocess.check_call([sys.executable, "-m", "pip", "install", "PyGithub"])
-            import github
-            return github
+    # Only run PR creation in GitHub Actions (not locally) AND if a post was saved
+    if post_was_saved and os.environ.get('GITHUB_ACTIONS', '').lower() == 'true':
+        print("Detected GitHub Actions environment and new post saved. Attempting to create PR...")
+        def ensure_pygithub():
+            try:
+                import github
+                return github
+            except ImportError:
+                import subprocess
+                subprocess.check_call([sys.executable, "-m", "pip", "install", "PyGithub"])
+                import github
+                return github
 
-    def get_latest_post_info(posts_dir="posts"):
-        """Finds the most recently created post file and returns its path, title, and content."""
-        script_dir = os.path.dirname(__file__)
-        repo_root = os.path.abspath(os.path.join(script_dir, '..'))
-        full_posts_dir = os.path.join(repo_root, posts_dir)
-        latest_file = None
-        latest_mtime = 0
-        for root, _, files in os.walk(full_posts_dir):
-            for f in files:
-                if f.endswith('.md'):
-                    fp = os.path.join(root, f)
-                    mtime = os.path.getmtime(fp)
-                    if mtime > latest_mtime:
-                        latest_mtime = mtime
-                        latest_file = fp
-        if not latest_file:
-            return None, None, None
-        with open(latest_file, 'r', encoding='utf-8') as f:
-            content = f.read()
-        # Extract title from YAML frontmatter
-        m = re.search(r'^---.*?^title:\s*\"?(.*?)\"?$', content, re.DOTALL | re.MULTILINE)
-        title = m.group(1).strip() if m else os.path.splitext(os.path.basename(latest_file))[0]
-        return latest_file, title, content
+        def get_latest_post_info(posts_dir="posts"):
+            """Finds the most recently created post file and returns its path, title, and content."""
+            script_dir = os.path.dirname(__file__)
+            repo_root = os.path.abspath(os.path.join(script_dir, '..'))
+            full_posts_dir = os.path.join(repo_root, posts_dir)
+            latest_file = None
+            latest_mtime = 0
+            for root, _, files in os.walk(full_posts_dir):
+                for f in files:
+                    if f.endswith('.md'):
+                        fp = os.path.join(root, f)
+                        mtime = os.path.getmtime(fp)
+                        if mtime > latest_mtime:
+                            latest_mtime = mtime
+                            latest_file = fp
+            if not latest_file:
+                return None, None, None
+            with open(latest_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            # Extract title from YAML frontmatter
+            m = re.search(r'^---.*?^title:\s*\"?(.*?)\"?$', content, re.DOTALL | re.MULTILINE)
+            title = m.group(1).strip() if m else os.path.splitext(os.path.basename(latest_file))[0]
+            return latest_file, title, content
 
     def slugify(text, maxlen=50):
         slug = text.lower()
