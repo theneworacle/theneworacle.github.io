@@ -505,6 +505,8 @@ if __name__ == "__main__":
 
     # --- GitHub Actions PR/Direct Push Logic ---
     # Only run this logic in GitHub Actions (not locally) AND if a post was saved
+    print(f"{'Running in GitHub Actions: ' + str(is_github_actions())}")
+    print(f"{'Post was saved: ' + str(post_was_saved)}")
     if post_was_saved and is_github_actions(): # Use the function here
         print("Detected GitHub Actions environment and new post saved. Proceeding with Git operations...")
 
