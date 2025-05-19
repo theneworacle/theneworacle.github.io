@@ -426,7 +426,11 @@ def slugify(text, maxlen=50):
 
 def is_github_actions() -> bool:
     """Detect if running in GitHub Actions."""
-    return os.environ.get("GITHUB_ACTIONS", "false").lower() == "true"
+    # Check for the standard GITHUB_ACTIONS variable
+    is_ga = os.environ.get("GITHUB_ACTIONS", "false").lower() == "true"
+    # Also check for another common GA variable for robustness
+    has_run_id = bool(os.environ.get("GITHUB_RUN_ID"))
+    return is_ga and has_run_id
 
 def get_github_token() -> str:
     """Get GitHub token from env."""
@@ -499,80 +503,139 @@ if __name__ == "__main__":
     # Run the async pipeline and check if a post was saved
     post_was_saved = asyncio.run(run_news_research_pipeline(initial_prompt))
 
-    # --- GitHub Actions PR creation logic ---
-    # Only run PR creation in GitHub Actions (not locally) AND if a post was saved
-    if post_was_saved and os.environ.get('GITHUB_ACTIONS', '').lower() == 'true':
-        print("Detected GitHub Actions environment and new post saved. Attempting to create PR...")
+    # --- GitHub Actions PR/Direct Push Logic ---
+    # Only run this logic in GitHub Actions (not locally) AND if a post was saved
+    if post_was_saved and is_github_actions(): # Use the function here
+        print("Detected GitHub Actions environment and new post saved. Proceeding with Git operations...")
 
-        github = ensure_pygithub()
-        from github import Github
-        from github import InputGitAuthor
-        import base64
+        # Check for direct push environment variable
+        direct_push_to_main = os.environ.get('DIRECT_PUSH_TO_MAIN', 'false').lower() == 'true'
 
         # Get repo info from env
         repo_name = os.environ.get('GITHUB_REPOSITORY')
         github_token = os.environ.get('GITHUB_TOKEN') or os.environ.get('GH_TOKEN')
-        if not repo_name or not github_token:
-            print("GITHUB_REPOSITORY or GITHUB_TOKEN not set. Skipping PR creation.")
-        else:
-            g = Github(github_token)
-            repo = g.get_repo(repo_name)
-            default_branch = repo.default_branch
 
+        if not repo_name or not github_token:
+            print("GITHUB_REPOSITORY or GITHUB_TOKEN not set. Skipping Git operations.")
+        else:
             # Get latest post info
             post_path, post_title, post_content = get_latest_post_info()
             if not post_path or not post_title or not post_content:
-                print("Could not find latest post for PR creation.")
+                print("Could not find latest post for Git operations.")
             else:
-                # Compute branch and PR title
-                branch_slug = slugify(post_title)
-                branch_name = branch_slug
-                pr_title = branch_slug
-                pr_body = post_content
-
                 # Compute relative path for the post file
                 script_dir = os.path.dirname(__file__)
                 repo_root = os.path.abspath(os.path.join(script_dir, '..'))
                 rel_post_path = os.path.relpath(post_path, repo_root).replace('\\', '/')
 
-                # Create new branch from default
-                sb = repo.get_branch(default_branch)
-                base_sha = sb.commit.sha
-                try:
-                    repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=base_sha)
-                    print(f"Created branch {branch_name}")
-                except Exception as e:
-                    print(f"Branch {branch_name} may already exist: {e}")
-
-                # Add or update the post file in the new branch
-                try:
-                    # Check if file exists in branch
+                if direct_push_to_main:
+                    print("DIRECT_PUSH_TO_MAIN is true. Committing and pushing directly to main.")
                     try:
-                        contents = repo.get_contents(rel_post_path, ref=branch_name)
-                        repo.update_file(rel_post_path, f"Update post {post_title}", post_content, contents.sha, branch=branch_name)
-                        print(f"Updated {rel_post_path} in branch {branch_name}")
-                    except Exception:
-                        repo.create_file(rel_post_path, f"Add post {post_title}", post_content, branch=branch_name)
-                        print(f"Created {rel_post_path} in branch {branch_name}")
-                except Exception as e:
-                    print(f"Error creating/updating post file in branch: {e}")
+                        # Configure git user
+                        subprocess.run(['git', 'config', '--global', 'user.name', 'github-actions[bot]'], check=True, cwd=repo_root)
+                        subprocess.run(['git', 'config', '--global', 'user.email', 'github-actions[bot]@users.noreply.github.com'], check=True, cwd=repo_root)
 
-                # Create PR
-                try:
-                    pr = repo.create_pull(
-                        title=pr_title,
-                        body=pr_body,
-                        head=branch_name,
-                        base=default_branch
-                    )
-                    print(f"Created PR: {pr.html_url}")
-                    # Enable auto-merge (if repo allows)
-                    try:
-                        pr.enable_auto_merge(merge_method='squash')
-                        print("Auto-merge enabled for PR.")
+                        # Add the file
+                        subprocess.run(['git', 'add', rel_post_path], check=True, cwd=repo_root)
+
+                        # Commit the changes
+                        commit_message = f"feat: Add automated news post: {post_title}"
+                        subprocess.run(['git', 'commit', '-m', commit_message], check=True, cwd=repo_root)
+
+                        # Push to main
+                        # Use the GITHUB_TOKEN for authentication
+                        remote_url = f"https://x-access-token:{github_token}@github.com/{repo_name}.git"
+                        subprocess.run(['git', 'push', remote_url, 'HEAD:main'], check=True, cwd=repo_root)
+
+                        print(f"Successfully committed and pushed {rel_post_path} to main.")
+
+                    except subprocess.CalledProcessError as e:
+                        print(f"Error during direct push Git operations: {e}")
                     except Exception as e:
-                        print(f"Could not enable auto-merge: {e}")
-                except Exception as e:
-                    print(f"Error creating PR: {e}")
+                        print(f"An unexpected error occurred during direct push: {e}")
+
+                else:
+                    print("DIRECT_PUSH_TO_MAIN is false or not set. Attempting to create PR...")
+                    github = ensure_pygithub()
+                    from github import Github
+                    from github import InputGitAuthor
+                    import base64
+
+                    g = Github(github_token)
+                    repo = g.get_repo(repo_name)
+                    default_branch = repo.default_branch
+
+                    # Compute branch and PR title
+                    branch_slug = slugify(post_title)
+                    branch_name = f"automated-news-research-{datetime.now().strftime('%Y%m%d%H%M%S')}-{branch_slug}" # Use timestamp in branch name for uniqueness
+                    pr_title = f"Automated News Research: {post_title}"
+                    pr_body = f"This PR contains a new news research post generated by the automated workflow.\n\n## Post Content:\n\n{post_content}"
+
+
+                    # Create new branch from default
+                    sb = repo.get_branch(default_branch)
+                    base_sha = sb.commit.sha
+                    try:
+                        repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=base_sha)
+                        print(f"Created branch {branch_name}")
+                    except Exception as e:
+                        print(f"Branch {branch_name} may already exist: {e}")
+                        # If branch exists, try to update it
+                        try:
+                            # Get the latest commit SHA of the existing branch
+                            existing_branch = repo.get_branch(branch_name)
+                            latest_sha = existing_branch.commit.sha
+                            # Update the branch reference to the latest commit of the base branch
+                            repo.get_git_ref(f"heads/{branch_name}").edit(sha=base_sha, force=True)
+                            print(f"Updated existing branch {branch_name} to latest main commit.")
+                        except Exception as update_e:
+                            print(f"Could not update existing branch {branch_name}: {update_e}")
+                            # If updating fails, we might need to skip PR creation or handle differently
+                            print("Skipping PR creation due to branch issue.")
+                            # Exit the function if branch cannot be created or updated
+
+
+                    # Add or update the post file in the new branch
+                    try:
+                        # Check if file exists in branch
+                        try:
+                            contents = repo.get_contents(rel_post_path, ref=branch_name)
+                            repo.update_file(rel_post_path, f"Update post {post_title}", post_content, contents.sha, branch=branch_name)
+                            print(f"Updated {rel_post_path} in branch {branch_name}")
+                        except Exception: # File does not exist, create it
+                            repo.create_file(rel_post_path, f"Add post {post_title}", post_content, branch=branch_name)
+                            print(f"Created {rel_post_path} in branch {branch_name}")
+                    except Exception as e:
+                        print(f"Error creating/updating post file in branch: {e}")
+                        print("Skipping PR creation due to file update issue.")
+                        # Exit if file update fails
+
+
+                    # Create PR
+                    try:
+                        pr = repo.create_pull(
+                            title=pr_title,
+                            body=pr_body,
+                            head=branch_name,
+                            base=default_branch
+                        )
+                        print(f"Created PR: {pr.html_url}")
+                        # Enable auto-merge (if repo allows)
+                        try:
+                            pr.enable_auto_merge(merge_method='squash')
+                            print("Auto-merge enabled for PR.")
+                        except Exception as e:
+                            print(f"Could not enable auto-merge: {e}")
+                    except Exception as e:
+                        print(f"Error creating PR: {e}")
+                        # If PR creation fails, clean up the branch
+                        try:
+                            ref_to_delete = repo.get_git_ref(f"heads/{branch_name}")
+                            ref_to_delete.delete()
+                            print(f"Cleaned up branch {branch_name} after PR creation failure.")
+                        except Exception as delete_e:
+                            print(f"Could not clean up branch {branch_name}: {delete_e}")
+
+
     else:
-        print("Not running in GitHub Actions. Skipping PR creation.")
+        print("Not running in GitHub Actions or no new post saved. Skipping Git operations.")
