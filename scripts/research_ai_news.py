@@ -14,6 +14,7 @@ from typing import List, Union
 from dotenv import load_dotenv # Import load_dotenv
 import time
 import yaml # Import yaml for validation
+import xml.etree.ElementTree as ET # Import for sitemap generation
 
 # ADK Imports
 from google.adk.agents import Agent, SequentialAgent
@@ -252,6 +253,47 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
             f.write(frontmatter_str)
             f.write(content.strip() + "\n")
         print(f"Successfully saved post to {filepath}")
+
+        # --- Update sitemap.xml ---
+        sitemap_path = os.path.join(repo_root, 'public', 'sitemap.xml')
+        try:
+            tree = ET.parse(sitemap_path)
+            root = tree.getroot()
+
+            # Extract slug from filepath
+            # Assuming filepath is like .../posts/YYYYMMDD/slug.md or .../posts/YYYYMMDD-slug.md
+            # Need to handle both formats
+            post_filename = os.path.basename(filepath)
+            if '-' in post_filename: # YYYYMMDD-slug.md format
+                 slug = os.path.splitext(post_filename)[0].split('-', 1)[1]
+            else: # YYYYMMDD/slug.md format
+                 slug = os.path.splitext(post_filename)[0]
+
+            new_url = ET.Element('url')
+            loc = ET.SubElement(new_url, 'loc')
+            loc.text = f"https://theoracle.github.io/posts/{slug}"
+            changefreq = ET.SubElement(new_url, 'changefreq')
+            changefreq.text = 'weekly' # Or 'daily' depending on desired frequency
+            priority = ET.SubElement(new_url, 'priority')
+            priority.text = '0.8' # Adjust priority as needed
+
+            # Find the urlset element and append the new url
+            urlset = root.find('{http://www.sitemaps.org/schemas/sitemap/0.9}urlset')
+            if urlset is not None:
+                urlset.append(new_url)
+                # Write the updated sitemap back
+                tree.write(sitemap_path, encoding='utf-8', xml_declaration=True)
+                print(f"Successfully updated sitemap.xml with entry for {slug}")
+            else:
+                print("Error: Could not find urlset element in sitemap.xml")
+
+        except FileNotFoundError:
+            print(f"Error: sitemap.xml not found at {sitemap_path}. Cannot update.")
+        except ET.ParseError as e:
+            print(f"Error parsing sitemap.xml: {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred while updating sitemap.xml: {e}")
+        # --- End Update sitemap.xml ---
 
         # Set environment variables for the next GitHub Actions step (Create Pull Request)
         # This requires the workflow to use `run: |` and `>> $GITHUB_OUTPUT`
