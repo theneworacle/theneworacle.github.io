@@ -382,10 +382,13 @@ import subprocess
 def ensure_pygithub():
     try:
         import github
+        from pkg_resources import parse_version
+        if parse_version(github.__version__) < parse_version("1.55"):
+            raise ImportError("Need newer PyGithub version")
         return github
     except ImportError:
         import subprocess
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "PyGithub"])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "PyGithub>=1.55"])
         import github
         return github
 
@@ -510,7 +513,13 @@ def create_branch_and_pr(
         print(f"Pull request created: {pr.html_url}")
         # Enable auto-merge (if repo allows)
         try:
-            pr.enable_auto_merge(merge_method='squash')
+            # Auto-merge using GitHub CLI instead
+            pr_number = pr.html_url.split("/")[-1]
+            subprocess.run(
+                ["gh", "pr", "merge", pr_number, "--auto", "--merge"],
+                check=False
+            )
+
             print("Auto-merge enabled for PR.")
         except Exception as e:
             print(f"Could not enable auto-merge: {e}")

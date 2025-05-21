@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Explicitly pass token to checkout
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -26,6 +28,11 @@ jobs:
         run: |
           pip install langchain-community azure-identity openai>=1.0.0 requests beautifulsoup4 PyYAML duckduckgo-search google-adk google-generativeai PyGithub>=1.55
           sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Setup GitHub CLI
+        run: |
+          sudo apt-get install -y gh
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Run news research script
         env:
