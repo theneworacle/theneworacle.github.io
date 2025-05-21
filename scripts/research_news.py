@@ -344,33 +344,43 @@ SESSION_ID = "news_session"
 
 session_service = InMemorySessionService()
 # Create a new session for each run, or manage sessions as needed
-session_service.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=SESSION_ID)
+async def create_session():
+    await session_service.create_session(
+        app_name=APP_NAME,
+        user_id=USER_ID,
+        session_id=SESSION_ID
+    )
+
 runner = Runner(agent=pipeline, app_name=APP_NAME, session_service=session_service)
 
 # Run the pipeline
 async def run_news_research_pipeline(prompt: str):
     print("Gemini ADK Sequential Pipeline: Starting news research process...")
+    
+    # Create session first
+    await create_session()
+    
     print("--- ADK Runner Events ---")
     content = types.Content(role="user", parts=[types.Part(text=prompt)])
-    events = []
+    
     try:
-        # The runner.run method is synchronous, but ADK is often used in async contexts.
-        # Keeping it simple for this script's direct execution.
-        # If tools were async, we'd need await here.
-        events = runner.run(user_id=USER_ID, session_id=SESSION_ID, new_message=content)
+        # Create async context for runner
+        async with Runner(agent=pipeline, app_name=APP_NAME, session_service=session_service) as runner:
+            events = await runner.run_async(
+                user_id=USER_ID,
+                session_id=SESSION_ID,
+                new_message=content
+            )
 
-        final_response_text = "Pipeline finished without a final response event."
-        for event in events:
-            print(event)
-            if event.is_final_response():
-                final_response_text = event.content.parts[0].text
-                print("\n📢 Final Pipeline Status:\n")
-                print(final_response_text)
+            final_response_text = "Pipeline finished without final response"
+            async for event in events:
+                if event.is_final_response():
+                    final_response_text = event.content.parts[0].text
+                    print("\n📢 Final Pipeline Status:\n", final_response_text)
 
-        print("--- End of ADK Runner Events ---")
-        print("Gemini ADK Sequential Pipeline: Pipeline complete.")
-        # If the pipeline completes without exception, assume success for the pipeline run itself
-        return True
+            print("--- End of ADK Runner Events ---")
+            return True
+            
     except Exception as e:
         print(f"Error running pipeline: {e}")
         return False
@@ -534,14 +544,29 @@ def create_branch_and_pr(
         except Exception as delete_e:
             print(f"Could not clean up branch {new_branch}: {delete_e}")
         return f"Error creating PR: {e}"
+    
+async def cleanup_session():
+    if session_service.has_session(APP_NAME, USER_ID, SESSION_ID):
+        await session_service.delete_session(
+            app_name=APP_NAME,
+            user_id=USER_ID,
+            session_id=SESSION_ID
+        )
 
 # Main execution
 if __name__ == "__main__":
     # The prompt for the researcher agent
     initial_prompt = "Find the latest top news and trends relevant for a blog post."
 
-    # Run the async pipeline
-    pipeline_ran_successfully = asyncio.run(run_news_research_pipeline(initial_prompt))
+    # Run the async pipeline with proper cleanup
+    async def main():
+        try:
+            result = await run_news_research_pipeline(initial_prompt)
+        finally:
+            await cleanup_session()
+        return result
+        
+    pipeline_ran_successfully = asyncio.run(main())
 
     # Check if a new post file was created
     post_path, post_title, post_content = get_latest_post_info()
