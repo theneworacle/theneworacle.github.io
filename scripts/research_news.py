@@ -545,13 +545,6 @@ def create_branch_and_pr(
             print(f"Could not clean up branch {new_branch}: {delete_e}")
         return f"Error creating PR: {e}"
     
-async def cleanup_session():
-    if session_service.has_session(APP_NAME, USER_ID, SESSION_ID):
-        await session_service.delete_session(
-            app_name=APP_NAME,
-            user_id=USER_ID,
-            session_id=SESSION_ID
-        )
 
 # Main execution
 if __name__ == "__main__":
@@ -560,12 +553,8 @@ if __name__ == "__main__":
 
     # Run the async pipeline with proper cleanup
     async def main():
-        try:
-            result = await run_news_research_pipeline(initial_prompt)
-        finally:
-            await cleanup_session()
-        return result
-        
+        return await run_news_research_pipeline(initial_prompt)
+           
     pipeline_ran_successfully = asyncio.run(main())
 
     # Check if a new post file was created
