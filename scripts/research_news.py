@@ -344,8 +344,8 @@ SESSION_ID = "news_session"
 
 session_service = InMemorySessionService()
 # Create a new session for each run, or manage sessions as needed
-async def create_session():
-    await session_service.create_session(
+def create_session():
+    session_service.create_session(
         app_name=APP_NAME,
         user_id=USER_ID,
         session_id=SESSION_ID
@@ -358,14 +358,14 @@ async def run_news_research_pipeline(prompt: str):
     print("Gemini ADK Sequential Pipeline: Starting news research process...")
     
     # Create session first
-    await create_session()
+    create_session()
     
     print("--- ADK Runner Events ---")
     content = types.Content(role="user", parts=[types.Part(text=prompt)])
     
     try:
         # Run the pipeline directly
-        events = await runner.run_async(
+        events = runner.run_async(
             user_id=USER_ID,
             session_id=SESSION_ID,
             new_message=content
@@ -551,10 +551,7 @@ if __name__ == "__main__":
     initial_prompt = "Find the latest top news and trends relevant for a blog post."
 
     # Run the async pipeline with proper cleanup
-    async def main():
-        return await run_news_research_pipeline(initial_prompt)
-           
-    pipeline_ran_successfully = asyncio.run(main())
+    pipeline_ran_successfully = asyncio.run(run_news_research_pipeline(initial_prompt))
 
     # Check if a new post file was created
     post_path, post_title, post_content = get_latest_post_info()
