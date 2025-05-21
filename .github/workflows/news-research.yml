@@ -47,3 +47,6 @@ jobs:
           DIRECT_PUSH_TO_MAIN: ${{ vars.DIRECT_PUSH_TO_MAIN }} # Add environment variable for direct push control
         run: |
           python scripts/research_news.py
+
+      - name: Report success status
+        run: echo "Workflow completed successfully."
