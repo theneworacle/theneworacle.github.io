@@ -364,23 +364,22 @@ async def run_news_research_pipeline(prompt: str):
     content = types.Content(role="user", parts=[types.Part(text=prompt)])
     
     try:
-        # Create async context for runner
-        async with Runner(agent=pipeline, app_name=APP_NAME, session_service=session_service) as runner:
-            events = await runner.run_async(
-                user_id=USER_ID,
-                session_id=SESSION_ID,
-                new_message=content
-            )
+        # Run the pipeline directly
+        events = await runner.run_async(
+            user_id=USER_ID,
+            session_id=SESSION_ID,
+            new_message=content
+        )
 
-            final_response_text = "Pipeline finished without final response"
-            async for event in events:
-                if event.is_final_response():
-                    final_response_text = event.content.parts[0].text
-                    print("\n📢 Final Pipeline Status:\n", final_response_text)
+        final_response_text = "Pipeline finished without final response"
+        async for event in events:
+            if event.is_final_response():
+                final_response_text = event.content.parts[0].text
+                print("\n📢 Final Pipeline Status:\n", final_response_text)
 
-            print("--- End of ADK Runner Events ---")
-            return True
-            
+        print("--- End of ADK Runner Events ---")
+        return True
+
     except Exception as e:
         print(f"Error running pipeline: {e}")
         return False
