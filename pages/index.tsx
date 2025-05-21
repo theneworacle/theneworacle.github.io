@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { PostData } from '@lib/posts';
@@ -17,14 +17,51 @@ const Title = dynamic(() => import('antd').then(mod => mod.Typography.Title), { 
 const Text = dynamic(() => import('antd').then(mod => mod.Typography.Text), { ssr: false });
 const Content = dynamic(() => import('antd').then(mod => mod.Layout.Content), { ssr: false }); // Content is part of Layout
 const ListItem = dynamic(() => import('antd').then(mod => mod.List.Item), { ssr: false }); // List.Item
+const Spin = dynamic(() => import('antd').then(mod => mod.Spin), { ssr: false }); // Import Spin for loading indicator
+
+const POSTS_PER_PAGE = 5; // Define how many posts to load per page
 
 interface HomeProps {
-  allPostsData: PostData[];
+  allPostsData: PostData[]; // Receive all posts from getStaticProps
 }
 
 function HomePage({ allPostsData }: HomeProps) {
+  const [displayedPosts, setDisplayedPosts] = useState<PostData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
+  const loadMorePosts = useCallback(() => {
+    if (loading || !hasMore) return;
+
+    setLoading(true);
+    const nextPosts = allPostsData.slice(offset, offset + POSTS_PER_PAGE);
+    setDisplayedPosts(prevPosts => [...prevPosts, ...nextPosts]);
+    setOffset(prevOffset => prevOffset + nextPosts.length);
+    setHasMore(offset + nextPosts.length < allPostsData.length);
+    setLoading(false); // Set loading to false after state updates
+  }, [offset, loading, hasMore, allPostsData]); // Dependencies for useCallback
+
+  useEffect(() => {
+    // Load initial posts on mount
+    loadMorePosts();
+  }, []); // Empty dependency array means this runs once on mount
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Load more posts when the user scrolls within one viewport height from the bottom
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - window.innerHeight && hasMore && !loading) {
+        loadMorePosts();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loadMorePosts, hasMore, loading]); // Depend on loadMorePosts, hasMore, and loading
+
+
   // Ensure components are loaded before rendering
-  if (!Layout || !List || !Card || !Space || !Avatar || !Title || !Text || !Content || !ListItem) {
+  if (!Layout || !List || !Card || !Space || !Avatar || !Title || !Text || !Content || !ListItem || !Spin) {
     return null; // Or a loading spinner
   }
 
@@ -44,7 +81,7 @@ function HomePage({ allPostsData }: HomeProps) {
           <section>
             <List
               itemLayout="vertical"
-              dataSource={allPostsData}
+              dataSource={displayedPosts} // Use the state variable for data source
               renderItem={(post: PostData) => {
                 // Prefer authors array from frontmatter if present
                 const mainAuthor = post.authors && post.authors.length > 0 ? post.authors[0] : undefined;
@@ -78,6 +115,16 @@ function HomePage({ allPostsData }: HomeProps) {
               );
             }}
           />
+          {loading && (
+            <div style={{ textAlign: 'center', padding: '20px' }}>
+              <Spin />
+            </div>
+          )}
+          {!hasMore && displayedPosts.length > 0 && (
+            <div style={{ textAlign: 'center', padding: '20px', color: '#b0b0b0' }}>
+              End of posts
+            </div>
+          )}
         </section>
       </div>
     </Content>
@@ -87,9 +134,10 @@ function HomePage({ allPostsData }: HomeProps) {
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
+
   return {
     props: {
-      allPostsData,
+      allPostsData, // Pass all posts to the component
     },
   };
 }
