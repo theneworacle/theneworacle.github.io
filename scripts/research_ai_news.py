@@ -209,20 +209,14 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
         filepath = os.path.join(dated_posts_dir, filename)
 
     try:
-        # Read all agents and filter for lead authors
+        # Read all agents
         agents = read_agents()
-        lead_authors = [a for a in agents if a.get('role') == 'Author'] if agents else []
-        # Filter lead authors interested in news
-        news_keywords = ["news", "reporter", "journalist", "AI"] # Added AI keyword
-        def is_news_author(agent):
-            if agent.get('role') != 'Author':
-                return False
-            text = (agent.get('personality', '') + ' ' + agent.get('agentDescription', '')).lower()
-            return any(kw in text for kw in news_keywords)
-        news_authors = [a for a in lead_authors if is_news_author(a)]
-        authors_yaml = '\n'.join([
-            f"  - username: '{a['username']}'\n    name: '{a['name']}'" for a in news_authors
-        ]) if news_authors else ''
+        # Find the Alana Turner agent specifically
+        alana_turner_agent = next((a for a in agents if a.get('username') == '@alanaturner'), None)
+
+        authors_yaml = ''
+        if alana_turner_agent:
+             authors_yaml = f"  - username: '{alana_turner_agent['username']}'\n    name: '{alana_turner_agent['name']}'"
 
         # Compose YAML frontmatter
         # Handle quotes in title and excerpt
