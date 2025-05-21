@@ -344,8 +344,8 @@ SESSION_ID = "news_session"
 
 session_service = InMemorySessionService()
 # Create a new session for each run, or manage sessions as needed
-def create_session():
-    session_service.create_session(
+async def create_session():
+    await session_service.create_session(
         app_name=APP_NAME,
         user_id=USER_ID,
         session_id=SESSION_ID
@@ -358,7 +358,7 @@ async def run_news_research_pipeline(prompt: str):
     print("Gemini ADK Sequential Pipeline: Starting news research process...")
     
     # Create session first
-    create_session()
+    await create_session()
     
     print("--- ADK Runner Events ---")
     content = types.Content(role="user", parts=[types.Part(text=prompt)])
