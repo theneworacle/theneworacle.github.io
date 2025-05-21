@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main # Change this to your default branch if it's not main
+  workflow_run:
+    workflows: ["Automated News Research"] # Name of the triggering workflow
+    types: [completed]
+    branches:
+      - main # Specify the branch to trigger on
 
 jobs:
   build-and-deploy:
