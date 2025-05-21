@@ -1,0 +1,51 @@
+name: Automated AI News Research
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  research-ai-news:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Explicitly pass token to checkout
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.3'
+
+      - name: Install dependencies
+        run: |
+          pip install langchain-community azure-identity openai>=1.0.0 requests beautifulsoup4 PyYAML duckduckgo-search google-adk google-generativeai PyGithub>=1.55
+          sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Setup GitHub CLI
+        run: |
+          sudo apt-get install -y gh
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run AI news research script
+        env:
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_ACTIONS: true # Explicitly set GITHUB_ACTIONS to true
+          DIRECT_PUSH_TO_MAIN: ${{ vars.DIRECT_PUSH_TO_MAIN }} # Add environment variable for direct push control
+        run: |
+          python scripts/research_ai_news.py
+
+      - name: Report success status
+        run: echo "AI News Workflow completed successfully."
