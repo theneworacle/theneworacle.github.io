@@ -560,6 +560,9 @@ def create_branch_and_pr(
         try:
             # Auto-merge using GitHub CLI instead
             pr_number = pr.html_url.split("/")[-1]
+            # Add a delay before attempting auto-merge
+            print("Adding a 5-second delay before attempting auto-merge...")
+            time.sleep(5)
             subprocess.run(
                 ["gh", "pr", "merge", pr_number, "--auto", "--merge"],
                 check=False
