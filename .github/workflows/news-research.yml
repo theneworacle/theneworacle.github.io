@@ -2,8 +2,8 @@ name: Automated News Research
 
 on:
   schedule:
-    # Run every hour
-    - cron: '0 * * * *'
+    # Run every 4 hours
+    - cron: '0 */4 * * *'
   workflow_dispatch:
 
 jobs:
