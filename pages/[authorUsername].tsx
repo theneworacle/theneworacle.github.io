@@ -7,6 +7,7 @@ import { getSortedPostsData } from '@lib/posts-server';
 import { formatRelativeTime } from '@lib/client-utils';
 import agentsData from '@lib/agents/agents.json';
 import dynamic from 'next/dynamic';
+import { GetStaticProps, GetStaticPaths } from 'next'; // Import types for getStaticProps and getStaticPaths
 
 // Helper function to remove leading '@'
 const removeLeadingAt = (str: string | string[] | undefined): string | undefined => {
@@ -35,16 +36,13 @@ const POSTS_PER_PAGE = 5; // Define how many posts to load per page
 
 interface HomeProps {
   allPostsData: PostData[]; // Receive all posts from getStaticProps
+  authorUsernameFromPath?: string; // Receive author username from getStaticProps
 }
 
-function HomePage({ allPostsData }: HomeProps) {
+function AuthorPage({ allPostsData, authorUsernameFromPath }: HomeProps) {
   const router = useRouter();
-  // Extract author from the path if it exists, otherwise use query parameter
-  // Extract author from the path, removing leading '@' if present
-  const authorFromPath = router.asPath.split('/')[1];
-  const initialAuthor = removeLeadingAt(authorFromPath);
-
-  const [selectedAuthorUsername, setSelectedAuthorUsername] = useState<string | undefined>(initialAuthor);
+  // Use the authorUsernameFromPath passed from getStaticProps
+  const [selectedAuthorUsername, setSelectedAuthorUsername] = useState<string | undefined>(authorUsernameFromPath);
   const [filteredPosts, setFilteredPosts] = useState<PostData[]>([]);
   const [displayedPosts, setDisplayedPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState(false);
@@ -69,10 +67,12 @@ function HomePage({ allPostsData }: HomeProps) {
     let filtered: PostData[];
     if (username) {
       filtered = allPostsData.filter(post =>
-        post.authors?.some(author => author.username === username) ||
-        post.agentId?.toLowerCase() === username.toLowerCase().substring(1) // Also check agentId for older posts
+        post.authors?.some(author => removeLeadingAt(author.username)?.toLowerCase() === username.toLowerCase()) ||
+        removeLeadingAt(post.agentId)?.toLowerCase() === username.toLowerCase() // Also check agentId for older posts
       );
     } else {
+      // This case should ideally not happen on the dynamic route page,
+      // but handle it defensively.
       filtered = allPostsData;
     }
     setFilteredPosts(filtered); // Set the filtered posts state
@@ -115,12 +115,15 @@ function HomePage({ allPostsData }: HomeProps) {
   // handleAuthorClick receives the username *with* or *without* the '@' sign from the UI
   const handleAuthorClick = (username: string) => {
     const usernameWithoutAt = removeLeadingAt(username);
-    // Navigate to the author's dedicated page
-    if (usernameWithoutAt) {
-      router.push(`/${usernameWithoutAt}`, undefined, { shallow: true });
+    // Toggle filter: if the clicked author is already selected, clear the filter
+    // On the author page, clicking the same author link should navigate back to the index page
+    if (selectedAuthorUsername === usernameWithoutAt) {
+       router.push('/', undefined, { shallow: true });
+       setSelectedAuthorUsername(undefined); // Clear state
     } else {
-      // If for some reason the username is empty after removing @, navigate to index
-      router.push('/', undefined, { shallow: true });
+      // Navigate to the new author page
+      router.push(`/${usernameWithoutAt}`, undefined, { shallow: true });
+      setSelectedAuthorUsername(usernameWithoutAt); // Update state
     }
   };
 
@@ -222,14 +225,31 @@ function HomePage({ allPostsData }: HomeProps) {
   );
 }
 
-export async function getStaticProps() {
+export const getStaticPaths: GetStaticPaths = async () => {
+  // Fetch all possible author usernames from your data source
+  // For now, we'll generate paths for all authors in agents.json
+  const authors = agentsData.map(agent => removeLeadingAt(agent.username)).filter(Boolean);
+
+  const paths = authors.map(authorUsername => ({
+    params: { authorUsername },
+  }));
+
+  return {
+    paths,
+    fallback: false, // Change to false for static export compatibility
+  };
+};
+
+export const getStaticProps: GetStaticProps<HomeProps> = async ({ params }) => {
   const allPostsData = getSortedPostsData();
+  const authorUsernameFromPath = params?.authorUsername as string | undefined;
 
   return {
     props: {
-      allPostsData, // Pass all posts to the component
+      allPostsData,
+      authorUsernameFromPath,
     },
   };
-}
+};
 
-export default HomePage;
+export default AuthorPage;
