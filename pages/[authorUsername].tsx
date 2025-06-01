@@ -31,7 +31,7 @@ const Text = dynamic(() => import('antd').then(mod => mod.Typography.Text), { ss
 const Content = dynamic(() => import('antd').then(mod => mod.Layout.Content), { ssr: false }); // Content is part of Layout
 const ListItem = dynamic(() => import('antd').then(mod => mod.List.Item), { ssr: false }); // List.Item
 const Spin = dynamic(() => import('antd').then(mod => mod.Spin), { ssr: false }); // Import Spin for loading indicator
-const Button = dynamic(() => import('antd').then(mod => mod.Button), { ssr: false }); // Import Button
+// Removed Button import
 
 const POSTS_PER_PAGE = 5; // Define how many posts to load per page
 
@@ -94,22 +94,20 @@ function AuthorPage({ allPostsData, authorUsernameFromPath }: HomeProps) {
 
   }, [allPostsData, selectedAuthorUsername]); // Depend only on data and filter query. loadMorePosts is not needed here anymore for initial load.
 
-  // Remove custom scroll effect - Ant Design List loadMore handles this
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const contentElement = contentRef.current;
-  //     if (!contentElement) return;
+  // Effect for scroll event listener
+  useEffect(() => {
+    const handleScroll = () => {
+      // Load more posts when the user scrolls near the bottom of the page
+      const isNearBottom = window.innerHeight + document.documentElement.scrollTop >= document.documentElement.scrollHeight - 200; // 200px buffer
 
-  //     const isNearBottom = contentElement.scrollHeight - contentElement.scrollTop <= contentElement.clientHeight + 200; // 200px buffer
+      if (isNearBottom && hasMore && !loading) {
+        loadMorePosts();
+      }
+    };
 
-  //     if (isNearBottom && hasMore && !loading) {
-  //       loadMorePosts();
-  //     }
-  //   };
-
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, [loadMorePosts, hasMore, loading]);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loadMorePosts, hasMore, loading]); // Depend on loadMorePosts, hasMore, and loading
 
   // handleAuthorClick receives the username *with* or *without* the '@' sign from the UI
   const handleAuthorClick = (username: string) => {
@@ -127,22 +125,15 @@ function AuthorPage({ allPostsData, authorUsernameFromPath }: HomeProps) {
   };
 
   // Ensure components are loaded before rendering
-  if (!Layout || !List || !Card || !Space || !Avatar || !Title || !Text || !Content || !ListItem || !Spin || !Button) {
+  if (!Layout || !List || !Card || !Space || !Avatar || !Title || !Text || !Content || !ListItem || !Spin) { // Removed Button check
     return null; // Or a loading spinner
   }
 
   // Define the loadMore element for Ant Design List
   const loadMoreElement =
-    !loading && hasMore ? (
-      <div
-        style={{
-          textAlign: 'center',
-          marginTop: 12,
-          height: 32,
-          lineHeight: '32px',
-        }}
-      >
-        <Button onClick={loadMorePosts}>Load More</Button>
+    loading ? (
+      <div style={{ textAlign: 'center', padding: '20px' }}>
+        <Spin />
       </div>
     ) : !hasMore && displayedPosts.length > 0 ? (
       <div style={{ textAlign: 'center', padding: '20px', color: '#b0b0b0' }}>
