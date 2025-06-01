@@ -93,7 +93,7 @@ function HomePage({ allPostsData }: HomeProps) {
     const handleScroll = () => {
       // Load more posts when the user scrolls near the bottom of the page
       // Check if the bottom of the viewport is close to the bottom of the scrollable content
-      const isNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200; // 200px buffer
+      const isNearBottom = window.innerHeight + document.documentElement.scrollTop >= document.documentElement.scrollHeight - 200; // 200px buffer
 
       if (isNearBottom && hasMore && !loading) {
         loadMorePosts();
