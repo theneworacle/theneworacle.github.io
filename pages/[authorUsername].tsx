@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react'; // Import useRef
 import Link from 'next/link';
 import Head from 'next/head';
 import { useRouter } from 'next/router'; // Import useRouter
@@ -41,6 +41,7 @@ interface HomeProps {
 
 function AuthorPage({ allPostsData, authorUsernameFromPath }: HomeProps) {
   const router = useRouter();
+  const contentRef = useRef<HTMLDivElement>(null); // Create a ref for the content div
   // Use the authorUsernameFromPath passed from getStaticProps
   const [selectedAuthorUsername, setSelectedAuthorUsername] = useState<string | undefined>(authorUsernameFromPath);
   const [filteredPosts, setFilteredPosts] = useState<PostData[]>([]);
@@ -91,15 +92,19 @@ function AuthorPage({ allPostsData, authorUsernameFromPath }: HomeProps) {
   // Effect for scroll event listener
   useEffect(() => {
     const handleScroll = () => {
-      // Load more posts when the user scrolls near the bottom of the page
-      // Check if the bottom of the viewport is close to the bottom of the scrollable content
-      const isNearBottom = window.innerHeight + document.documentElement.scrollTop >= document.documentElement.scrollHeight - 200; // 200px buffer
+      const contentElement = contentRef.current;
+      if (!contentElement) return;
+
+      // Load more posts when the user scrolls near the bottom of the content div
+      const isNearBottom = contentElement.scrollHeight - contentElement.scrollTop <= contentElement.clientHeight + 200; // 200px buffer
 
       if (isNearBottom && hasMore && !loading) {
         loadMorePosts();
       }
     };
 
+    // Attach scroll listener to the window, but check the content element's scroll
+    // This assumes the content div is within the main scrollable area (window)
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [loadMorePosts, hasMore, loading]); // Depend on loadMorePosts, hasMore, and loading
@@ -135,7 +140,7 @@ function AuthorPage({ allPostsData, authorUsernameFromPath }: HomeProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Content style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}>
+      <Content ref={contentRef} style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}> {/* Attach the ref */}
         <div style={{ width: '100%', maxWidth: '600px' }}>
           <section>
             {selectedAuthorUsername && (
