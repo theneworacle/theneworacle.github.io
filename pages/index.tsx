@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'; // Import useRef
+import React, { useState, useEffect, useCallback } from 'react'; // Removed useRef
 import Link from 'next/link';
 import Head from 'next/head';
 import { useRouter } from 'next/router'; // Import useRouter
@@ -30,6 +30,7 @@ const Text = dynamic(() => import('antd').then(mod => mod.Typography.Text), { ss
 const Content = dynamic(() => import('antd').then(mod => mod.Layout.Content), { ssr: false }); // Content is part of Layout
 const ListItem = dynamic(() => import('antd').then(mod => mod.List.Item), { ssr: false }); // List.Item
 const Spin = dynamic(() => import('antd').then(mod => mod.Spin), { ssr: false }); // Import Spin for loading indicator
+const Button = dynamic(() => import('antd').then(mod => mod.Button), { ssr: false }); // Import Button
 
 const POSTS_PER_PAGE = 5; // Define how many posts to load per page
 
@@ -39,7 +40,6 @@ interface HomeProps {
 
 function HomePage({ allPostsData }: HomeProps) {
   const router = useRouter();
-  const contentRef = useRef<HTMLDivElement>(null); // Create a ref for the content div
   // Extract author from the path if it exists, otherwise use query parameter
   // Extract author from the path, removing leading '@' if present
   const authorFromPath = router.asPath.split('/')[1];
@@ -85,29 +85,32 @@ function HomePage({ allPostsData }: HomeProps) {
     setLoading(false); // Ensure loading is false
 
     // Call loadMorePosts to load the first batch after filtering
-    loadMorePosts();
+    // loadMorePosts(); // Initial load will be handled by List's loadMore prop or initial data source
+    // Let's keep the initial load here to ensure the first batch is shown immediately
+    const initialPosts = filtered.slice(0, POSTS_PER_PAGE);
+    setDisplayedPosts(initialPosts);
+    setOffset(initialPosts.length);
+    setHasMore(initialPosts.length < filtered.length);
 
-  }, [allPostsData, selectedAuthorUsername, loadMorePosts]); // Depend on data, filter query, and loadMorePosts
 
-  // Effect for scroll event listener
-  useEffect(() => {
-    const handleScroll = () => {
-      const contentElement = contentRef.current;
-      if (!contentElement) return;
+  }, [allPostsData, selectedAuthorUsername]); // Depend on data and filter query. loadMorePosts is not needed here anymore for initial load.
 
-      // Load more posts when the user scrolls near the bottom of the content div
-      const isNearBottom = contentElement.scrollHeight - contentElement.scrollTop <= contentElement.clientHeight + 200; // 200px buffer
+  // Remove custom scroll effect - Ant Design List loadMore handles this
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const contentElement = contentRef.current;
+  //     if (!contentElement) return;
 
-      if (isNearBottom && hasMore && !loading) {
-        loadMorePosts();
-      }
-    };
+  //     const isNearBottom = contentElement.scrollHeight - contentElement.scrollTop <= contentElement.clientHeight + 200; // 200px buffer
 
-    // Attach scroll listener to the window, but check the content element's scroll
-    // This assumes the content div is within the main scrollable area (window)
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loadMorePosts, hasMore, loading]); // Depend on loadMorePosts, hasMore, and loading
+  //     if (isNearBottom && hasMore && !loading) {
+  //       loadMorePosts();
+  //     }
+  //   };
+
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, [loadMorePosts, hasMore, loading]);
 
   // handleAuthorClick receives the username *with* or *without* the '@' sign from the UI
   const handleAuthorClick = (username: string) => {
@@ -122,9 +125,29 @@ function HomePage({ allPostsData }: HomeProps) {
   };
 
   // Ensure components are loaded before rendering
-  if (!Layout || !List || !Card || !Space || !Avatar || !Title || !Text || !Content || !ListItem || !Spin) {
+  if (!Layout || !List || !Card || !Space || !Avatar || !Title || !Text || !Content || !ListItem || !Spin || !Button) {
     return null; // Or a loading spinner
   }
+
+  // Define the loadMore element for Ant Design List
+  const loadMoreElement =
+    !loading && hasMore ? (
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: 12,
+          height: 32,
+          lineHeight: '32px',
+        }}
+      >
+        <Button onClick={loadMorePosts}>Load More</Button>
+      </div>
+    ) : !hasMore && displayedPosts.length > 0 ? (
+      <div style={{ textAlign: 'center', padding: '20px', color: '#b0b0b0' }}>
+        End of posts
+      </div>
+    ) : null;
+
 
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: '#2d2d2d' }}>
@@ -137,7 +160,7 @@ function HomePage({ allPostsData }: HomeProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Content ref={contentRef} style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}> {/* Attach the ref */}
+      <Content style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}> {/* Removed ref */}
         <div style={{ width: '100%', maxWidth: '600px' }}>
           <section>
             {selectedAuthorUsername && (
@@ -154,6 +177,7 @@ function HomePage({ allPostsData }: HomeProps) {
             <List
               itemLayout="vertical"
               dataSource={displayedPosts} // Use the state variable for data source
+              loadMore={loadMoreElement} // Use Ant Design's loadMore prop
               renderItem={(post: PostData) => {
                 // Prefer authors array from frontmatter if present
                 const mainAuthor = post.authors && post.authors.length > 0 ? post.authors[0] : undefined;
@@ -202,16 +226,17 @@ function HomePage({ allPostsData }: HomeProps) {
                 );
               }}
             />
-            {loading && (
+            {/* Removed custom loading and end of posts indicators */}
+            {/* {loading && (
               <div style={{ textAlign: 'center', padding: '20px' }}>
                 <Spin />
               </div>
             )}
             {!hasMore && displayedPosts.length > 0 && (
-              <div style={{ textAlign: 'center', padding: '20px', color: '#b0b0b0' }}>
+              <div style={{ textAlign: 'center', padding: '20 왔다', color: '#b0b0b0' }}>
                 End of posts
               </div>
-            )}
+            )} */}
           </section>
         </div>
       </Content>
