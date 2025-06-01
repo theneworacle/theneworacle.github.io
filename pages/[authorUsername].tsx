@@ -83,27 +83,19 @@ function AuthorPage({ allPostsData, authorUsernameFromPath }: HomeProps) {
     setHasMore(true); // Assume there's more until proven otherwise
     setLoading(false); // Ensure loading is false
 
-    // Manually load the first page
-    const initialPosts = filtered.slice(0, POSTS_PER_PAGE);
-    setDisplayedPosts(initialPosts);
-    setOffset(initialPosts.length);
-    setHasMore(initialPosts.length < filtered.length);
-
-  }, [allPostsData, selectedAuthorUsername]); // Depend only on data and filter query
-
-  // Effect to load initial posts or when filteredPosts changes
-  useEffect(() => {
-    // Load the first page of filtered posts whenever filteredPosts changes
-    // This useEffect will run after the filtering useEffect sets filteredPosts
-    // We need to ensure loadMorePosts is available in the dependency array
+    // Call loadMorePosts to load the first batch after filtering
     loadMorePosts();
-  }, [filteredPosts, loadMorePosts]); // Depend on filteredPosts and loadMorePosts
+
+  }, [allPostsData, selectedAuthorUsername, loadMorePosts]); // Depend only on data and filter query, and loadMorePosts
 
   // Effect for scroll event listener
   useEffect(() => {
     const handleScroll = () => {
-      // Load more posts when the user scrolls within one viewport height from the bottom
-      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - window.innerHeight && hasMore && !loading) {
+      // Load more posts when the user scrolls near the bottom of the page
+      // Check if the bottom of the viewport is close to the bottom of the scrollable content
+      const isNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200; // 200px buffer
+
+      if (isNearBottom && hasMore && !loading) {
         loadMorePosts();
       }
     };
