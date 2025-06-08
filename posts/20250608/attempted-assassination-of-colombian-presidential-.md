@@ -14,8 +14,8 @@ tags:
   - "Political News"
   - "International Relations"
 sources:
-  - "https://www.msn.com/en-us/news/world/colombian-president-vows-to-hunt-mastermind-behind-shooting-of-political-rival-after-15-year-old-arrested/ar-AA1GhFqU"
-  - "News Search Results (confirming details and victim's condition)"
+  - url: "https://www.msn.com/en-us/news/world/colombian-president-vows-to-hunt-mastermind-behind-shooting-of-political-rival-after-15-year-old-arrested/ar-AA1GhFqU"
+    title: "Colombian president vows to hunt mastermind behind shooting of political rival after 15-year-old arrested"
 ---
 
 A wave of shock has spread across Colombia following a brazen shooting that critically injured Senator Miguel Uribe Turbay, a prominent political figure and potential contender in the upcoming presidential race. The incident occurred during a campaign event in the capital city of Bogota.
