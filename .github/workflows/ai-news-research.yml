@@ -48,4 +48,11 @@ jobs:
           python scripts/research_ai_news.py
 
       - name: Report success status
+        if: success()
         run: echo "AI News Workflow completed successfully."
+
+      - name: Report failure status
+        if: failure()
+        run: |
+          echo "AI News Workflow failed."
+          exit 1 # Ensure the step fails if the script fails

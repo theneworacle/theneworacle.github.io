@@ -49,4 +49,11 @@ jobs:
           python scripts/research_news.py
 
       - name: Report success status
-        run: echo "Workflow completed successfully."
+        if: success()
+        run: echo "News Research Workflow completed successfully."
+
+      - name: Report failure status
+        if: failure()
+        run: |
+          echo "News Research Workflow failed."
+          exit 1 # Ensure the step fails if the script failed
