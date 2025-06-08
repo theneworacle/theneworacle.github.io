@@ -11,7 +11,7 @@ import sys
 import uuid
 import re
 import asyncio # Needed for ADK runner
-from typing import List, Union, Dict, Any, Callable
+from typing import List, Dict, Any, Callable
 from dotenv import load_dotenv # Import load_dotenv
 import time
 import yaml # Import yaml for validation
@@ -178,9 +178,10 @@ def generate_slug(title: str) -> str:
     slug = slug.strip('-')
     return slug[:50] # Limit slug length
 
-def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: List[str], sources: List[str]) -> str:
+def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: List[str], sources: List[Dict[str, str]]) -> str:
     """Saves the markdown content to a file and sets GitHub Actions PR environment variables.
-       Uses the AUTHOR_FILTER environment variable to determine author filtering."""
+       Uses the AUTHOR_FILTER environment variable to determine author filtering.
+       Sources must be a list of objects with 'url' and 'title' keys."""
     posts_dir = "posts/" # Relative to repo root
 
     # Adjust path for script execution context
@@ -234,16 +235,20 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
         # Compose YAML frontmatter
         # Handle quotes in title and excerpt
         escaped_title = title.replace('"', '\\"')
-        escaped_excerpt = excerpt.replace('"', '\\"')
-
-        # Format tags as a YAML list
+        escaped_excerpt = excerpt.replace('"', '\\"')        # Format tags as a YAML list
         tags_yaml_list = ""
         if tags:
-            tags_yaml_list = "\n" + "\n".join(["  - \"{}\"".format(tag.replace('"', '\\"')) for tag in tags])        # Format sources as a YAML list
+            tags_yaml_list = "\n" + "\n".join(["  - \"{}\"".format(tag.replace('"', '\\"')) for tag in tags])
+        
+        # Format sources as a YAML list
         sources_yaml_list = ""
         if sources:
-            escaped_sources = [source.replace('"', '\\"') for source in sources]
-            sources_yaml_list = "\nsources:\n" + "\n".join([f'  - "{source}"' for source in escaped_sources])
+            sources_yaml_list = "\nsources:"
+            for source in sources:
+                # Sources are always objects with url and title
+                url = source['url'].replace('"', '\\"')
+                title = source.get('title', 'Untitled').replace('"', '\\"')
+                sources_yaml_list += f'\n  - url: "{url}"\n    title: "{title}"'
 
         frontmatter_str = f"""---\ntitle: \"{escaped_title}\"\nauthors:\n{authors_yaml}\ndate: \"{datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')}\"\nsummary: \"{escaped_excerpt}\"\ntags:{tags_yaml_list}{sources_yaml_list}\n---\n\n"""
 
@@ -511,12 +516,10 @@ async def run_research_pipeline(
     fetch_keywords: str = "" # Added parameter for fetch keywords
 ):
     """Runs the core research pipeline with configurable parameters."""
-    print(f"Gemini ADK Sequential Pipeline: Starting {pipeline_name} process...")
-
-    # Define agents for the SequentialAgent pipeline
+    print(f"Gemini ADK Sequential Pipeline: Starting {pipeline_name} process...")    # Define agents for the SequentialAgent pipeline
     # Pass agents_data to the writer agent's instruction or make it read it internally
     # Reading internally is simpler for this structure.
-
+    
     lead_author_agent = Agent(
         name=f"{app_name}_lead_author",
         model=GEMINI_MODEL,
@@ -530,17 +533,15 @@ async def run_research_pipeline(
         name=f"{app_name}_researcher",
         model=GEMINI_MODEL,
         description=f"Researcher who gathers more information and social sentiment for a given story for {pipeline_name}.",
-        instruction="You are the researcher. Given a story (title and url) from the lead author, use search_news_tool, scrape_article_tool, and search_social_sentiment to gather more information from other news sources and social media. Summarize your findings for the writer agent.",
-        tools=[search_news_tool, scrape_article_tool, search_social_sentiment],
+        instruction="You are the researcher. Given a story (title and url) from the lead author, use search_news_tool, scrape_article_tool, and search_social_sentiment to gather more information from other news sources and social media. Summarize your findings for the writer agent.",        tools=[search_news_tool, scrape_article_tool, search_social_sentiment],
         output_key="research_findings"
     )
 
     writer_agent = Agent(
         name=f"{app_name}_writer",
         model=GEMINI_MODEL,
-        description=f"Writer who drafts the blog post based on selected story details and research findings for {pipeline_name}.",
-        instruction="You are the writer. Given the selected story details (title, url) and research findings, write a compelling, well-structured blog post in markdown. Include title, excerpt, content, tags, and sources. Output a JSON string with these fields.",
-        tools=[],
+        description=f"Writer who drafts the blog post based on selected story details and research findings for {pipeline_name}.",        instruction="You are the writer. Given the selected story details (title, url) and research findings, write a compelling, well-structured blog post in markdown. Include title, excerpt, content, tags, and sources. CRITICAL: For the sources field, use scrape_article_tool to get the actual content from each URL and extract the real article title from that content. The sources field must be an array of objects with both 'url' and 'title' properties where the title is the actual article headline extracted from the scraped content. For example: [{'url': 'https://example.com/article', 'title': 'Actual Article Headline from Content'}, {'url': 'https://another.com/news', 'title': 'Real News Title from Scraped Page'}]. Include the original story URL and any additional URLs from the research findings. Output a JSON string with these fields: title, excerpt, content, tags, sources.",
+        tools=[scrape_article_tool],
         output_key="blog_post_json_string"
     )
 
