@@ -1,6 +1,7 @@
 import json
 import os
 import requests
+import json
 from bs4 import BeautifulSoup
 from duckduckgo_search import DDGS
 from datetime import datetime
@@ -177,9 +178,9 @@ def generate_slug(title: str) -> str:
     slug = slug.strip('-')
     return slug[:50] # Limit slug length
 
-def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: List[str], sources: List[str], author_filter_func: Callable[[Dict[str, Any]], bool] = None) -> str:
+def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: List[str], sources: List[str]) -> str:
     """Saves the markdown content to a file and sets GitHub Actions PR environment variables.
-       Optionally filters authors using author_filter_func."""
+       Uses the AUTHOR_FILTER environment variable to determine author filtering."""
     posts_dir = "posts/" # Relative to repo root
 
     # Adjust path for script execution context
@@ -201,8 +202,7 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
         title_slug = title_slug.replace(' ', '-').lower()[:50] # Limit length
         filename = f"{timestamp}-{title_slug}.md"
         filepath = os.path.join(full_posts_dir, filename)
-    else:
-        # Use date for folder, slug for filename
+    else:        # Use date for folder, slug for filename
         date_folder = datetime.utcnow().strftime('%Y%m%d')
         title_slug = generate_slug(title)[:50]  # Limit slug length to 50 chars
         filename = f"{title_slug}.md"
@@ -214,11 +214,15 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
     try:
         # Read all agents and filter for lead authors
         agents = read_agents()
-        lead_authors = [a for a in agents if a.get('role') == 'Author'] if agents else []
-
-        # Apply optional author filter
-        if author_filter_func:
-            filtered_authors = [a for a in lead_authors if author_filter_func(a)]
+        lead_authors = [a for a in agents if a.get('role') == 'Author'] if agents else []        # Apply author filter based on environment variable
+        author_filter = os.environ.get("AUTHOR_FILTER", None)
+        if author_filter and author_filter.startswith("@"):
+            # Filter for specific author by username
+            filtered_authors = [a for a in lead_authors if a.get('username') == author_filter]
+        elif author_filter:
+            # Filter for specific author by username (add @ if missing)
+            username_with_at = f"@{author_filter}" if not author_filter.startswith("@") else author_filter
+            filtered_authors = [a for a in lead_authors if a.get('username') == username_with_at]
         else:
             # Default to all lead authors if no filter is provided
             filtered_authors = lead_authors
@@ -235,12 +239,11 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
         # Format tags as a YAML list
         tags_yaml_list = ""
         if tags:
-            tags_yaml_list = "\n" + "\n".join(["  - \"{}\"".format(tag.replace('"', '\\"')) for tag in tags])
-
-        # Format sources as a YAML list
+            tags_yaml_list = "\n" + "\n".join(["  - \"{}\"".format(tag.replace('"', '\\"')) for tag in tags])        # Format sources as a YAML list
         sources_yaml_list = ""
         if sources:
-            sources_yaml_list = "\nsources:\n" + "\n".join([f"  - \"{source.replace('\"', '\\\"')}\"" for source in sources]) # Escape quotes in sources
+            escaped_sources = [source.replace('"', '\\"') for source in sources]
+            sources_yaml_list = "\nsources:\n" + "\n".join([f'  - "{source}"' for source in escaped_sources])
 
         frontmatter_str = f"""---\ntitle: \"{escaped_title}\"\nauthors:\n{authors_yaml}\ndate: \"{datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')}\"\nsummary: \"{escaped_excerpt}\"\ntags:{tags_yaml_list}{sources_yaml_list}\n---\n\n"""
 
@@ -501,11 +504,11 @@ async def run_research_pipeline(
     app_name: str,
     user_id: str,
     session_id: str,
-    fetch_stories_tool: Callable[[], list],
-    author_filter_func: Callable[[Dict[str, Any]], bool] = None,
+    fetch_stories_tool: Callable[[str], list], # Modified type hint to accept keywords
     branch_prefix: str = "automated-research",
     pr_title_prefix: str = "Automated Research",
-    commit_message_prefix: str = "feat: Add automated research post"
+    commit_message_prefix: str = "feat: Add automated research post",
+    fetch_keywords: str = "" # Added parameter for fetch keywords
 ):
     """Runs the core research pipeline with configurable parameters."""
     print(f"Gemini ADK Sequential Pipeline: Starting {pipeline_name} process...")
@@ -517,9 +520,9 @@ async def run_research_pipeline(
     lead_author_agent = Agent(
         name=f"{app_name}_lead_author",
         model=GEMINI_MODEL,
-        description=f"Lead author who selects top stories using {fetch_stories_tool.__name__}, checks for duplicates against existing post excerpts, and assigns research tasks.",
-        instruction=f"You are the lead author for {pipeline_name}. Fetch top stories using {fetch_stories_tool.__name__}. Get existing post excerpts using get_existing_post_excerpts. Iterate through the fetched top stories and compare their titles/summaries against the existing post excerpts to find the first story that is NOT a duplicate. Output the title and url of the selected story as a JSON string.",
-        tools=[fetch_stories_tool, get_existing_post_excerpts],
+        description=f"Lead author who selects top stories using fetch_news_stories with keywords '{fetch_keywords}', checks for duplicates against existing post excerpts, and assigns research tasks.", # Updated description
+        instruction=f"You are the lead author for {pipeline_name}. Fetch top stories using fetch_news_stories with keywords '{fetch_keywords}'. Get existing post excerpts using get_existing_post_excerpts. Iterate through the fetched top stories and compare their titles/summaries against the existing post excerpts to find the first story that is NOT a duplicate. Output the title and url of the selected story as a JSON string.", # Updated instruction
+        tools=[fetch_news_stories, get_existing_post_excerpts], # Use the generic fetch_news_stories
         output_key="selected_story"
     )
 
@@ -578,18 +581,11 @@ async def run_research_pipeline(
     print("--- ADK Runner Events ---")
     content = types.Content(role="user", parts=[types.Part(text=initial_prompt)])
 
-    try:
-        # Run the pipeline directly
+    try:        # Run the pipeline directly
         events = runner.run_async(
             user_id=user_id,
             session_id=session_id,
-            new_message=content,
-            # Pass the author filter function to the save tool via the runner context
-            tool_context={
-                save_and_set_pr_details_tool.__name__: {
-                    "author_filter_func": author_filter_func
-                }
-            }
+            new_message=content
         )
 
         final_response_text = "Pipeline finished without final response"
@@ -691,3 +687,26 @@ async def run_research_pipeline(
         print("Not running in GitHub Actions or no new post saved. Skipping Git operations.")
 
     return pipeline_ran_successfully
+
+# Main execution
+if __name__ == "__main__":
+    # Get configuration from environment variables
+    initial_prompt = os.environ.get("RESEARCH_PROMPT", "Perform research for a blog post.")
+    fetch_keywords = os.environ.get("FETCH_KEYWORDS", "")
+
+    # Run the async pipeline with proper cleanup
+    pipeline_ran_successfully = asyncio.run(run_research_pipeline(
+        initial_prompt=initial_prompt,
+        pipeline_name=f"{fetch_keywords.replace(' ', '_')}_ResearchPipeline", # Dynamic pipeline name
+        app_name=f"{fetch_keywords.replace(' ', '_')}_research_app", # Dynamic app name
+        user_id=f"{fetch_keywords.replace(' ', '_')}_user", # Dynamic user id
+        session_id=f"{fetch_keywords.replace(' ', '_')}_session", # Dynamic session id
+        fetch_stories_tool=fetch_news_stories, # Use the generic fetch tool
+        branch_prefix=os.environ.get("BRANCH_PREFIX", "automated-research"),
+        pr_title_prefix=os.environ.get("PR_TITLE_PREFIX", "Automated Research"),
+        commit_message_prefix=os.environ.get("COMMIT_MESSAGE_PREFIX", "feat: Add automated research post"),
+        fetch_keywords=fetch_keywords # Pass keywords to the pipeline runner
+    ))
+
+    if not pipeline_ran_successfully:
+        sys.exit(1) # Indicate failure if the pipeline did not run successfully

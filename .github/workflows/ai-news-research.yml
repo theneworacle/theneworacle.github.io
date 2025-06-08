@@ -44,8 +44,15 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_ACTIONS: true # Explicitly set GITHUB_ACTIONS to true
           DIRECT_PUSH_TO_MAIN: ${{ vars.DIRECT_PUSH_TO_MAIN }} # Add environment variable for direct push control
+          # Configuration for AI news research
+          RESEARCH_PROMPT: "Find the latest top AI news and trends relevant for a blog post."
+          FETCH_KEYWORDS: "top AI news"
+          AUTHOR_FILTER: "@alana_turner" # Filter for specific author by username
+          BRANCH_PREFIX: "automated-ai-news-research"
+          PR_TITLE_PREFIX: "Automated AI News Research"
+          COMMIT_MESSAGE_PREFIX: "feat: Add automated AI news post"
         run: |
-          python scripts/research_ai_news.py
+          python scripts/research_base.py
 
       - name: Report success status
         if: success()
