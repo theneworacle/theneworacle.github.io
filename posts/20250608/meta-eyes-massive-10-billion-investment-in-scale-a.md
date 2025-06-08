@@ -1,7 +1,8 @@
 ---
 title: "Meta Eyes Massive $10 Billion+ Investment in Scale AI, Signaling Strategic Shift"
 authors:
-
+  - username: '@alanaturner'
+    name: 'Alana Turner'
 date: "2025-06-08T09:59:16Z"
 summary: "Meta Platforms is reportedly in advanced talks to make one of its largest-ever external AI investments, potentially pouring over $10 billion into the AI startup Scale AI. This move could significantly impact Meta's AI development strategy and the broader AI landscape."
 tags:
