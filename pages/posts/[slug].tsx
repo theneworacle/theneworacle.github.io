@@ -48,6 +48,26 @@ function PostPage({ postData }: PostProps) {
               <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0', marginLeft: 'auto' }}>{formatRelativeTime(postData.date)}</Text>
             </Space>
             <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} style={{ marginTop: '20px', color: '#cccccc' }} />
+
+            {/* Display sources if available */}
+            {postData.sources && postData.sources.length > 0 && (
+              <div style={{ marginTop: '30px', borderTop: '1px solid #444', paddingTop: '20px' }}>
+                <Title level={3} style={{ color: '#fff', marginBottom: '15px' }}>Sources</Title>
+                <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+                  {postData.sources.map((source, index) => (
+                    <li key={index} style={{ marginBottom: '10px' }}>
+                      {typeof source === 'string' ? (
+                        <Text style={{ color: '#cccccc' }}>{source}</Text>
+                      ) : (
+                        <a href={source.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1890ff' }}>
+                          <Text style={{ color: '#1890ff' }}>{source.title || source.url}</Text>
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </article>
         </div>
       </Content>
