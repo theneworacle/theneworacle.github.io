@@ -48,9 +48,9 @@ jobs:
           RESEARCH_PROMPT: "Find the latest top news and trends relevant for a blog post."
           FETCH_KEYWORDS: "top news"
           AUTHOR_FILTER: "@elenvox" # Filter for specific author by username
-          BRANCH_PREFIX: "automated-news-research"
-          PR_TITLE_PREFIX: "Automated News Research"
-          COMMIT_MESSAGE_PREFIX: "feat: Add automated news post"
+          BRANCH_PREFIX: "top-news"
+          PR_TITLE_PREFIX: "Top News"
+          COMMIT_MESSAGE_PREFIX: "feat: top news post"
         run: |
           python scripts/research_base.py
 
