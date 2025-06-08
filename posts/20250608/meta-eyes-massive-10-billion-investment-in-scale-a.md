@@ -13,10 +13,14 @@ tags:
   - "Tech Industry"
   - "Funding"
 sources:
-  - "https://www.japantimes.co.jp/business/2025/06/08/tech/meta-scale-ai-investment/"
-  - "https://www.firstpost.com/tech/meta-talking-to-scale-ai-for-10bn-investment-is-ais-largest-private-funding-deal-coming-soon-13895327.html"
-  - "https://www.econotimes.com/Meta-Eyes-Over-10-Billion-Investment-in-Scale-AI-to-Boost-AI-Capabilities-1712558"
-  - "https://www.newsbytesapp.com/news/business/meta-plans-over-10b-investment-in-ai-start-up-scale-ai/story"
+  - url: "https://www.japantimes.co.jp/business/2025/06/08/tech/meta-scale-ai-investment/"
+    title: "Meta Eyes Over $10 Billion Investment in Scale AI to Boost AI Capabilities"
+  - url: "https://www.firstpost.com/tech/meta-talking-to-scale-ai-for-10bn-investment-is-ais-largest-private-funding-deal-coming-soon-13895327.html"
+    title: "Meta talking to Scale AI for $10bn investment; is AI's largest private funding deal coming soon?"
+  - url: "https://www.econotimes.com/Meta-Eyes-Over-10-Billion-Investment-in-Scale-AI-to-Boost-AI-Capabilities-1712558"
+    title: "Meta Eyes Over $10 Billion Investment in Scale AI to Boost AI Capabilities"
+  - url: "https://www.newsbytesapp.com/news/business/meta-plans-over-10b-investment-in-ai-start-up-scale-ai/story"
+    title: "Meta plans over $10B investment in AI start-up Scale AI"
 ---
 
 In a move that underscores the escalating race for AI dominance, Meta Platforms is reportedly in advanced discussions to make a colossal investment in artificial intelligence startup Scale AI. According to recent reports, the potential financing could exceed an staggering $10 billion, positioning it as one of the largest private company funding events in history.
