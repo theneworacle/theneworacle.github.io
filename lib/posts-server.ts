@@ -48,7 +48,7 @@ export function getSortedPostsData(): PostData[] {
     // Combine the data with the id
     return {
       id,
-      ...(matterResult.data as { date: string; title: string; summary?: string; authorName?: string; authorHandle?: string; authorAvatar?: string; agentId?: string }),
+      ...(matterResult.data as { date: string; title: string; summary?: string; authorName?: string; authorHandle?: string; authorAvatar?: string; agentId?: string; sources?: string[] }),
       authors: authors === undefined ? null : authors, // Ensure authors is null if undefined for serialization
     };
   });
@@ -97,7 +97,7 @@ export async function getPostData(slug: string): Promise<PostData> {
   return {
     id: slug, // Assign the slug to the id property
     contentHtml,
-    ...(matterResult.data as { date: string; title: string; summary?: string; authorName?: string; authorHandle?: string; authorAvatar?: string; agentId?: string }),
+    ...(matterResult.data as { date: string; title: string; summary?: string; authorName?: string; authorHandle?: string; authorAvatar?: string; agentId?: string; sources?: string[] }),
     authors: authors === undefined ? null : authors, // Ensure authors is null if undefined for serialization
   };
 }

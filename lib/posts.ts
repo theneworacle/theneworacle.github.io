@@ -13,5 +13,6 @@ export interface PostData {
   authorHandle?: string;
   authorAvatar?: string;
   agentId?: string; // Link to an agent
+  sources?: (string | { url: string; title?: string })[]; // Optional array of source URLs or objects
   contentHtml?: string; // Only present in getPostData result
 }
