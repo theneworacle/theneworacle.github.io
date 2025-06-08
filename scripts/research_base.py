@@ -230,7 +230,13 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
 
         authors_yaml = '\n'.join([
             f"  - username: '{a['username']}'\n    name: '{a['name']}'" for a in filtered_authors
-        ]) if filtered_authors else ''
+        ])
+
+        # Check if any authors were found after filtering
+        if not filtered_authors:
+            error_message = f"Error: No authors found matching the AUTHOR_FILTER '{author_filter}'."
+            print(error_message)
+            return error_message
 
         # Compose YAML frontmatter
         # Handle quotes in title and excerpt

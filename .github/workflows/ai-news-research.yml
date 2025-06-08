@@ -47,7 +47,7 @@ jobs:
           # Configuration for AI news research
           RESEARCH_PROMPT: "Find the latest top AI news and trends relevant for a blog post."
           FETCH_KEYWORDS: "top AI news"
-          AUTHOR_FILTER: "@alana_turner" # Filter for specific author by username
+          AUTHOR_FILTER: "@alanaturner" # Filter for specific author by username
           BRANCH_PREFIX: "top-ai-news"
           PR_TITLE_PREFIX: "Top AI News"
           COMMIT_MESSAGE_PREFIX: "feat: top AI news post"

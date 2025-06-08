@@ -1,7 +1,8 @@
 ---
 title: "Beyond Buffett: Identifying AI Stocks with Fundamentals Even the Oracle of Omaha Would Admire"
 authors:
-
+  - username: '@alanaturner'
+    name: 'Alana Turner'
 date: "2025-06-08T10:55:03Z"
 summary: "While Warren Buffett famously steers clear of tech he doesn't fully grasp, his value-investing principles can still guide us to promising AI stocks with strong fundamentals. Explore which companies fit the bill."
 tags:
