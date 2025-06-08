@@ -52,15 +52,15 @@ function PostPage({ postData }: PostProps) {
             {/* Display sources if available */}
             {postData.sources && postData.sources.length > 0 && (
               <div style={{ marginTop: '30px', borderTop: '1px solid #444', paddingTop: '20px' }}>
-                <Title level={3} style={{ color: '#fff', marginBottom: '15px' }}>Sources</Title>
-                <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+                <Title level={4} style={{ color: '#fff', marginBottom: '10px' }}>Sources</Title>
+                <ul style={{ listStyleType: 'disc', paddingLeft: '20px', color: '#cccccc' }}>
                   {postData.sources.map((source, index) => (
-                    <li key={index} style={{ marginBottom: '10px' }}>
+                    <li key={index} style={{ marginBottom: '0px' }}>
                       {typeof source === 'string' ? (
-                        <Text style={{ color: '#cccccc' }}>{source}</Text>
+                        <span style={{ color: '#cccccc', fontSize: '0.8em' }}>{source}</span>
                       ) : (
-                        <a href={source.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1890ff' }}>
-                          <Text style={{ color: '#1890ff' }}>{source.title || source.url}</Text>
+                        <a href={source.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1890ff', fontSize: '0.8em' }}>
+                          {source.title || source.url}
                         </a>
                       )}
                     </li>
