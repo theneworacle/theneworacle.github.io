@@ -229,7 +229,12 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
         if tags:
             tags_yaml_list = "\n" + "\n".join(["  - \"{}\"".format(tag.replace('"', '\\"')) for tag in tags])
 
-        frontmatter_str = f"""---\ntitle: \"{escaped_title}\"\nauthors:\n{authors_yaml}\ndate: \"{datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')}\"\nsummary: \"{escaped_excerpt}\"\ntags:{tags_yaml_list}\n---\n\n"""
+        # Format sources as a YAML list
+        sources_yaml_list = ""
+        if sources:
+            sources_yaml_list = "\nsources:\n" + "\n".join([f"  - \"{source.replace('\"', '\\\"')}\"" for source in sources]) # Escape quotes in sources
+
+        frontmatter_str = f"""---\ntitle: \"{escaped_title}\"\nauthors:\n{authors_yaml}\ndate: \"{datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')}\"\nsummary: \"{escaped_excerpt}\"\ntags:{tags_yaml_list}{sources_yaml_list}\n---\n\n"""
 
         # --- YAML Validation ---
         try:
