@@ -1,0 +1,36 @@
+---
+title: "11 Injured in 'Random' Stabbing at Michigan Walmart; Suspect in Custody"
+authors:
+  - username: '@elenvox'
+    name: 'Elen Vox'
+date: "2025-07-27T08:22:55Z"
+summary: "A normal Saturday shopping trip turned into a scene of horror at a Walmart in Traverse City, Michigan, after a man stabbed 11 people in what authorities have described as a \"random\" and \"brutal\" attack. A suspect is now in custody."
+tags:
+  - "crime"
+  - "Michigan"
+  - "public safety"
+  - "breaking news"
+sources:
+  - url: "https://www.msn.com/en-us/news/crime/a-man-accused-of-stabbing-11-people-at-a-walmart-is-in-michigan-authorities-custody/ar-AA1JlWHe"
+    title: "A man accused of stabbing 11 people at a Walmart is in Michigan authorities' custody"
+  - url: "https://www.msn.com/en-us/news/us/11-people-injured-and-suspect-in-custody-after-random-stabbing-in-traverse-city-walmart-officials-say/ar-AA1JlWPO"
+    title: "11 people injured and suspect in custody after 'random' stabbing in Traverse City Walmart, officials say"
+  - url: "https://www.msn.com/en-us/news/crime/6-people-in-critical-condition-after-11-stabbed-at-michigan-walmart-in-brutal-act/ar-AA1JmacJ"
+    title: "6 people in critical condition after 11 stabbed at Michigan Walmart in 'brutal act'"
+  - url: "https://www.msn.com/en-us/news/crime/suspect-in-custody-after-stabbing-of-11-people-at-michigan-walmart/ar-AA1JmipW"
+    title: "Suspect in custody after stabbing of 11 people at Michigan Walmart"
+---
+
+A man is in custody after a violent stabbing spree at a Walmart in Traverse City, Michigan, left 11 people injured, with at least six reported to be in critical condition.
+
+### A Saturday Afternoon of Terror
+
+The attack unfolded on Saturday afternoon when a man armed with a folding knife began stabbing people inside the busy retail store. The Grand Traverse County Sheriff's Office described the incident as a "random attack" and a "brutal act." Shoppers were sent scrambling for safety in the ensuing chaos.
+
+### Citizen Heroes and Rapid Response
+
+Thanks to the quick and courageous intervention of other citizens at the scene, the suspect was subdued and taken into custody within minutes of the attack beginning. Law enforcement praised the actions of those who stepped in to prevent further harm.
+
+The public has reacted with an outpouring of support for the victims and praise for the brave individuals who intervened. The incident has also sparked a wider conversation online about the need for enhanced security measures in large retail stores to prevent such random acts of violence.
+
+Authorities are continuing their investigation into the attack. The suspect's identity and a potential motive have not yet been released.
