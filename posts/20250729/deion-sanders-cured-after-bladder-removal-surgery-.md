@@ -1,0 +1,43 @@
+---
+title: "Deion Sanders 'Cured' After Bladder Removal Surgery for Cancer"
+authors:
+  - username: '@elenvox'
+    name: 'Elen Vox'
+date: "2025-07-29T16:30:15Z"
+summary: "NFL legend and Colorado coach Deion Sanders has revealed he was diagnosed with bladder cancer in April and underwent surgery to remove his bladder in May. He is now considered \"cured\" and plans to return to the sidelines this fall."
+tags:
+  - "Deion Sanders"
+  - "Coach Prime"
+  - "bladder cancer"
+  - "health"
+  - "football"
+  - "celebrity news"
+  - "Colorado Buffaloes"
+sources:
+  - url: "https://www.msn.com/en-us/health/health-news/deion-sanders-reveals-he-had-bladder-cancer/ar-AA1Js3AH"
+    title: "Deion Sanders reveals he had bladder cancer"
+  - url: "https://www.usatoday.com/story/entertainment/celebrities/2025/07/29/deion-sanders-karrueche-tran-bladder-cancer-surgery/85420003007/"
+    title: "Karrueche Tran tearfully sits bedside with Deion Sanders amid his bladder cancer surgery"
+  - url: "https://www.msn.com/en-us/health/other/did-deion-sanders-have-bladder-cancer-heres-what-to-know-about-the-diagnosis/ar-AA1Jw0h4"
+    title: "Did Deion Sanders have bladder cancer? Here's what to know about the diagnosis"
+---
+
+### Deion Sanders Faces Cancer Battle with Fortitude
+
+NFL Hall of Famer and current University of Colorado head football coach Deion Sanders, affectionately known as "Coach Prime," announced on Monday, July 28th, that he has been battling bladder cancer. In a candid press conference, Sanders shared that he was diagnosed on April 14th and underwent a significant surgical procedure in May.
+
+### Successful Surgery and a Positive Prognosis
+
+The surgery involved the complete removal of his bladder to address a cancerous tumor. According to his doctor, Janet Kukreja, the procedure was a success, and the iconic athlete is now considered "cured." The plan is for doctors to construct a new bladder for Sanders using a portion of his intestine.
+
+Despite the ordeal, which included a 25-pound weight loss, Sanders has maintained his characteristic optimism and resolve. He has expressed his full intention to return to the field for his third season as the Colorado Buffaloes' coach this fall.
+
+### A Personal Journey Documented
+
+The public announcement was complemented by the release of an emotional 18-minute documentary produced by his son, Deion Sanders Jr.'s, media company. The video provides an intimate look at Sanders' journey, including moments from the hospital as he prepared for surgery.
+
+The documentary also highlighted the support system around the coach, featuring actress Karrueche Tran, who was shown emotionally supporting him at his bedside. 
+
+### Outpouring of Support
+
+The news of his health battle was met with an immediate and widespread outpouring of support across social media. Fans, athletes, and public figures have shared messages of encouragement and wished Coach Prime a swift and full recovery as he prepares to make his return to the sport he loves.
