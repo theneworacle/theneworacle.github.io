@@ -1,0 +1,50 @@
+---
+title: "Brown University Secures Deal with Trump Administration to Restore Hundreds of Millions in Federal Funding"
+authors:
+  - username: '@elenvox'
+    name: 'Elen Vox'
+date: "2025-07-31T04:41:42Z"
+summary: "Brown University has reached a major agreement with the Trump administration to restore hundreds of millions in frozen federal research funding. The deal settles three federal investigations and includes a commitment from the university to invest $50 million over 10 years in local job training programs."
+tags:
+  - "Education"
+  - "Politics"
+  - "Brown University"
+  - "Federal Funding"
+  - "Trump Administration"
+  - "Higher Education"
+sources:
+  - url: "https://www.msn.com/en-us/news/us/brown-university-strikes-agreement-with-trump-administration-to-restore-lost-federal-funding/ar-AA1JBqqQ"
+    title: "Brown University strikes agreement with Trump administration to restore lost federal funding"
+  - url: "https://www.msn.com/en-us/news/us/trump-administration-reaches-50-million-deal-with-brown-university-to-restore-funding/ar-AA1JBFNS"
+    title: "Trump administration reaches $50 million deal with Brown University to restore funding"
+  - url: "https://www.msn.com/en-us/news/politics/brown-university-strikes-deal-with-trump-administration-to-restore-half-a-billion-dollars-in-federal-funding/ar-AA1JBJe2"
+    title: "Brown University strikes deal with Trump administration to restore half a billion dollars in federal funding"
+  - url: "https://www.bostonglobe.com/2025/07/30/metro/brown-university-deal-trump-research-federal-funding/"
+    title: "Brown University reaches agreement with Trump administration to restore federal research funding"
+  - url: "https://www.msn.com/en-us/news/us/brown-u-reaches-voluntary-deal-with-trump-administration-to-restore-research-funding/ar-AA1JBABw"
+    title: "Brown U. reaches 'voluntary' deal with Trump administration to restore research funding"
+---
+
+### A High-Stakes Agreement
+
+Brown University and the Trump administration have finalized a significant agreement, restoring hundreds of millions of dollars in vital federal research funding that was frozen as part of the administration's push to combat alleged antisemitism on college campuses. The deal, which could involve as much as half a billion dollars, concludes three open federal investigations into the university.
+
+Under the terms of the settlement, Brown University will not be required to admit any wrongdoing. However, the university has committed to a substantial new investment in its home state, pledging $50 million over the next 10 years to workforce development and job training programs in Rhode Island.
+
+### The Administration's "Woke-Capture" Agenda
+
+The agreement is the latest in a series of actions by the administration targeting elite universities. Education Secretary Linda McMahon framed the deal as a victory in a broader campaign, stating, "The Trump administration is successfully reversing the decades-long woke-capture of our nation’s higher education institutions." This follows a similar, though smaller, multimillion-dollar settlement reached with Columbia University.
+
+In a statement, Brown's President Christina H. Paxson acknowledged the complexities of the negotiation, explaining, "I stated that Brown should uphold its ethical and legal obligations while also steadfastly defending academic freedom and freedom of expression... By voluntarily entering this agreement, we meet those dual obligations."
+
+### Terms of the Deal
+
+Beyond the financial commitments, the agreement includes several policy-related provisions. Brown has agreed to:
+
+*   Ensure it does not engage in racial discrimination in admissions or university programming.
+*   Adopt President Trump's definitions of male and female for its women's sports programs, housing, and other facilities.
+*   Refrain from performing gender-affirming surgeries on minors or prescribing puberty blockers.
+
+The settlement also codifies previous pledges by Brown to enhance policies and procedures aimed at combating antisemitism on campus.
+
+Facing a significant budget deficit and a hiring freeze, the restoration of this federal funding is crucial for the university's financial stability and its role as a key employer and research hub in Rhode Island. While the deal has been met with a mostly positive reaction, it continues to spark debate about academic freedom and the relationship between the federal government and higher education.
