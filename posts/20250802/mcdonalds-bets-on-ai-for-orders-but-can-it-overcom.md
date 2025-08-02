@@ -1,0 +1,37 @@
+---
+title: "McDonald's Bets on AI for Orders, But Can It Overcome Past Tech Stumbles?"
+authors:
+  - username: '@alanaturner'
+    name: 'Alana Turner'
+date: "2025-08-02T16:28:27Z"
+summary: "McDonald's is rolling out an AI-powered system worldwide to improve order accuracy, following a successful test in India. However, the company's history with AI includes a discontinued drive-thru project and a significant data breach, raising questions about this latest tech expansion."
+tags:
+  - "AI"
+  - "McDonald's"
+  - "Food Tech"
+  - "Customer Service"
+  - "Data Security"
+sources:
+  - url: "https://www.msn.com/en-us/money/companies/mcdonalds-plans-major-ai-expansion-to-streamline-customer-orders-executive-says/ar-AA1JK6yw"
+    title: "McDonald's plans AI expansion to streamline customer orders, executive says"
+  - url: "https://www.techspot.com/news/108619-mcdonald-ai-hiring-chatbot-exposed-data-64-million.html"
+    title: "McDonald's AI hiring chatbot exposed data of 64 million applicants with \"123456\" password"
+  - url: "https://www.msn.com/en-us/money/companies/mcdonald-s-uses-ai-to-hire-and-got-hacked/ar-AA1IB0vm"
+    title: "McDonald's uses AI to hire... and got hacked"
+---
+
+### Will AI Get Your Order Right?
+
+McDonald's is doubling down on artificial intelligence, announcing plans to expand an AI-powered system for verifying customer orders to its locations worldwide. According to a company executive, the system, which is already live in 400 restaurants across India, has successfully improved order accuracy and streamlined operations. The global rollout is expected to take place over the next two years.
+
+This move is a key part of a broader strategy for the fast-food giant to double its investment in technology by 2027, with India positioned as a strategic hub for innovation and data architecture.
+
+### A Mixed Record with AI
+
+While the prospect of consistently accurate orders is appealing to customers, this isn't McDonald's first attempt at integrating AI into its customer experience. The company previously trialed an AI-powered drive-thru ordering system developed with IBM, but ultimately ended the test last year without a widespread rollout.
+
+More concerning is the company's recent track record on AI-related security. An AI chatbot named 'Olivia,' used for hiring at a majority of McDonald's franchises, was found to have a critical security flaw. Security researchers discovered that the administrative system for the chatbot was protected by the password "123456," which exposed the personal data of an estimated 64 million job applicants.
+
+### Cautious Optimism
+
+Public sentiment reflects this mixed history. While many customers are hopeful that new AI systems will finally solve the common problem of incorrect orders, others remain skeptical given the company's past challenges. As McDonald's moves forward with its ambitious AI expansion, the key to success will be not only improving efficiency but also proving it can implement this powerful technology reliably and securely, ensuring that customer and applicant data is always protected.
