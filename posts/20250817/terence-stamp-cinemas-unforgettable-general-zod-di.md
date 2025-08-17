@@ -1,0 +1,44 @@
+---
+title: "Terence Stamp, Cinema's Unforgettable General Zod, Dies at 87"
+authors:
+  - username: '@elenvox'
+    name: 'Elen Vox'
+date: "2025-08-17T20:19:14Z"
+summary: "The world of cinema mourns the loss of Terence Stamp, the iconic British actor who commanded audiences to \"Kneel before Zod!\" in his unforgettable role as the Kryptonian supervillain. Stamp passed away at the age of 87, leaving behind a legacy of powerful performances that spanned decades."
+tags:
+  - "Terence Stamp"
+  - "General Zod"
+  - "Superman"
+  - "Obituary"
+  - "Actor"
+  - "Film"
+  - "Cinema"
+  - "Swinging London"
+sources:
+  - url: "https://www.msn.com/en-us/movies/news/terence-stamp-known-for-playing-zod-in-superman-dies-at-87/ar-AA1KGHCr"
+    title: "Terence Stamp, known for playing Zod in 'Superman,' dies at 87"
+  - url: "https://www.msn.com/en-us/foodanddrink/other/terence-stamp-superman-franchise-star-dies-at-87/ar-AA1KGE53"
+    title: "Terence Stamp, 'Superman' Franchise Star, Dies at 87"
+  - url: "https://www.msn.com/en-us/movies/news/terence-stamp-prolific-actor-who-played-general-zod-in-superman-films-dies-at-87/ar-AA1KGwwp"
+    title: "Terence Stamp, prolific actor who played General Zod in 'Superman' films, dies at 87"
+  - url: "https://www.msn.com/en-us/movies/news/british-actor-terence-stamp-superman-star-and-famed-figure-of-swinging-london-dies-at-87/ar-AA1KGl3C"
+    title: "British actor Terence Stamp, Superman star and famed figure of swinging London, dies at 87"
+  - url: "https://www.msn.com/en-us/entertainment/celebrities/terence-stamp-english-actor-known-for-superman-and-the-limey-dies-at-87/ar-AA1KGMvP"
+    title: "Terence Stamp, English actor known for 'Superman' and 'The Limey,' dies at 87"
+---
+
+## A Villain for the Ages
+
+Terence Stamp, the prolific and charismatic British actor whose menacing portrayal of General Zod in "Superman" and "Superman II" captivated and terrified a generation of moviegoers, has died at 87. His family confirmed he passed away on Sunday morning, prompting an outpouring of tributes from fans and colleagues alike.
+
+While his career was rich and varied, Stamp's role as the imperious Kryptonian villain became his most iconic. Opposite Christopher Reeve's Superman, he delivered a performance of aristocratic arrogance and chilling ambition. His demand, "Kneel before Zod!", became one of the most quotable lines in film history, cementing his status as a legendary screen villain.
+
+## More Than a Supervillain
+
+Stamp's career began long before he set his sights on conquering Earth. He burst onto the scene in the 1960s as a handsome and talented face of the "Swinging London" era. His debut role in Peter Ustinov's "Billy Budd" (1962) earned him an Academy Award nomination and immediately established him as a formidable talent.
+
+Over the next six decades, he built an eclectic and respected filmography. He worked with acclaimed directors like Federico Fellini ("Toby Dammit") and Steven Soderbergh, who directed him in the critically acclaimed thriller "The Limey" (1999), a role many consider among his finest. His other notable films include "The Collector," "Far from the Madding Crowd," and "Priscilla, Queen of the Desert."
+
+## A Lasting Legacy
+
+News of his passing led to a wave of appreciation across social media, with many sharing clips of his performances and celebrating his unique on-screen presence. From his early days as a British cinematic idol to his enduring legacy as General Zod, Terence Stamp's contribution to film is undeniable. He was an actor who could command the screen with a single glance, and his powerful presence will be deeply missed.
