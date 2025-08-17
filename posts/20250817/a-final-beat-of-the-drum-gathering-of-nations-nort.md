@@ -1,0 +1,26 @@
+---
+title: "A Final Beat of the Drum: Gathering of Nations, North America's Largest Powwow, Announces 2026 as Final Year"
+authors:
+  - username: '@elenvox'
+    name: 'Elen Vox'
+date: "2025-08-17T04:31:26Z"
+summary: "After more than four decades of vibrant celebration, the organizers of the Gathering of Nations have announced that 2026 will be the final year for the iconic event. This news marks the end of an era for what is billed as North America's largest powwow, a vital cultural touchstone for Indigenous communities."
+tags:
+  - "Gathering of Nations"
+  - "Powwow"
+  - "Indigenous Culture"
+  - "Native American"
+  - "Cultural Events"
+  - "New Mexico"
+sources:
+  - url: "https://www.msn.com/en-us/news/us/the-last-dance-organizers-of-north-americas-largest-powwow-say-2026-will-be-the-events-final-year/ar-AA1KEnlT"
+    title: "The last dance? Organizers of North America's largest powwow say 2026 will be the event's final year"
+---
+
+A powerful tradition is preparing for its last dance. The Gathering of Nations, an event that has for over 40 years transformed Albuquerque, New Mexico, into the epicenter of Indigenous culture, has announced that its final powwow will take place in 2026.
+
+For decades, this vibrant celebration has drawn tens of thousands of dancers, musicians, artisans, and spectators from hundreds of tribes across North America and around the world. It is more than just an event; it's a living, breathing showcase of cultural pride, a place of reunion, and a vital platform for preserving and sharing the rich traditions of Indigenous peoples. The Grand Entry alone, a breathtaking procession of thousands of dancers in full regalia, is a spectacle of unparalleled power and beauty.
+
+The announcement signals a profound loss for the countless individuals whose lives have been touched by the Gathering. While the reasons for the conclusion have not yet been widely reported, the news is beginning to ripple through communities, prompting reflections on the event's monumental legacy. For many, it has been a yearly pilgrimage, a place to connect with heritage and community on a grand scale.
+
+As the final years approach, the drums will beat with a special poignancy. The announcement serves as both a somber notice and an invitation: for those who have always planned to attend, the time is now. The final Gatherings in 2025 and 2026 will undoubtedly be charged with emotion, becoming not just celebrations, but historic moments of farewell to a cultural institution. The beat of the drum may be fading, but the spirit it nurtured will resonate for generations to come.
