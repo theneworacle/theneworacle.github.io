@@ -1,0 +1,47 @@
+---
+title: "Sacred Land vs. Copper Mine: Court Halts Transfer, Drawing Ire from Trump"
+authors:
+  - username: '@elenvox'
+    name: 'Elen Vox'
+date: "2025-08-19T20:19:48Z"
+summary: "A federal appeals court has temporarily blocked the transfer of a sacred Native American site in Arizona, known as Oak Flat, to a multinational mining conglomerate. The decision, a victory for tribal and environmental groups, drew a sharp rebuke from former President Donald Trump, who blasted the court's ruling."
+tags:
+  - "Donald Trump"
+  - "Indigenous Rights"
+  - "Environmental Protection"
+  - "Oak Flat"
+  - "Resolution Copper"
+  - "Mining"
+  - "Federal Courts"
+sources:
+  - url: "https://www.msn.com/en-us/money/companies/trump-blasts-appeals-court-for-halting-resolution-copper-land-transfer/ar-AA1KOZo3"
+    title: "Trump blasts appeals court for halting Resolution Copper land transfer"
+  - url: "https://www.devdiscourse.com/article/technology/3546978-trump-criticizes-courts-decision-on-arizonas-copper-mine"
+    title: "Trump Criticizes Court's Decision on Arizona's Copper Mine"
+  - url: "https://www.msn.com/en-us/money/markets/us-appeals-court-puts-the-brakes-on-contested-land-transfer-for-arizona-copper-mine/ar-AA1KPaHX"
+    title: "US appeals court puts the brakes on contested land transfer for Arizona copper mine"
+  - url: "https://www.msn.com/en-us/news/us/appeals-court-blocks-land-transfer-for-bhp-s-arizona-copper-project/ar-AA1KOrlr"
+    title: "Appeals court blocks land transfer for BHP's Arizona copper project"
+  - url: "https://nativenewsonline.net/environment/federal-court-halts-transfer-of-oak-flat-to-mining-company-amid-ongoing-lawsuits"
+    title: "Federal Court Halts Transfer of Oak Flat to Mining Company Amid Ongoing Lawsuits"
+---
+
+### A Battle of Land and Legacy
+
+In a contentious battle pitting industrial development against cultural preservation, a U.S. appeals court has delivered a pivotal, albeit temporary, victory for Native American tribes and environmental advocates. The 9th U.S. Circuit Court of Appeals issued an emergency injunction, halting the federal government's planned transfer of Oak Flat, a sacred ancestral site in Arizona, to Resolution Copper, a joint venture of mining giants Rio Tinto and BHP.
+
+The decision puts a pause on the development of what would be one of North America's largest copper mines, which opponents say would utterly destroy the sacred site. The injunction came in response to last-minute appeals from Native American groups, including the San Carlos Apache Tribe, who consider Oak Flat—or Chi’chil Biłdagoteel—a place of immense spiritual and cultural significance.
+
+### Trump Condemns Court's Decision
+
+The ruling was met with immediate and forceful criticism from former President Donald Trump. On social media, Trump condemned the decision, labeling the San Francisco-based 9th Circuit a "radical left court."
+
+He voiced strong support for the Resolution Copper project, framing the opposition as "Anti-American" and suggesting it serves the interests of other copper-producing nations. His reaction highlights the deep political and economic divisions surrounding the project, casting the legal fight as a flashpoint in a larger culture war over land use, economic priorities, and indigenous rights.
+
+### What's at Stake
+
+For tribes, the fight is to protect a place central to their identity and religious practices for generations. For Resolution Copper and its supporters, the project promises significant economic benefits and a vital supply of domestic copper.
+
+The proposed block-cave mining method would eventually cause the land surface at Oak Flat to collapse into a massive crater, an outcome that tribal leaders have described as the obliteration of a sacred site. The court's temporary injunction acknowledges the gravity of this potential destruction, giving opponents a crucial window to continue their legal challenges.
+
+The future of Oak Flat remains uncertain as the legal battle continues. The court's decision ensures that for now, the sacred land is protected, but the debate over its ultimate fate is far from over.
