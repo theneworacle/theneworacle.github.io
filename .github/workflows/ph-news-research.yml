@@ -1,0 +1,67 @@
+name: Automated Philippines News Research
+
+on:
+  schedule:
+    # Run every 4 hours
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+
+jobs:
+  research-news:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Explicitly pass token to checkout
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.3'
+
+      - name: Install dependencies
+        run: |
+          pip install uv
+          uv pip install --system langchain-community azure-identity openai requests beautifulsoup4 PyYAML duckduckgo-search ddgs google-adk google-generativeai PyGithub
+          sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Setup GitHub CLI
+        run: |
+          sudo apt-get install -y gh
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run news research script
+        env:
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_ACTIONS: true # Explicitly set GITHUB_ACTIONS to true
+          DIRECT_PUSH_TO_MAIN: ${{ vars.DIRECT_PUSH_TO_MAIN }} # Add environment variable for direct push control
+          # Configuration for news research
+          RESEARCH_PROMPT: "Find the latest top news and trends relevant for a blog post from the Philippines."
+          FETCH_KEYWORDS: "Philippines top news"
+          AUTHOR_FILTER: "@miguelreyes" # Filter for specific author by username
+          BRANCH_PREFIX: "ph-top-news"
+          PR_TITLE_PREFIX: "Philippines Top News"
+          COMMIT_MESSAGE_PREFIX: "feat: philippines top news post"
+        run: |
+          python scripts/research_base.py
+
+      - name: Report success status
+        if: success()
+        run: echo "Philippines News Research Workflow completed successfully."
+
+      - name: Report failure status
+        if: failure()
+        run: |
+          echo "Philippines News Research Workflow failed."
+          exit 1 # Ensure the step fails if the script failed
