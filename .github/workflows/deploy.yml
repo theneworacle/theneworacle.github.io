@@ -3,12 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Change this to your default branch if it's not main
-  workflow_run:
-    workflows: ["Automated News Research"] # Name of the triggering workflow
-    types: [completed]
-    branches:
-      - main # Specify the branch to trigger on
+      - main # This workflow will run on pushes to the main branch, including merges from pull requests.
 
 jobs:
   build-and-deploy:
