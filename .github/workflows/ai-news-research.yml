@@ -25,7 +25,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install langchain-community azure-identity openai>=1.0.0 requests beautifulsoup4 PyYAML duckduckgo-search google-adk google-generativeai PyGithub>=1.55
+          pip install langchain-community azure-identity openai requests beautifulsoup4 PyYAML duckduckgo-search google-adk google-generativeai PyGithub
           sudo apt-get update && sudo apt-get install -y jq
 
       - name: Setup GitHub CLI
