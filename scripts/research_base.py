@@ -17,6 +17,7 @@ import time
 import yaml # Import yaml for validation
 import xml.etree.ElementTree as ET # Import for sitemap generation
 import subprocess
+import asyncio # Ensure asyncio is imported for async functions
 
 # ADK Imports
 from google.adk.agents import Agent, SequentialAgent
@@ -73,6 +74,12 @@ def fetch_news_stories(keywords: str) -> list:
             else:
                 print("Max retries reached. Returning empty list.")
                 return []
+
+def sleep_tool(seconds: int) -> str:
+    """Pauses execution for a specified number of seconds."""
+    print(f"Pausing for {seconds} seconds...")
+    time.sleep(seconds)
+    return f"Slept for {seconds} seconds."
 
 def search_social_sentiment(query: str) -> str:
     """Stub: Search social media for sentiment on the topic (to be implemented with real APIs)."""
@@ -519,10 +526,24 @@ async def run_research_pipeline(
     branch_prefix: str = "automated-research",
     pr_title_prefix: str = "Automated Research",
     commit_message_prefix: str = "feat: Add automated research post",
-    fetch_keywords: str = "" # Added parameter for fetch keywords
+    fetch_keywords: str = "", # Added parameter for fetch keywords
+    sleep_duration: int = 0 # New parameter for sleep duration
 ):
     """Runs the core research pipeline with configurable parameters."""
-    print(f"Gemini ADK Sequential Pipeline: Starting {pipeline_name} process...")    # Define agents for the SequentialAgent pipeline
+    print(f"Gemini ADK Sequential Pipeline: Starting {pipeline_name} process...")
+
+    # Helper function to create a sleep agent
+    def create_sleep_agent(agent_number: int, duration: int) -> Agent:
+        return Agent(
+            name=f"{app_name}_sleep_agent_{agent_number}",
+            model=GEMINI_MODEL,
+            description=f"An agent that pauses execution for {duration} seconds to prevent rate limiting.",
+            instruction=f"Call the sleep_tool with {duration} seconds to pause execution.",
+            tools=[sleep_tool],
+            output_key=f"sleep_status_{agent_number}"
+        )
+
+    # Define agents for the SequentialAgent pipeline
     # Pass agents_data to the writer agent's instruction or make it read it internally
     # Reading internally is simpler for this structure.
     
@@ -571,7 +592,17 @@ async def run_research_pipeline(
 
     pipeline = SequentialAgent(
         name=pipeline_name,
-        sub_agents=[lead_author_agent, researcher_agent, writer_agent, reviewer_agent, publisher_agent]
+        sub_agents=[
+            lead_author_agent,
+            create_sleep_agent(1, sleep_duration), # Insert sleep agent
+            researcher_agent,
+            create_sleep_agent(2, sleep_duration), # Insert sleep agent
+            writer_agent,
+            create_sleep_agent(3, sleep_duration), # Insert sleep agent
+            reviewer_agent,
+            create_sleep_agent(4, sleep_duration), # Insert sleep agent
+            publisher_agent
+        ]
     )
 
     # Runner setup
@@ -700,6 +731,7 @@ if __name__ == "__main__":
     # Get configuration from environment variables
     initial_prompt = os.environ.get("RESEARCH_PROMPT", "Perform research for a blog post.")
     fetch_keywords = os.environ.get("FETCH_KEYWORDS", "")
+    sleep_duration_seconds = int(os.environ.get("SLEEP_DURATION_SECONDS", "60")) # Default to 60 seconds
 
     # Run the async pipeline with proper cleanup
     pipeline_ran_successfully = asyncio.run(run_research_pipeline(
@@ -712,7 +744,8 @@ if __name__ == "__main__":
         branch_prefix=os.environ.get("BRANCH_PREFIX", "automated-research"),
         pr_title_prefix=os.environ.get("PR_TITLE_PREFIX", "Automated Research"),
         commit_message_prefix=os.environ.get("COMMIT_MESSAGE_PREFIX", "feat: Add automated research post"),
-        fetch_keywords=fetch_keywords # Pass keywords to the pipeline runner
+        fetch_keywords=fetch_keywords, # Pass keywords to the pipeline runner
+        sleep_duration=sleep_duration_seconds # Pass the sleep duration
     ))
 
     if not pipeline_ran_successfully:
