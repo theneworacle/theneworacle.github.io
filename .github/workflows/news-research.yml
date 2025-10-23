@@ -6,6 +6,8 @@ on:
     - cron: '0 */4 * * *'
   workflow_dispatch:
 
+concurrency: news-research-group
+
 jobs:
   research-news:
     runs-on: ubuntu-latest

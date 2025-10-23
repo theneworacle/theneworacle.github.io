@@ -3,8 +3,10 @@ name: Automated Philippines News Research
 on:
   schedule:
     # Run every 4 hours
-    - cron: '0 */4 * * *'
+    - cron: '0 2/4 * * *'
   workflow_dispatch:
+
+concurrency: news-research-group
 
 jobs:
   research-news:
