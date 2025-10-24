@@ -5,7 +5,7 @@ on:
     branches:
       - main # This workflow will run on pushes to the main branch, including merges from pull requests.
   workflow_run:
-    workflows: ["Automated AI News Research", "Automated News Research", "Automated NZ News Research", "Automated PH News Research"]
+    workflows: ["Automated AI News Research", "Automated News Research", "Automated New Zealand News Research", "Automated Philippines News Research"]
     types:
       - completed
 
