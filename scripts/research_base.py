@@ -594,13 +594,13 @@ async def run_research_pipeline(
         name=pipeline_name,
         sub_agents=[
             lead_author_agent,
-            create_sleep_agent(1, sleep_duration), # Insert sleep agent
+            # create_sleep_agent(1, sleep_duration), # Insert sleep agent
             researcher_agent,
-            create_sleep_agent(2, sleep_duration), # Insert sleep agent
+            # create_sleep_agent(2, sleep_duration), # Insert sleep agent
             writer_agent,
-            create_sleep_agent(3, sleep_duration), # Insert sleep agent
+            # create_sleep_agent(3, sleep_duration), # Insert sleep agent
             reviewer_agent,
-            create_sleep_agent(4, sleep_duration), # Insert sleep agent
+            # create_sleep_agent(4, sleep_duration), # Insert sleep agent
             publisher_agent
         ]
     )
