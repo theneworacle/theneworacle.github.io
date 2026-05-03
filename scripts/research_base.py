@@ -3,10 +3,9 @@ import os
 import requests
 import json
 from bs4 import BeautifulSoup
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 from datetime import datetime
 import hashlib
-import google.generativeai as genai
 import sys
 import uuid
 import re
@@ -425,8 +424,8 @@ def create_branch_and_pr(
     github_token: str
 ):
     """Create a branch, commit the file, push, and open a PR using the GitHub API."""
-    from github import Github
-    g = Github(github_token)
+    from github import Github, Auth
+    g = Github(auth=Auth.Token(github_token))
     repo_obj = g.get_repo(repo_name)
 
     # Get base branch ref
@@ -629,8 +628,9 @@ async def run_research_pipeline(
         final_response_text = "Pipeline finished without final response"
         async for event in events:
             if event.is_final_response():
-                final_response_text = event.content.parts[0].text
-                print("\n📢 Final Pipeline Status:\n", final_response_text)
+                if event.content and event.content.parts:
+                    final_response_text = event.content.parts[0].text
+                    print("\n📢 Final Pipeline Status:\n", final_response_text)
 
         print("--- End of ADK Runner Events ---")
         pipeline_ran_successfully = True
