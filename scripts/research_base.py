@@ -153,11 +153,11 @@ def scrape_article_tool(url: str) -> str:
     
     return f"Failed to scrape {url} after {max_retries} attempts."
 
-def get_existing_post_excerpts() -> List[str]:
-    """Reads existing markdown files and returns a list of their excerpts."""
-    print("Fetching existing post excerpts...")
+def get_existing_post_titles() -> List[str]:
+    """Reads existing markdown files and returns a list of their titles for duplicate detection."""
+    print("Fetching existing post titles...")
     posts_dir = "posts/" # Relative to repo root
-    excerpts = []
+    titles = []
 
     # Adjust path for script execution context
     script_dir = os.path.dirname(__file__)
@@ -168,22 +168,30 @@ def get_existing_post_excerpts() -> List[str]:
         print(f"Posts directory not found at {full_posts_dir}. No existing posts found.")
         return []
 
+    # Only check the most recent 100 posts to keep context manageable
+    all_files = []
     for root, _, files in os.walk(full_posts_dir):
         for filename in files:
             if filename.endswith(".md"):
-                filepath = os.path.join(root, filename)
-                try:
-                    with open(filepath, 'r', encoding='utf-8') as f:
-                        content = f.read()
-                        # Extract excerpt from YAML frontmatter
-                        m = re.search(r'^---.*?^summary:\s*\"?(.*?)\"?$', content, re.DOTALL | re.MULTILINE)      
-                        if m:
-                            excerpts.append(m.group(1).strip())
-                except Exception as e:
-                    print(f"Error reading file {filepath} for excerpt extraction: {e}")
-                    continue
-    print(f"Found {len(excerpts)} existing post excerpts.")
-    return excerpts
+                all_files.append(os.path.join(root, filename))
+    
+    # Sort by modification time (newest first)
+    all_files.sort(key=os.path.getmtime, reverse=True)
+    recent_files = all_files[:100]
+
+    for filepath in recent_files:
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
+                # Extract title from YAML frontmatter
+                m = re.search(r'^---.*?^title:\s*\"?(.*?)\"?$', content, re.DOTALL | re.MULTILINE)      
+                if m:
+                    titles.append(m.group(1).strip())
+        except Exception as e:
+            print(f"Error reading file {filepath} for title extraction: {e}")
+            continue
+    print(f"Found {len(titles)} existing post titles.")
+    return titles
 
 def generate_slug(title: str) -> str:
     # Convert to lowercase
