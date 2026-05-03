@@ -108,33 +108,50 @@ def search_news_tool(query: str) -> str:
     return formatted_results
 
 def scrape_article_tool(url: str) -> str:
-    """Scrapes the content of a given URL and returns the text."""
+    """Scrapes the content of a given URL and returns the text. Includes exponential backoff for rate limits."""
     print(f"Attempting to scrape: {url}")
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status() # Raise an HTTPError for bad responses (4xx or 5xx)
-        soup = BeautifulSoup(response.content, 'html.parser')
+    max_retries = 3
+    delay = 5
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, timeout=15)
+            # If rate limited or server error, trigger retry
+            if response.status_code == 429 or 500 <= response.status_code < 600:
+                print(f"Scrape rate limited or server error ({response.status_code}) for {url}. Attempt {attempt+1}/{max_retries}. Retrying in {delay}s...")
+                time.sleep(delay)
+                delay *= 2
+                continue
 
-        # Attempt to find common article content containers
-        article_text = ""
-        for tag in ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li']:
-             for element in soup.find_all(tag):
-                 article_text += element.get_text(separator=' ', strip=True) + '\n'
+            response.raise_for_status() # Raise an HTTPError for other bad responses (4xx)
+            soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Fallback if specific tags don't yield much
-        if not article_text.strip():
-             article_text = soup.get_text(separator=' ', strip=True)
+            # Attempt to find common article content containers
+            article_text = ""
+            for tag in ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li']:
+                 for element in soup.find_all(tag):
+                     article_text += element.get_text(separator=' ', strip=True) + '\n'
 
-        print(f"Scraped content length: {len(article_text)}")
-        # Limit scraped content length to avoid overwhelming context
-        return article_text.strip()[:8000]
+            # Fallback if specific tags don't yield much
+            if not article_text.strip():
+                 article_text = soup.get_text(separator=' ', strip=True)
 
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching or processing URL {url}: {e}")
-        return f"Error scraping {url}: {e}"
-    except Exception as e:
-        print(f"An unexpected error occurred during scraping {url}: {e}")
-        return f"Error scraping {url}: {e}"
+            print(f"Scraped content length: {len(article_text)}")
+            # Limit scraped content length to avoid overwhelming context
+            return article_text.strip()[:8000]
+
+        except requests.exceptions.RequestException as e:
+            # Handle connection errors or other request issues with retries
+            print(f"Request error for {url} (attempt {attempt+1}/{max_retries}): {e}")
+            if attempt < max_retries - 1:
+                time.sleep(delay)
+                delay *= 2
+            else:
+                return f"Error scraping {url} after {max_retries} attempts: {e}"
+        except Exception as e:
+            print(f"An unexpected error occurred during scraping {url}: {e}")
+            return f"Error scraping {url}: {e}"
+    
+    return f"Failed to scrape {url} after {max_retries} attempts."
 
 def get_existing_post_excerpts() -> List[str]:
     """Reads existing markdown files and returns a list of their excerpts."""
