@@ -25,7 +25,7 @@ load_dotenv()
 
 # Configure Google Gemini API Key and Model
 GOOGLE_GEMINI_API_KEY = os.environ.get("GOOGLE_GEMINI_API_KEY")
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-1.5-flash-latest") # Default model
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash") # Default model
 
 # Configure ADK to use API keys directly
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
@@ -615,26 +615,46 @@ async def run_research_pipeline(
     content = types.Content(role="user", parts=[types.Part(text=initial_prompt)])
 
     pipeline_start_time = time.time()
-    try:
-        events = runner.run_async(
-            user_id=user_id,
-            session_id=session_id,
-            new_message=content
-        )
+    pipeline_ran_successfully = False
+    max_pipeline_retries = 3
+    pipeline_retry_delay = 30
 
-        final_response_text = "Pipeline finished without final response"
-        async for event in events:
-            if event.is_final_response():
-                if event.content and event.content.parts:
-                    final_response_text = event.content.parts[0].text
-                    print("\n📢 Final Pipeline Status:\n", final_response_text)
+    for pipeline_attempt in range(max_pipeline_retries):
+        try:
+            events = runner.run_async(
+                user_id=user_id,
+                session_id=session_id,
+                new_message=content
+            )
 
-        print("--- End of ADK Runner Events ---")
-        pipeline_ran_successfully = True
+            final_response_text = "Pipeline finished without final response"
+            async for event in events:
+                if event.is_final_response():
+                    if event.content and event.content.parts:
+                        final_response_text = event.content.parts[0].text
+                        print("\n📢 Final Pipeline Status:\n", final_response_text)
 
-    except Exception as e:
-        print(f"Error running pipeline: {e}")
-        pipeline_ran_successfully = False
+            print("--- End of ADK Runner Events ---")
+            pipeline_ran_successfully = True
+            break
+
+        except Exception as e:
+            error_str = str(e)
+            is_rate_limit = "429" in error_str or "RESOURCE_EXHAUSTED" in error_str
+            is_daily_quota = "PerDay" in error_str or "per_day" in error_str.lower()
+
+            if is_daily_quota:
+                print(f"Daily quota exhausted. Cannot retry. Error: {e}")
+                break
+
+            if is_rate_limit and pipeline_attempt < max_pipeline_retries - 1:
+                wait = pipeline_retry_delay * (2 ** pipeline_attempt)
+                print(f"Rate limit hit (attempt {pipeline_attempt + 1}/{max_pipeline_retries}). Retrying in {wait}s...")
+                await asyncio.sleep(wait)
+            else:
+                print(f"Error running pipeline (attempt {pipeline_attempt + 1}/{max_pipeline_retries}): {e}")
+                if pipeline_attempt == max_pipeline_retries - 1:
+                    break
 
     # Only proceed if the pipeline completed successfully
     if not pipeline_ran_successfully:
