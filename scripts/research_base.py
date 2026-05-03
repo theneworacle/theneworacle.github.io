@@ -1,22 +1,18 @@
 import json
 import os
 import requests
-import json
 from bs4 import BeautifulSoup
 from ddgs import DDGS
 from datetime import datetime
-import hashlib
 import sys
-import uuid
 import re
-import asyncio # Needed for ADK runner
-from typing import List, Dict, Any, Callable
-from dotenv import load_dotenv # Import load_dotenv
+import asyncio
+from typing import List, Dict, Callable
+from dotenv import load_dotenv
 import time
-import yaml # Import yaml for validation
-import xml.etree.ElementTree as ET # Import for sitemap generation
+import yaml
+import xml.etree.ElementTree as ET
 import subprocess
-import asyncio # Ensure asyncio is imported for async functions
 
 # ADK Imports
 from google.adk.agents import Agent, SequentialAgent
@@ -36,12 +32,10 @@ os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
 
 def read_agents(agents_file="lib/agents/agents.json"):
     """Reads the agents configuration."""
+    script_dir = os.path.dirname(__file__)
+    repo_root = os.path.abspath(os.path.join(script_dir, '..'))
+    full_agents_path = os.path.join(repo_root, agents_file)
     try:
-        # Adjust path for script execution context if needed, assuming script runs from repo root
-        script_dir = os.path.dirname(__file__)
-        repo_root = os.path.abspath(os.path.join(script_dir, '..'))
-        full_agents_path = os.path.join(repo_root, agents_file)
-
         with open(full_agents_path, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
@@ -62,7 +56,7 @@ def fetch_news_stories(keywords: str) -> list:
         try:
             results = []
             with DDGS() as ddgs:
-                for r in ddgs.news(keywords=keywords, max_results=10):
+                for r in ddgs.news(query=keywords, max_results=10):
                     results.append({'title': r['title'], 'url': r['url']})
             return results
         except Exception as e:
@@ -73,6 +67,7 @@ def fetch_news_stories(keywords: str) -> list:
             else:
                 print("Max retries reached. Returning empty list.")
                 return []
+    return []
 
 def sleep_tool(seconds: int) -> str:
     """Pauses execution for a specified number of seconds."""
@@ -90,12 +85,12 @@ def search_news_tool(query: str) -> str:
     print(f"Searching news for: {query}")
     max_retries = 5
     delay = 2
+    results: list = []
     for attempt in range(max_retries):
-        results = []
         try:
             with DDGS() as ddgs:
                 # Limit results to avoid overwhelming context
-                for r in ddgs.news(keywords=query, max_results=5):
+                for r in ddgs.news(query=query, max_results=5):
                     results.append(r)
             break
         except Exception as e:
@@ -408,7 +403,7 @@ def is_github_actions() -> bool:
     has_run_id = bool(os.environ.get("GITHUB_RUN_ID"))
     return is_ga and has_run_id
 
-def get_github_token() -> str:
+def get_github_token() -> str | None:
     """Get GitHub token from env."""
     return os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
 
@@ -606,19 +601,21 @@ async def run_research_pipeline(
 
     # Runner setup
     session_service = InMemorySessionService()
-    # Create a new session for each run, or manage sessions as needed
-    await session_service.create_session(
+    result = session_service.create_session(
         app_name=app_name,
         user_id=user_id,
         session_id=session_id
     )
+    if asyncio.iscoroutine(result):
+        await result
 
     runner = Runner(agent=pipeline, app_name=app_name, session_service=session_service)
 
     print("--- ADK Runner Events ---")
     content = types.Content(role="user", parts=[types.Part(text=initial_prompt)])
 
-    try:        # Run the pipeline directly
+    pipeline_start_time = time.time()
+    try:
         events = runner.run_async(
             user_id=user_id,
             session_id=session_id,
@@ -639,15 +636,22 @@ async def run_research_pipeline(
         print(f"Error running pipeline: {e}")
         pipeline_ran_successfully = False
 
-    # Check if a new post file was created
+    # Only proceed if the pipeline completed successfully
+    if not pipeline_ran_successfully:
+        print("Pipeline did not complete successfully. Skipping Git operations.")
+        return pipeline_ran_successfully
+
+    # Check if a post was actually written during this run (mtime after pipeline start)
     post_path, post_title, post_content = get_latest_post_info()
-    post_was_saved = post_path is not None
+    post_was_saved = (
+        post_path is not None
+        and os.path.getmtime(post_path) > pipeline_start_time
+    )
 
     # --- GitHub Actions PR/Direct Push Logic ---
-    # Only run this logic in GitHub Actions (not locally) AND if a new post was saved
-    print(f"{'Running in GitHub Actions: ' + str(is_github_actions())}")
-    print(f"{'Post was saved: ' + str(post_was_saved)}")
-    if post_was_saved and is_github_actions(): # Use the function here
+    print(f"Running in GitHub Actions: {is_github_actions()}")
+    print(f"Post was saved: {post_was_saved}")
+    if post_was_saved and is_github_actions():
         print("Detected GitHub Actions environment and new post file found. Proceeding with Git operations...")
 
         # Check for direct push environment variable
