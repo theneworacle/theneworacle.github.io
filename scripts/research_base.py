@@ -7,25 +7,21 @@ from datetime import datetime
 import sys
 import re
 import asyncio
-from typing import List, Dict, Callable
+from typing import List, Dict
 from dotenv import load_dotenv
 import time
 import yaml
 import xml.etree.ElementTree as ET
 import subprocess
 
-# ADK Imports
-from google.adk.agents import Agent, SequentialAgent
-from google.adk.sessions import InMemorySessionService
-from google.adk.runners import Runner
-from google.genai import types # For creating message Content/Parts
+from google.genai import types
 
 # Load environment variables
 load_dotenv()
 
 # Configure Google Gemini API Key and Model
 GOOGLE_GEMINI_API_KEY = os.environ.get("GOOGLE_GEMINI_API_KEY")
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash") # Default model
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
 # Configure ADK to use API keys directly
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
@@ -137,12 +133,11 @@ def scrape_article_tool(url: str) -> str:
         return f"Error scraping {url}: {e}"
 
 def get_existing_post_excerpts() -> List[str]:
-    """Reads existing markdown files and returns a list of their excerpts."""
+    """Returns slugs of the 50 most recent posts for duplicate detection."""
     print("Fetching existing post excerpts...")
-    posts_dir = "posts/" # Relative to repo root
-    excerpts = []
+    posts_dir = "posts/"
+    slugs = []
 
-    # Adjust path for script execution context
     script_dir = os.path.dirname(__file__)
     repo_root = os.path.abspath(os.path.join(script_dir, '..'))
     full_posts_dir = os.path.join(repo_root, posts_dir)
@@ -151,22 +146,21 @@ def get_existing_post_excerpts() -> List[str]:
         print(f"Posts directory not found at {full_posts_dir}. No existing posts found.")
         return []
 
+    md_files = []
     for root, _, files in os.walk(full_posts_dir):
         for filename in files:
             if filename.endswith(".md"):
-                filepath = os.path.join(root, filename)
-                try:
-                    with open(filepath, 'r', encoding='utf-8') as f:
-                        content = f.read()
-                        # Extract excerpt from YAML frontmatter
-                        m = re.search(r'^---.*?^summary:\s*\"?(.*?)\"?$', content, re.DOTALL | re.MULTILINE)
-                        if m:
-                            excerpts.append(m.group(1).strip())
-                except Exception as e:
-                    print(f"Error reading file {filepath} for excerpt extraction: {e}")
-                    continue
-    print(f"Found {len(excerpts)} existing post excerpts.")
-    return excerpts
+                md_files.append(os.path.join(root, filename))
+
+    md_files.sort(key=lambda p: os.path.getmtime(p), reverse=True)
+    md_files = md_files[:50]
+
+    for filepath in md_files:
+        slug = os.path.splitext(os.path.basename(filepath))[0]
+        slugs.append(slug)
+
+    print(f"Found {len(slugs)} existing post slugs (from the 50 most recent posts).")
+    return slugs
 
 def generate_slug(title: str) -> str:
     # Convert to lowercase
@@ -513,106 +507,57 @@ def create_branch_and_pr(
 async def run_research_pipeline(
     initial_prompt: str,
     pipeline_name: str,
-    app_name: str,
-    user_id: str,
-    session_id: str,
-    fetch_stories_tool: Callable[[str], list], # Modified type hint to accept keywords
     branch_prefix: str = "automated-research",
     pr_title_prefix: str = "Automated Research",
     commit_message_prefix: str = "feat: Add automated research post",
-    fetch_keywords: str = "", # Added parameter for fetch keywords
-    sleep_duration: int = 0 # New parameter for sleep duration
+    fetch_keywords: str = "",
+    sleep_duration: int = 0,
+    **_kwargs,
 ):
-    """Runs the core research pipeline with configurable parameters."""
-    print(f"Gemini ADK Sequential Pipeline: Starting {pipeline_name} process...")
+    """Runs the research pipeline using the Gemini API directly with a function-calling loop."""
+    print(f"Gemini Pipeline: Starting {pipeline_name} process...")
 
-    # Helper function to create a sleep agent
-    def create_sleep_agent(agent_number: int, duration: int) -> Agent:
-        return Agent(
-            name=f"{app_name}_sleep_agent_{agent_number}",
-            model=GEMINI_MODEL,
-            description=f"An agent that pauses execution for {duration} seconds to prevent rate limiting.",
-            instruction=f"Call the sleep_tool with {duration} seconds to pause execution.",
-            tools=[sleep_tool],
-            output_key=f"sleep_status_{agent_number}"
-        )
+    if sleep_duration > 0:
+        time.sleep(sleep_duration)
 
-    # Define agents for the SequentialAgent pipeline
-    # Pass agents_data to the writer agent's instruction or make it read it internally
-    # Reading internally is simpler for this structure.
-    
-    lead_author_agent = Agent(
-        name=f"{app_name}_lead_author",
-        model=GEMINI_MODEL,
-        description=f"Lead author who selects top stories using fetch_news_stories with keywords '{fetch_keywords}', checks for duplicates against existing post excerpts, and assigns research tasks.", # Updated description
-        instruction=f"You are the lead author for {pipeline_name}. Fetch top stories using fetch_news_stories with keywords '{fetch_keywords}'. Get existing post excerpts using get_existing_post_excerpts. Iterate through the fetched top stories and compare their titles/summaries against the existing post excerpts to find the first story that is NOT a duplicate. Output the title and url of the selected story as a JSON string.", # Updated instruction
-        tools=[fetch_news_stories, get_existing_post_excerpts], # Use the generic fetch_news_stories
-        output_key="selected_story"
+    from google import genai as genai_lib
+    client = genai_lib.Client(api_key=GOOGLE_GEMINI_API_KEY)
+
+    # Load existing excerpts in Python and embed in system prompt to avoid
+    # triggering content filters when sending them as a function response.
+    existing_excerpts = get_existing_post_excerpts()
+    excerpts_block = "\n".join(f"- {e}" for e in existing_excerpts) if existing_excerpts else "(none)"
+
+    all_tools = [
+        fetch_news_stories,
+        search_news_tool,
+        scrape_article_tool,
+        search_social_sentiment,
+        save_and_set_pr_details_tool,
+    ]
+    tool_map = {fn.__name__: fn for fn in all_tools}
+
+    system_instruction = (
+        f"You are an AI journalist for {pipeline_name}. Complete ALL steps below in order, "
+        "one tool call at a time. Wait for each result before proceeding.\n\n"
+        "ALREADY PUBLISHED POST SLUGS (avoid repeating these topics):\n"
+        f"{excerpts_block}\n\n"
+        f"Step 1: Call fetch_news_stories with keywords='{fetch_keywords}'.\n"
+        "Step 2: From the fetched stories, pick the FIRST story whose topic is NOT already covered by the slugs above.\n"
+        "Step 3: Call search_news_tool with the selected story title to find more URLs and context.\n"
+        "Step 4: Call scrape_article_tool on the story URL. If it fails or returns very little content (<200 chars), "
+        "try the next URL from search results. If all scraping fails, use the search snippets as your source material.\n"
+        "Step 5: Call search_social_sentiment with the story title.\n"
+        "Step 6: Write a well-structured blog post in markdown using ALL gathered information. "
+        "Even if scraping failed, write the post using search snippets and your knowledge of the topic.\n"
+        "Step 7: Call save_and_set_pr_details_tool with: title, excerpt, content, tags (list), sources (list of dicts with url+title).\n\n"
+        "You MUST call save_and_set_pr_details_tool to complete the task. Do NOT give up if scraping fails — "
+        "use whatever content you have gathered."
     )
 
-    researcher_agent = Agent(
-        name=f"{app_name}_researcher",
-        model=GEMINI_MODEL,
-        description=f"Researcher who gathers more information and social sentiment for a given story for {pipeline_name}.",
-        instruction="You are the researcher. Given a story (title and url) from the lead author, use search_news_tool, scrape_article_tool, and search_social_sentiment to gather more information from other news sources and social media. Summarize your findings for the writer agent.",        tools=[search_news_tool, scrape_article_tool, search_social_sentiment],
-        output_key="research_findings"
-    )
-
-    writer_agent = Agent(
-        name=f"{app_name}_writer",
-        model=GEMINI_MODEL,
-        description=f"Writer who drafts the blog post based on selected story details and research findings for {pipeline_name}.",        instruction="You are the writer. Given the selected story details (title, url) and research findings, write a compelling, well-structured blog post in markdown. Include title, excerpt, content, tags, and sources. CRITICAL: For the sources field, use scrape_article_tool to get the actual content from each URL and extract the real article title from that content. The sources field must be an array of objects with both 'url' and 'title' properties where the title is the actual article headline extracted from the scraped content. For example: [{'url': 'https://example.com/article', 'title': 'Actual Article Headline from Content'}, {'url': 'https://another.com/news', 'title': 'Real News Title from Scraped Page'}]. Include the original story URL and any additional URLs from the research findings. Output a JSON string with these fields: title, excerpt, content, tags, sources.",
-        tools=[scrape_article_tool],
-        output_key="blog_post_json_string"
-    )
-
-    reviewer_agent = Agent(
-        name=f"{app_name}_reviewer",
-        model=GEMINI_MODEL,
-        description=f"Reviewer who checks the draft for quality and accuracy for {pipeline_name}.",
-        instruction="You are the reviewer. Review the blog post draft for factual accuracy, clarity, and style. Suggest improvements if needed, or approve for publishing.",
-        tools=[],
-        output_key="reviewed_blog_post_json_string"
-    )
-
-    publisher_agent = Agent(
-        name=f"{app_name}_publisher",
-        model=GEMINI_MODEL,
-        description=f"Publishes the final blog post if approved for {pipeline_name}.",
-        instruction="You are the publisher. If the reviewer approves, publish the post using save_and_set_pr_details_tool. Otherwise, do not publish.",
-        tools=[save_and_set_pr_details_tool],
-        output_key="publishing_status"
-    )
-
-    pipeline = SequentialAgent(
-        name=pipeline_name,
-        sub_agents=[
-            lead_author_agent,
-            create_sleep_agent(1, sleep_duration), # Insert sleep agent
-            researcher_agent,
-            create_sleep_agent(2, sleep_duration), # Insert sleep agent
-            writer_agent,
-            create_sleep_agent(3, sleep_duration), # Insert sleep agent
-            reviewer_agent,
-            create_sleep_agent(4, sleep_duration), # Insert sleep agent
-            publisher_agent
-        ]
-    )
-
-    # Runner setup
-    session_service = InMemorySessionService()
-    result = session_service.create_session(
-        app_name=app_name,
-        user_id=user_id,
-        session_id=session_id
-    )
-    if asyncio.iscoroutine(result):
-        await result
-
-    runner = Runner(agent=pipeline, app_name=app_name, session_service=session_service)
-
-    print("--- ADK Runner Events ---")
-    content = types.Content(role="user", parts=[types.Part(text=initial_prompt)])
+    contents: list = [
+        types.Content(role="user", parts=[types.Part(text=initial_prompt)])
+    ]
 
     pipeline_start_time = time.time()
     pipeline_ran_successfully = False
@@ -621,36 +566,64 @@ async def run_research_pipeline(
 
     for pipeline_attempt in range(max_pipeline_retries):
         try:
-            events = runner.run_async(
-                user_id=user_id,
-                session_id=session_id,
-                new_message=content
-            )
+            max_iterations = 30
+            for iteration in range(max_iterations):
+                response = client.models.generate_content(
+                    model=GEMINI_MODEL,
+                    contents=contents,
+                    config=types.GenerateContentConfig(
+                        system_instruction=system_instruction,
+                        tools=all_tools,
+                        automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
+                    )
+                )
 
-            final_response_text = "Pipeline finished without final response"
-            async for event in events:
-                author = getattr(event, 'author', None)
-                if event.is_final_response():
-                    if event.content and event.content.parts:
-                        final_response_text = event.content.parts[0].text
-                        print(f"\n[{author}] Final response:\n{final_response_text}")
-                    else:
-                        print(f"\n[{author}] Final response had no text content.")
-                elif author and event.content and event.content.parts:
-                    for part in event.content.parts:
-                        if hasattr(part, 'text') and part.text:
-                            print(f"\n[{author}]: {part.text[:500]}")
-                        elif hasattr(part, 'function_call') and part.function_call:
-                            print(f"\n[{author}] calling tool: {part.function_call.name}")
-                        elif hasattr(part, 'function_response') and part.function_response:
-                            resp_str = str(part.function_response.response)[:300]
-                            print(f"\n[{author}] tool result: {resp_str}")
+                if not response.candidates:
+                    print(f"No candidates in response. prompt_feedback={getattr(response, 'prompt_feedback', None)}")
+                    break
+                candidate = response.candidates[0]
+                model_content = candidate.content
+                if model_content:
+                    contents.append(model_content)
 
-            print("--- End of ADK Runner Events ---")
-            pipeline_ran_successfully = True
+                raw_parts = (model_content.parts if model_content else None) or []
+                function_calls = [
+                    p.function_call for p in raw_parts
+                    if getattr(p, 'function_call', None)
+                ]
+
+                if not function_calls:
+                    print(f"\nPipeline complete. Final response:\n{(response.text or '')[:500]}")
+                    pipeline_ran_successfully = True
+                    break
+
+                response_parts = []
+                for fc in function_calls:
+                    if fc is None:
+                        continue
+                    tool_name = fc.name
+                    tool_args = dict(fc.args) if fc.args else {}
+                    print(f"\nCalling tool: {tool_name}")
+                    try:
+                        result = tool_map[tool_name](**tool_args) if tool_name in tool_map else f"Unknown tool: {tool_name}"
+                    except Exception as tool_err:
+                        result = f"Error in {tool_name}: {tool_err}"
+                    print(f"Tool result: {str(result)[:300]}")
+                    response_parts.append(
+                        types.Part(function_response=types.FunctionResponse(
+                            name=tool_name,
+                            response={"result": result}
+                        ))
+                    )
+
+                contents.append(types.Content(role="user", parts=response_parts))
+            else:
+                print(f"Max iterations ({max_iterations}) reached without completion.")
+
             break
 
         except Exception as e:
+            import traceback
             error_str = str(e)
             is_rate_limit = "429" in error_str or "RESOURCE_EXHAUSTED" in error_str
             is_daily_quota = "PerDay" in error_str or "per_day" in error_str.lower()
@@ -665,6 +638,7 @@ async def run_research_pipeline(
                 await asyncio.sleep(wait)
             else:
                 print(f"Error running pipeline (attempt {pipeline_attempt + 1}/{max_pipeline_retries}): {e}")
+                traceback.print_exc()
                 if pipeline_attempt == max_pipeline_retries - 1:
                     break
 
