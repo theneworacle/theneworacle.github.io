@@ -52,6 +52,7 @@ jobs:
           BRANCH_PREFIX: "top-ai-news"
           PR_TITLE_PREFIX: "Top AI News"
           COMMIT_MESSAGE_PREFIX: "feat: top AI news post"
+          PYTHONIOENCODING: "utf-8"
         run: |
           python scripts/research_base.py
 

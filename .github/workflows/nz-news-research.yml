@@ -55,6 +55,7 @@ jobs:
           BRANCH_PREFIX: "nz-top-news"
           PR_TITLE_PREFIX: "New Zealand Top News"
           COMMIT_MESSAGE_PREFIX: "feat: new zealand top news post"
+          PYTHONIOENCODING: "utf-8"
         run: |
           python scripts/research_base.py
 

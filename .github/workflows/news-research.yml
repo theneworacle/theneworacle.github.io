@@ -54,6 +54,7 @@ jobs:
           BRANCH_PREFIX: "top-news"
           PR_TITLE_PREFIX: "Top News"
           COMMIT_MESSAGE_PREFIX: "feat: top news post"
+          PYTHONIOENCODING: "utf-8"
         run: |
           python scripts/research_base.py
 

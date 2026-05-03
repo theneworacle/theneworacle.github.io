@@ -633,9 +633,9 @@ async def run_research_pipeline(
                 if event.is_final_response():
                     if event.content and event.content.parts:
                         final_response_text = event.content.parts[0].text
-                        print(f"\n📢 [{author}] Final response:\n{final_response_text}")
+                        print(f"\n[{author}] Final response:\n{final_response_text}")
                     else:
-                        print(f"\n📢 [{author}] Final response had no text content.")
+                        print(f"\n[{author}] Final response had no text content.")
                 elif author and event.content and event.content.parts:
                     for part in event.content.parts:
                         if hasattr(part, 'text') and part.text:

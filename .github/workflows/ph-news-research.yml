@@ -55,6 +55,7 @@ jobs:
           BRANCH_PREFIX: "ph-top-news"
           PR_TITLE_PREFIX: "Philippines Top News"
           COMMIT_MESSAGE_PREFIX: "feat: philippines top news post"
+          PYTHONIOENCODING: "utf-8"
         run: |
           python scripts/research_base.py
 
