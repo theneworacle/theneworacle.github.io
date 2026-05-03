@@ -629,10 +629,22 @@ async def run_research_pipeline(
 
             final_response_text = "Pipeline finished without final response"
             async for event in events:
+                author = getattr(event, 'author', None)
                 if event.is_final_response():
                     if event.content and event.content.parts:
                         final_response_text = event.content.parts[0].text
-                        print("\n📢 Final Pipeline Status:\n", final_response_text)
+                        print(f"\n📢 [{author}] Final response:\n{final_response_text}")
+                    else:
+                        print(f"\n📢 [{author}] Final response had no text content.")
+                elif author and event.content and event.content.parts:
+                    for part in event.content.parts:
+                        if hasattr(part, 'text') and part.text:
+                            print(f"\n[{author}]: {part.text[:500]}")
+                        elif hasattr(part, 'function_call') and part.function_call:
+                            print(f"\n[{author}] calling tool: {part.function_call.name}")
+                        elif hasattr(part, 'function_response') and part.function_response:
+                            resp_str = str(part.function_response.response)[:300]
+                            print(f"\n[{author}] tool result: {resp_str}")
 
             print("--- End of ADK Runner Events ---")
             pipeline_ran_successfully = True
@@ -667,6 +679,12 @@ async def run_research_pipeline(
         post_path is not None
         and os.path.getmtime(post_path) > pipeline_start_time
     )
+
+    if not post_was_saved:
+        print("WARNING: Pipeline completed but no new post was saved. "
+              "The publisher agent may not have called save_and_set_pr_details_tool. "
+              "Check the agent logs above to see where the chain broke down.")
+        return False
 
     # --- GitHub Actions PR/Direct Push Logic ---
     print(f"Running in GitHub Actions: {is_github_actions()}")
