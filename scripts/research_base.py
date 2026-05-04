@@ -569,9 +569,9 @@ async def run_research_pipeline(
     lead_author_agent = Agent(
         name=f"{app_name}_lead_author",
         model=GEMINI_MODEL,
-        description=f"Lead author who selects top stories using fetch_news_stories with keywords '{fetch_keywords}', checks for duplicates against existing post excerpts, and assigns research tasks.", # Updated description      
-        instruction=f"You are the lead author for {pipeline_name}. Fetch top stories using fetch_news_stories with keywords '{fetch_keywords}'. Get existing post excerpts using get_existing_post_excerpts. Iterate through the fetched top stories and compare their titles/summaries against the existing post excerpts to find the first story that is NOT a duplicate. Output the title and url of the selected story as a JSON string. Ensure this JSON is your final response text.", # Updated instruction    
-        tools=[fetch_news_stories, get_existing_post_excerpts], # Use the generic fetch_news_stories
+        description=f"Lead author who selects top stories using fetch_news_stories with keywords '{fetch_keywords}', checks for duplicates against existing post titles, and assigns research tasks.", # Updated description      
+        instruction=f"You are the lead author for {pipeline_name}. Fetch top stories using fetch_news_stories with keywords '{fetch_keywords}'. Get existing post titles using get_existing_post_titles. Iterate through the fetched top stories and compare their titles/summaries against the existing post titles to find the first story that is NOT a duplicate. Output the title and url of the selected story as a JSON string. Ensure this JSON is your final response text.", # Updated instruction    
+        tools=[fetch_news_stories, get_existing_post_titles], # Use the generic fetch_news_stories
         output_key="selected_story"
     )
 
