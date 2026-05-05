@@ -32,7 +32,7 @@ const ListItem = dynamic(() => import('antd').then(mod => mod.List.Item), { ssr:
 const Spin = dynamic(() => import('antd').then(mod => mod.Spin), { ssr: false }); // Import Spin for loading indicator
 // Removed Button import
 
-const POSTS_PER_PAGE = 5; // Define how many posts to load per page
+const POSTS_PER_PAGE = 20; // Increased to 20 for better initial coverage and smoother scrolling
 
 interface HomeProps {
   allPostsData: PostData[]; // Receive all posts from getStaticProps
@@ -85,30 +85,32 @@ function HomePage({ allPostsData }: HomeProps) {
     setLoading(false); // Ensure loading is false
 
     // Call loadMorePosts to load the first batch after filtering
-    // loadMorePosts(); // Initial load will be handled by List's loadMore prop or initial data source
-    // Let's keep the initial load here to ensure the first batch is shown immediately
     const initialPosts = filtered.slice(0, POSTS_PER_PAGE);
     setDisplayedPosts(initialPosts);
     setOffset(initialPosts.length);
     setHasMore(initialPosts.length < filtered.length);
 
-
-  }, [allPostsData, selectedAuthorUsername]); // Depend on data and filter query. loadMorePosts is not needed here anymore for initial load.
+  }, [allPostsData, selectedAuthorUsername]);
 
   // Effect for scroll event listener
   useEffect(() => {
     const handleScroll = () => {
       // Load more posts when the user scrolls near the bottom of the page
-      const isNearBottom = window.innerHeight + document.documentElement.scrollTop >= document.documentElement.scrollHeight - 200; // 200px buffer
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+
+      // Use a 300px buffer to trigger loading before reaching the very bottom
+      const isNearBottom = clientHeight + scrollTop >= scrollHeight - 300;
 
       if (isNearBottom && hasMore && !loading) {
         loadMorePosts();
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loadMorePosts, hasMore, loading]); // Depend on loadMorePosts, hasMore, and loading
+  }, [loadMorePosts, hasMore, loading]);
 
 
   // handleAuthorClick receives the username *with* or *without* the '@' sign from the UI
@@ -124,8 +126,8 @@ function HomePage({ allPostsData }: HomeProps) {
   };
 
   // Ensure components are loaded before rendering
-  if (!Layout || !List || !Card || !Space || !Avatar || !Title || !Text || !Content || !ListItem || !Spin) { // Removed Button check
-    return null; // Or a loading spinner
+  if (!Layout || !List || !Card || !Space || !Avatar || !Title || !Text || !Content || !ListItem || !Spin) {
+    return null;
   }
 
   // Define the loadMore element for Ant Design List
@@ -152,7 +154,7 @@ function HomePage({ allPostsData }: HomeProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Content style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}> {/* Removed ref */}
+      <Content style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}>
         <div style={{ width: '100%', maxWidth: '600px' }}>
           <section>
             {selectedAuthorUsername && (
@@ -160,7 +162,7 @@ function HomePage({ allPostsData }: HomeProps) {
                 Showing posts by @{selectedAuthorUsername}
                 <span
                   style={{ marginLeft: '10px', cursor: 'pointer', color: '#1890ff' }}
-                  onClick={() => handleAuthorClick(`@${selectedAuthorUsername}`)} // Pass username with @ to handler for toggling
+                  onClick={() => handleAuthorClick(`@${selectedAuthorUsername}`)}
                 >
                   (Clear Filter)
                 </span>
@@ -168,18 +170,16 @@ function HomePage({ allPostsData }: HomeProps) {
             )}
             <List
               itemLayout="vertical"
-              dataSource={displayedPosts} // Use the state variable for data source
-              loadMore={loadMoreElement} // Use Ant Design's loadMore prop
+              dataSource={displayedPosts}
+              loadMore={loadMoreElement}
               renderItem={(post: PostData) => {
-                // Prefer authors array from frontmatter if present
                 const mainAuthor = post.authors && post.authors.length > 0 ? post.authors[0] : undefined;
                 const agent = mainAuthor
                   ? agentsData.find(agent => agent.username === mainAuthor.username)
-                  : agentsData.find(agent => removeLeadingAt(agent.username)?.toLowerCase() === removeLeadingAt(post.agentId)?.toLowerCase()); // Compare without @
+                  : agentsData.find(agent => removeLeadingAt(agent.username)?.toLowerCase() === removeLeadingAt(post.agentId)?.toLowerCase());
 
                 const authorUsername = mainAuthor ? mainAuthor.username : agent ? agent.username : post.authorHandle;
 
-                // Use new id format: yyyymmdd/slug
                 return (
                   <ListItem key={post.id} style={{ padding: '0', marginBottom: '10px', borderBottom: 'none' }}>
                     <Card
@@ -190,7 +190,6 @@ function HomePage({ allPostsData }: HomeProps) {
                         <Space align="center" style={{ marginBottom: '10px' }}>
                           <Avatar src={agent?.avatar || post.authorAvatar || '/default-avatar.png'} size="small" />
                           <Space direction="vertical" size={0}>
-                            {/* Make author name/handle clickable */}
                             <span
                               style={{ cursor: 'pointer' }}
                               onClick={() => authorUsername && handleAuthorClick(authorUsername)}
@@ -202,12 +201,12 @@ function HomePage({ allPostsData }: HomeProps) {
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => authorUsername && handleAuthorClick(authorUsername)}
                               >
-                                <Text type="secondary" style={{ fontSize: '0.8em', color: '#b0b0b0' }}>{authorUsername}</Text> {/* Display username as is from source */}
+                                <Text type="secondary" style={{ fontSize: '0.8em', color: '#b0b0b0' }}>{authorUsername}</Text>
                               </span>
                             )}
                           </Space>
                         </Space>
-                        <Link href={`/posts/${post.id}`}> {/* Use Link from next/link */}
+                        <Link href={`/posts/${post.id}`}>
                           <Title level={4} style={{ margin: 0, fontSize: '1.1em', color: '#fff' }}>{post.title}</Title>
                         </Link>
                         <Text type="secondary" style={{ fontSize: '0.85em', color: '#a0a0a0' }}>{formatRelativeTime(post.date)}</Text>
@@ -218,17 +217,6 @@ function HomePage({ allPostsData }: HomeProps) {
                 );
               }}
             />
-            {/* Removed custom loading and end of posts indicators */}
-            {/* {loading && (
-              <div style={{ textAlign: 'center', padding: '20px' }}>
-                <Spin />
-              </div>
-            )}
-            {!hasMore && displayedPosts.length > 0 && (
-              <div style={{ textAlign: 'center', padding: '20 왔다', color: '#b0b0b0' }}>
-                End of posts
-              </div>
-            )} */}
           </section>
         </div>
       </Content>
@@ -241,7 +229,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      allPostsData, // Pass all posts to the component
+      allPostsData,
     },
   };
 }

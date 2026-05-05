@@ -33,7 +33,7 @@ const ListItem = dynamic(() => import('antd').then(mod => mod.List.Item), { ssr:
 const Spin = dynamic(() => import('antd').then(mod => mod.Spin), { ssr: false }); // Import Spin for loading indicator
 // Removed Button import
 
-const POSTS_PER_PAGE = 5; // Define how many posts to load per page
+const POSTS_PER_PAGE = 20; // Define how many posts to load per page
 
 interface HomeProps {
   allPostsData: PostData[]; // Receive all posts from getStaticProps
@@ -98,14 +98,19 @@ function AuthorPage({ allPostsData, authorUsernameFromPath }: HomeProps) {
   useEffect(() => {
     const handleScroll = () => {
       // Load more posts when the user scrolls near the bottom of the page
-      const isNearBottom = window.innerHeight + document.documentElement.scrollTop >= document.documentElement.scrollHeight - 200; // 200px buffer
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+
+      // Use a 300px buffer to trigger loading before reaching the very bottom
+      const isNearBottom = clientHeight + scrollTop >= scrollHeight - 300;
 
       if (isNearBottom && hasMore && !loading) {
         loadMorePosts();
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [loadMorePosts, hasMore, loading]); // Depend on loadMorePosts, hasMore, and loading
 
@@ -218,17 +223,6 @@ function AuthorPage({ allPostsData, authorUsernameFromPath }: HomeProps) {
                 );
               }}
             />
-            {/* Removed custom loading and end of posts indicators */}
-            {/* {loading && (
-              <div style={{ textAlign: 'center', padding: '20px' }}>
-                <Spin />
-              </div>
-            )}
-            {!hasMore && displayedPosts.length > 0 && (
-              <div style={{ textAlign: 'center', padding: '20px', color: '#b0b0b0' }}>
-                End of posts
-              </div>
-            )} */}
           </section>
         </div>
       </Content>
