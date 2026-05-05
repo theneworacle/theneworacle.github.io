@@ -35,16 +35,17 @@ jobs:
       - name: Setup GitHub CLI
         run: |
           sudo apt-get install -y gh
-          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          gh auth login --with-token <<< "${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}"
 
-      - name: Run news research script
+      - name: Run New Zealand news research script
         env:
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
           GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_ACTIONS: true # Explicitly set GITHUB_ACTIONS to true
           DIRECT_PUSH_TO_MAIN: ${{ vars.DIRECT_PUSH_TO_MAIN }} # Add environment variable for direct push control
