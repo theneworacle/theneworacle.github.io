@@ -15,9 +15,10 @@ import xml.etree.ElementTree as ET
 import subprocess
 
 # ADK Imports
-from google.adk.agents import Agent, SequentialAgent
+from google.adk.agents import Agent, SequentialAgent, LoopAgent
 from google.adk.sessions import InMemorySessionService
 from google.adk.runners import Runner
+from google.adk.tools import exit_loop
 from google.genai import types # For creating message Content/Parts
 
 # Load environment variables
@@ -548,83 +549,8 @@ async def run_research_pipeline(
     fetch_keywords: str = "", # Added parameter for fetch keywords
     sleep_duration: int = 0 # New parameter for sleep duration
 ):
-    """Runs the core research pipeline with configurable parameters."""
-    print(f"Gemini ADK Sequential Pipeline: Starting {pipeline_name} process...")
-
-    # Helper function to create a sleep agent
-    def create_sleep_agent(agent_number: int, duration: int) -> Agent:
-        return Agent(
-            name=f"{app_name}_sleep_agent_{agent_number}",
-            model=GEMINI_MODEL,
-            description=f"An agent that pauses execution for {duration} seconds to prevent rate limiting.",       
-            instruction=f"Call the sleep_tool with {duration} seconds to pause execution.",
-            tools=[sleep_tool],
-            output_key=f"sleep_status_{agent_number}"
-        )
-
-    # Define agents for the SequentialAgent pipeline
-    # Pass agents_data to the writer agent's instruction or make it read it internally
-    # Reading internally is simpler for this structure.
-
-    lead_author_agent = Agent(
-        name=f"{app_name}_lead_author",
-        model=GEMINI_MODEL,
-        description=f"Lead author who selects top stories using fetch_news_stories with keywords '{fetch_keywords}', checks for duplicates against existing post titles, and assigns research tasks.", # Updated description      
-        instruction=f"You are the lead author for {pipeline_name}. Fetch top stories using fetch_news_stories with keywords '{fetch_keywords}'. Get existing post titles using get_existing_post_titles. Iterate through the fetched top stories and compare their titles/summaries against the existing post titles to find the first story that is NOT a duplicate. Output the title and url of the selected story as a JSON string. Ensure this JSON is your final response text.", # Updated instruction    
-        tools=[fetch_news_stories, get_existing_post_titles], # Use the generic fetch_news_stories
-        output_key="selected_story"
-    )
-
-    researcher_agent = Agent(
-        name=f"{app_name}_researcher",
-        model=GEMINI_MODEL,
-        description=f"Researcher who gathers more information and social sentiment for a given story for {pipeline_name}.",
-        instruction="You are the researcher. Given the story from the lead author: {selected_story}, use search_news_tool, scrape_article_tool, and search_social_sentiment to gather more information from other news sources and social media. Summarize your findings as your final response text for the writer agent.",
-        tools=[search_news_tool, scrape_article_tool, search_social_sentiment],
-        output_key="research_findings"
-    )
-
-    writer_agent = Agent(
-        name=f"{app_name}_writer",
-        model=GEMINI_MODEL,
-        description=f"Writer who drafts the blog post based on selected story details and research findings for {pipeline_name}.",
-        instruction="You are the writer. Given the selected story: {selected_story} and research findings: {research_findings}, write a compelling, well-structured blog post in markdown. Include title, excerpt, content, tags, and sources. CRITICAL: For the sources field, use scrape_article_tool to get the actual content from each URL and extract the real article title from that content. The sources field must be an array of objects with both 'url' and 'title' properties where the title is the actual article headline extracted from the scraped content. For example: [{'url': 'https://example.com/article', 'title': 'Actual Article Headline from Content'}, {'url': 'https://another.com/news', 'title': 'Real News Title from Scraped Page'}]. Include the original story URL and any additional URLs from the research findings. Output a JSON string with these fields: title, excerpt, content, tags, sources. Ensure this JSON is your final response text.",
-        tools=[scrape_article_tool],
-        output_key="blog_post_json_string"
-    )
-
-    reviewer_agent = Agent(
-        name=f"{app_name}_reviewer",
-        model=GEMINI_MODEL,
-        description=f"Reviewer who checks the draft for quality and accuracy for {pipeline_name}.",
-        instruction="You are the reviewer. Review this blog post draft: {blog_post_json_string}. Check for factual accuracy, clarity, and style. Suggest improvements if needed, or if it looks good, output 'APPROVED' as your final response text.",
-        tools=[],
-        output_key="reviewed_blog_post_json_string"
-    )
-
-    publisher_agent = Agent(
-        name=f"{app_name}_publisher",
-        model=GEMINI_MODEL,
-        description=f"Publishes the final blog post if approved for {pipeline_name}.",
-        instruction="You are the publisher. The reviewer status is: {reviewed_blog_post_json_string}. If the reviewer approved (said 'APPROVED'), publish the post: {blog_post_json_string} using save_and_set_pr_details_tool. After publishing, output 'PUBLISHED' as your final response text. If not approved, explain why.",
-        tools=[save_and_set_pr_details_tool],
-        output_key="publishing_status"
-    )
-
-    pipeline = SequentialAgent(
-        name=pipeline_name,
-        sub_agents=[
-            lead_author_agent,
-            create_sleep_agent(1, sleep_duration), # Insert sleep agent
-            researcher_agent,
-            create_sleep_agent(2, sleep_duration), # Insert sleep agent
-            writer_agent,
-            create_sleep_agent(3, sleep_duration), # Insert sleep agent
-            reviewer_agent,
-            create_sleep_agent(4, sleep_duration), # Insert sleep agent
-            publisher_agent
-        ]
-    )
+    """Runs the core research pipeline with manual agent orchestration for maximum reliability."""
+    print(f"Gemini ADK Manual Pipeline: Starting {pipeline_name} process...")
 
     # Runner setup
     session_service = InMemorySessionService()
@@ -636,69 +562,107 @@ async def run_research_pipeline(
     if asyncio.iscoroutine(result):
         await result
 
-    runner = Runner(agent=pipeline, app_name=app_name, session_service=session_service)
+    # Define sub-agents
+    lead_author_agent = Agent(
+        name=f"{app_name}_lead_author",
+        model=GEMINI_MODEL,
+        description="Selects a top story.",
+        instruction=f"You are the lead author. 1. Call fetch_news_stories with keywords '{fetch_keywords}'. 2. Call get_existing_post_titles. 3. Select the first non-duplicate story. 4. Output the story title and URL as JSON. 5. Say 'STORY_SELECTED' when done.",
+        tools=[fetch_news_stories, get_existing_post_titles],
+        output_key="selected_story"
+    )
 
-    print("--- ADK Runner Events ---")
-    content = types.Content(role="user", parts=[types.Part(text=initial_prompt)])
+    researcher_agent = Agent(
+        name=f"{app_name}_researcher",
+        model=GEMINI_MODEL,
+        description="Researches the selected story.",
+        instruction="You are the researcher. 1. Look at the selected story in the history. 2. Use search_news_tool and scrape_article_tool to gather more details. 3. Use search_social_sentiment. 4. Summarize all findings. 5. Say 'RESEARCH_COMPLETE' when done.",
+        tools=[search_news_tool, scrape_article_tool, search_social_sentiment],
+        output_key="research_findings"
+    )
+
+    writer_agent = Agent(
+        name=f"{app_name}_writer",
+        model=GEMINI_MODEL,
+        description="Drafts the blog post.",
+        instruction="You are the writer. 1. Use the research findings in the history to draft a blog post. 2. Output a JSON string with title, excerpt, content, tags, sources. 3. For sources, use scrape_article_tool to get real titles. 4. Say 'DRAFT_COMPLETE' when done.",
+        tools=[scrape_article_tool],
+        output_key="blog_post_json_string"
+    )
+
+    reviewer_agent = Agent(
+        name=f"{app_name}_reviewer",
+        model=GEMINI_MODEL,
+        description="Reviews the draft.",
+        instruction="You are the reviewer. 1. Review the draft in the history. 2. If it is high quality and ready to publish, call the exit_loop tool. 3. If it needs fixes, specify them in your response so the writer can improve it in the next turn.",
+        tools=[exit_loop],
+        output_key="reviewed_blog_post_json_string"
+    )
+
+    publisher_agent = Agent(
+        name=f"{app_name}_publisher",
+        model=GEMINI_MODEL,
+        description="Publishes the post.",
+        instruction="You are the publisher. 1. The draft has been approved. Take the final blog post JSON from the history and call save_and_set_pr_details_tool. 2. Say 'PUBLISHED' when done.",
+        tools=[save_and_set_pr_details_tool],
+        output_key="publishing_status"
+    )
+
+    # Shell Agents
+    review_loop = LoopAgent(
+        name=f"{app_name}_review_loop",
+        sub_agents=[writer_agent, reviewer_agent],
+        max_iterations=3
+    )
 
     pipeline_start_time = time.time()
     pipeline_ran_successfully = False
-    max_pipeline_retries = 3
-    pipeline_retry_delay = 30
 
-    for pipeline_attempt in range(max_pipeline_retries):
-        try:
-            events = runner.run_async(
-                user_id=user_id,
-                session_id=session_id,
-                new_message=content
-            )
+    async def run_agent_with_retry(agent: Agent | LoopAgent, prompt: str, max_retries: int = 3) -> bool:
+        runner = Runner(agent=agent, app_name=app_name, session_service=session_service)
+        content = types.Content(role="user", parts=[types.Part(text=prompt)])
+        
+        for attempt in range(max_retries):
+            try:
+                print(f"\n--- Running: {agent.name} (Attempt {attempt+1}) ---")
+                events = runner.run_async(user_id=user_id, session_id=session_id, new_message=content)
+                async for event in events:
+                    author = getattr(event, 'author', None)
+                    if author and event.content and event.content.parts:
+                        for part in event.content.parts:
+                            if hasattr(part, 'text') and part.text:
+                                print(f"[{author}]: {part.text[:300]}...")
+                            elif hasattr(part, 'function_call') and part.function_call:
+                                print(f"[{author}] calling: {part.function_call.name}")
+                            elif hasattr(part, 'function_response') and part.function_response:
+                                print(f"[{author}] result: {str(part.function_response.response)[:100]}...")
+                return True
+            except Exception as e:
+                error_str = str(e)
+                is_retryable = any(x in error_str for x in ["429", "RESOURCE_EXHAUSTED", "503", "UNAVAILABLE"])
+                if is_retryable and attempt < max_retries - 1:
+                    wait = 30 * (2 ** attempt)
+                    print(f"Retryable error: {error_str[:100]}. Waiting {wait}s...")
+                    await asyncio.sleep(wait)
+                else:
+                    print(f"Error in {agent.name}: {e}")
+                    return False
+        return False
 
-            final_response_text = "Pipeline finished without final response"
-            async for event in events:
-                author = getattr(event, 'author', None)
-                if event.is_final_response():
-                    if event.content and event.content.parts:
-                        final_response_text = event.content.parts[0].text
-                        print(f"\n[{author}] Final response:\n{final_response_text}")
-                    else:
-                        print(f"\n[{author}] Final response had no text content.")
-                elif author and event.content and event.content.parts:
-                    for part in event.content.parts:
-                        if hasattr(part, 'text') and part.text:
-                            print(f"\n[{author}]: {part.text[:500]}")
-                        elif hasattr(part, 'function_call') and part.function_call:
-                            print(f"\n[{author}] calling tool: {part.function_call.name}")
-                        elif hasattr(part, 'function_response') and part.function_response:
-                            resp_str = str(part.function_response.response)[:300]
-                            print(f"\n[{author}] tool result: {resp_str}")
+    # Execute main pipeline steps
+    if not await run_agent_with_retry(lead_author_agent, "Select a top story."): return False
+    if sleep_duration > 0: await asyncio.sleep(sleep_duration)
+    
+    if not await run_agent_with_retry(researcher_agent, "Research the story."): return False
+    if sleep_duration > 0: await asyncio.sleep(sleep_duration)
 
-            print("--- End of ADK Runner Events ---")
-            pipeline_ran_successfully = True
-            break
+    # Run the native ADK LoopAgent for the writing/reviewing cycle
+    if not await run_agent_with_retry(review_loop, "Draft and review the post."): return False
+    if sleep_duration > 0: await asyncio.sleep(sleep_duration)
 
-        except Exception as e:
-            error_str = str(e)
-            is_rate_limit = "429" in error_str or "RESOURCE_EXHAUSTED" in error_str
-            is_daily_quota = "PerDay" in error_str or "per_day" in error_str.lower()
-
-            if is_daily_quota:
-                print(f"Daily quota exhausted. Cannot retry. Error: {e}")
-                break
-
-            if is_rate_limit and pipeline_attempt < max_pipeline_retries - 1:
-                wait = pipeline_retry_delay * (2 ** pipeline_attempt)
-                print(f"Rate limit hit (attempt {pipeline_attempt + 1}/{max_pipeline_retries}). Retrying in {wait}s...")
-                await asyncio.sleep(wait)
-            else:
-                print(f"Error running pipeline (attempt {pipeline_attempt + 1}/{max_pipeline_retries}): {e}")     
-                if pipeline_attempt == max_pipeline_retries - 1:
-                    break
-
-    # Only proceed if the pipeline completed successfully
-    if not pipeline_ran_successfully:
-        print("Pipeline did not complete successfully. Skipping Git operations.")
-        return pipeline_ran_successfully
+    if not await run_agent_with_retry(publisher_agent, "Publish the approved post."): return False
+    
+    pipeline_ran_successfully = True
 
     # Check if a post was actually written during this run (mtime after pipeline start)
     post_path, post_title, post_content = get_latest_post_info()
@@ -708,14 +672,11 @@ async def run_research_pipeline(
     )
 
     if not post_was_saved:
-        print("WARNING: Pipeline completed but no new post was saved. "
-              "The publisher agent may not have called save_and_set_pr_details_tool. "
-              "Check the agent logs above to see where the chain broke down.")
+        print("WARNING: Pipeline finished but no new post was saved.")
         return False
 
     # --- GitHub Actions PR/Direct Push Logic ---
     print(f"Running in GitHub Actions: {is_github_actions()}")
-    print(f"Post was saved: {post_was_saved}")
     if post_was_saved and is_github_actions():
         print("Detected GitHub Actions environment and new post file found. Proceeding with Git operations...")   
 
@@ -789,9 +750,6 @@ async def run_research_pipeline(
                         github_token=github_token
                     )
                     print(pr_result) # Print the result of the PR creation attempt
-
-    else:
-        print("Not running in GitHub Actions or no new post saved. Skipping Git operations.")
 
     return pipeline_ran_successfully
 
