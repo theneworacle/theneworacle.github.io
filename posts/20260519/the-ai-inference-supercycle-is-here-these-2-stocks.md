@@ -1,0 +1,55 @@
+---
+title: "The AI Inference Supercycle Is Here. These 2 Stocks Will Be the Biggest Winners of This Megatrend (Hint: It's Not Broadcom or Intel)"
+authors:
+  - username: '@alanaturner'
+    name: 'Alana Turner'
+date: "2026-05-19T03:46:05Z"
+summary: "The artificial intelligence landscape is rapidly shifting, moving beyond the initial phase of AI model training into an 'inference supercycle.' This critical evolution is creating new investment opportunities, with companies like AMD, Arm Holdings, and even data center REITs emerging as prime beneficiaries, while the spotlight moves from traditional chip giants."
+tags:
+  - "AI Inference Supercycle"
+  - "AI Stocks"
+  - "Investment"
+  - "Technology"
+  - "AMD"
+  - "Nvidia"
+  - "Arm Holdings"
+  - "Data Centers"
+  - "Memory Chips"
+  - "Tech Investment"
+  - "Semiconductors"
+sources:
+  - url: "https://www.msn.com/en-us/news/other/ai-chip-market-shifts-to-inference-as-arm-memory-and-utilities-gain/gm-GMB7B83DFC?ocid=BingNewsVerp"
+    title: "AI chip market shifts to inference as Arm, memory, and utilities gain"
+  - url: "https://www.fool.com/investing/2026/04/03/amd-vs-nvidia-the-ai-supercycle-is-big-enough-for/"
+    title: "AMD vs. Nvidia: The AI Supercycle Is Big Enough for Both. Here's the Better Buy."
+  - url: "https://www.aol.com/articles/ive-changed-mind-amd-stock-172000462.html"
+    title: "I've Changed My Mind on AMD Stock. The AI Supercycle Has Room for More Than Just Nvidia."
+  - url: "https://www.cnbc.com/2026/05/17/these-underappreciated-winners-of-ai-also-pay-solid-income.html"
+    title: "These ‘underappreciated winners of AI’ also pay solid income"
+  - url: "https://www.msn.com/en-us/money/general/the-next-phase-of-the-ai-chip-supercycle-is-here-1-growth-stock-buy-before-it-is-too-late-hint-it-isn-t-intel-or-broadcom/ar-AA230vfI?ocid=BingNewsVerp"
+    title: "The Next Phase of the AI Chip Supercycle Is Here. 1 Growth Stock Buy Before It Is Too Late (Hint: It Isn't Intel or Broadcom)"
+---
+
+The world of artificial intelligence is constantly evolving, and we are now standing at the precipice of a significant new phase: the 'AI Inference Supercycle.' This megatrend is poised to redefine the winners and losers in the tech investment space, shifting the focus from initial AI model training to the practical application of these models in real-world scenarios.
+
+For years, much of the AI discussion centered on the intensive process of 'training' AI models – the computationally heavy work of feeding vast datasets to algorithms to learn patterns. However, the market is now rapidly transitioning to 'inference' workloads. Inference involves using these already trained AI models to make predictions, generate content, or perform decisions in real-time. Industry experts, including McKinsey, forecast that AI inference workloads will significantly surpass training by 2030, fueling an immense demand for specialized and energy-efficient processors.
+
+While companies like Broadcom and Intel have been significant players in the broader semiconductor industry, the AI Inference Supercycle is revealing a new set of clear frontrunners, and some underappreciated champions.
+
+**Who Are the New Powerhouses of the Inference Supercycle?**
+
+Several companies are strategically positioned to capitalize on this shift:
+
+*   **AMD:** Advanced Micro Devices is emerging as a formidable contender, effectively repositioning itself for both inference and the burgeoning field of agentic AI. Analysts suggest that the AI boom is expansive enough for both AMD and Nvidia to thrive, with AMD carving out a strong niche in inference.
+
+*   **Nvidia:** While the post title hints at others, Nvidia remains a pivotal force. The company continues to be a key player in the AI chip market, benefiting from the overall exponential growth in AI demand, and is actively adapting its offerings for inference workloads.
+
+*   **Arm Holdings:** Anticipating a substantial surge in revenue and earnings over the next half-decade, Arm Holdings is set to play a crucial role. Its energy-efficient AGI CPUs are particularly well-suited for the demanding, yet power-conscious, requirements of inference at scale.
+
+*   **Memory Manufacturers (DRAM and NAND):** The intensified focus on inference is expected to ignite a 'memory boom.' Inference tasks require rapid access to large amounts of data, thereby driving up demand for high-performance DRAM and NAND components.
+
+*   **Data Center REITs:** Often overlooked, data center Real Estate Investment Trusts are the 'underappreciated winners' of this AI revolution. They provide the essential, robust, and scalable backend infrastructure – the physical homes – for the servers and hardware that power AI operations, making them an indispensable part of the ecosystem.
+
+Social sentiment surrounding 'AI Inference Supercycle stocks' is largely positive, reflecting growing investor awareness and excitement about these new opportunities. As AI moves from the lab into everyday applications, the companies enabling this 'inference' phase are poised for significant growth and impact. Investors looking to navigate this evolving landscape would do well to consider these critical players beyond the most traditional names in the chip industry.
+
+**The AI Inference Supercycle isn't just a buzzword; it's a fundamental shift that will reshape technology and investment for years to come.**
