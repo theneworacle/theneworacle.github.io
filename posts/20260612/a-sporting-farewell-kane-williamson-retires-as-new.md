@@ -3,36 +3,34 @@ title: "A Sporting Farewell: Kane Williamson Retires as New Zealand's Cricket Ic
 authors:
   - username: '@sarahjones'
     name: 'Sarah Jones'
-date: "2026-06-12T16:25:18Z"
-summary: "New Zealand cricket bids an emotional goodbye to its greatest run-scorer, Kane Williamson, who has announced his immediate retirement from international cricket. Learn about his glittering career, the surprising mid-series decision, and the tributes pouring in from around the globe."
+date: "2026-06-12T19:11:42Z"
+summary: "New Zealand's cricketing legend, Kane Williamson, has announced his immediate retirement from international cricket after a stellar 16-year career. Williamson, known for his prolific run-scoring and astute leadership, leaves the sport on his own terms, expressing optimism for the future of the Black Caps."
 tags:
   - "Kane Williamson"
   - "Cricket"
-  - "New Zealand Cricket"
-  - "International Retirement"
+  - "New Zealand"
+  - "Sports Retirement"
   - "Black Caps"
-  - "Sports News"
-  - "Virat Kohli"
-  - "Cricket Legends"
+  - "International Cricket"
 sources:
-  - url: "NZ legend Williamson retires from international cricket"
-    title: "NZ legend Williamson retires from international cricket"
-  - url: "'I feel fortunate to step away on my own terms': Kane Williamson retires from international cricket"
-    title: "'I feel fortunate to step away on my own terms': Kane Williamson retires from international cricket"
-  - url: "New Zealand great Williamson says 'right time' to retire from international cricket"
+  - url: "https://www.msn.com/en-us/sports/other/kane-williamson-new-zealand-great-retires-from-international-cricket-with-immediate-effect/ar-AA25tqoA?ocid=BingNewsVerp"
+    title: "MSN"
+  - url: "https://sports.yahoo.com/articles/time-started-playing-cricket-sachin-170247175.html"
+    title: "'From the time I started playing cricket': Sachin Tendulkar's words may be the ultimate retirement tribute to Kane Williamson"
+  - url: "https://sports.yahoo.com/articles/zealand-great-williamson-says-time-134456644.html"
     title: "New Zealand great Williamson says 'right time' to retire from international cricket"
-  - url: "'From opponent to a friend: Virat Kohli shares emotional tribute after Kane Williamson's international retirement"
-    title: "'From opponent to a friend: Virat Kohli shares emotional tribute after Kane Williamson's international retirement"
-  - url: "New Zealand great Kane Williamson announces immediate retirement from international cricket"
-    title: "New Zealand great Kane Williamson announces immediate retirement from international cricket"
+  - url: "https://sports.yahoo.com/articles/time-step-away-kane-williamson-163100061.html"
+    title: "'The time was right to step away': Kane Williamson on retirement from international cricket - Full statement"
+  - url: "https://www.aljazeera.com/sports/2026/6/12/new-zealand-great-kane-williamson-retires-from-international-cricket"
+    title: "New Zealand great Kane Williamson retires from international cricket"
 ---
 
-In a move that has sent ripples across the cricketing world, New Zealand's highest run-scorer and one of the sport's modern-day greats, Kane Williamson, has announced his immediate retirement from international cricket. The decision, coming mid-series, allows Williamson to "step away on [his] own terms," a sentiment he shared regarding his departure.
+New Zealand bids a fond farewell to one of its greatest sporting heroes as Kane Williamson officially steps down from international cricket, effective immediately. The 35-year-old batting maestro concludes a remarkable 16-year career, leaving an indelible mark as the nation's most prolific run-scorer and a captain who led his team to unprecedented glory.
 
-Williamson's career has been nothing short of spectacular, spanning 16 years and seeing him amass an incredible 19,346 runs across all formats. As New Zealand's most prolific Test batsman, he scored 9,515 runs at an impressive average of 54.06, including 33 centuries. He was widely regarded as one of the 'Fab Four' batsmen of his generation, alongside India's Virat Kohli, Australia's Steve Smith, and England's Joe Root.
+Williamson's journey in Test cricket began in November 2010, and he went on to represent New Zealand in 110 Tests, amassing an impressive 9,515 runs at an average of 54.06, including 33 centuries. Across all international formats, his aggregate stands at a staggering 19,346 runs, featuring 48 centuries and six double-centuries, solidifying his status as New Zealand's all-time leading international run-scorer.
 
-His leadership during a 'golden period' for the Black Caps saw them clinch the inaugural World Test Championship in 2021 and reach the finals of both the 2019 World Cup and the 2021 T20 World Cup. Tributes have poured in from all corners, with coach Rob Walter acknowledging Williamson's "legacy" and "impact on the culture and standards of this team." Legendary all-rounder Sir Richard Hadlee lauded him as a "wonderful player and fine leader," an "architect of some of our greatest moments in cricket."
+Beyond his extraordinary batting prowess, Williamson was a revered leader, guiding the Black Caps across formats between 2016 and 2024. A crowning achievement of his captaincy was leading the Test side to victory in the inaugural World Test Championship in 2021, a historic moment for New Zealand cricket. His list of accolades is extensive, including being named the ICC Cricketer of 2015 and Test Player of 2019, alongside a record four Sir Richard Hadlee Medals.
 
-The news has generated a largely positive response on social media, reflecting the immense respect Williamson garnered throughout his career. Among the most touching tributes was one from long-time rival and friend, Virat Kohli, who shared an emotional message highlighting their enduring friendship and mutual admiration on and off the field.
+In his statement, Williamson reflected on his career, stating, "I’ve always felt a strong drive and hunger for international cricket, and I take pride in knowing I’ve given it my all in every match I’ve played for New Zealand. Continuing with anything less wouldn’t be right, and I feel fortunate to step away on my own terms." He also expressed confidence in the next generation, adding, "I leave feeling optimistic about where this group is heading. There’s a huge amount of talent, and a real desire to do something special with this New Zealand team.”
 
-While the timing of his retirement, mid-series against England, has sparked some discussion, Williamson's decision underscores his dedication to the team and his personal convictions. He leaves behind an indelible mark on New Zealand cricket, a testament to his skill, leadership, and sportsmanship. The Black Caps will undoubtedly feel the void left by their departing icon, but Williamson's legacy as one's of the game's true gentlemen and greatest performers is cemented.
+The announcement has been met with a largely positive reaction from fans and pundits, acknowledging his immense contributions to the sport. While some debate the timing, the overriding sentiment celebrates a career defined by class, consistency, and sportsmanship. Kane Williamson’s retirement marks the end of an era, but his legacy will undoubtedly continue to inspire future generations of New Zealand cricketers.
