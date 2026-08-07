@@ -2,8 +2,8 @@ name: Automated News Research
 
 on:
   schedule:
-    # Run every 4 hours
-    - cron: '0 */4 * * *'
+    # Run once a day at 02:00
+    - cron: '0 2 * * *'
   workflow_dispatch:
 
 concurrency: news-research-group

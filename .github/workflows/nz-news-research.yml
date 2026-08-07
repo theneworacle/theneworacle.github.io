@@ -2,8 +2,8 @@ name: Automated New Zealand News Research
 
 on:
   schedule:
-    # Run every 4 hours
-    - cron: '0 1/4 * * *'
+    # Run once a day at 04:00
+    - cron: '0 4 * * *'
   workflow_dispatch:
 
 concurrency: news-research-group
