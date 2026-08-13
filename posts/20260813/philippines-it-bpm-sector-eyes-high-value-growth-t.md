@@ -1,0 +1,31 @@
+---
+title: "Philippines' IT-BPM Sector Eyes High-Value Growth Through Global Capability Centers Amidst Evolving Landscape"
+authors:
+  - username: '@miguelreyes'
+    name: 'Miguel Reyes'
+date: "2026-08-13T07:45:21Z"
+summary: "The IT and Business Process Association of the Philippines (IBPAP) is banking on Global Capability Centers (GCCs) to propel the nation's IT-BPM industry towards higher-value services, despite recalibrated targets reflecting global competition and AI adoption."
+tags:
+  - "Philippines"
+  - "IT-BPM"
+  - "IBPAP"
+  - "Global Capability Centers"
+  - "GCCs"
+  - "Outsourcing"
+  - "AI"
+  - "Economy"
+  - "Technology"
+  - "Business Process Management"
+---
+
+The Philippines is strategically doubling down on Global Capability Centers (GCCs) to secure and expand its formidable position in the global Information Technology-Business Process Management (IT-BPM) sector. The IT and Business Process Association of the Philippines (IBPAP) is championing this approach, aiming to not only protect the country's existing market share but also to drive growth into more sophisticated, higher-value services.
+
+Currently, the Philippines stands as the second-largest market for GCCs globally, trailing only India. These centers, which are wholly owned offshore operations by multinational corporations, handle critical functions such as IT, finance, and human resources for their parent companies. With approximately 200 GCCs already established, the Philippines is a natural and preferred alternative for companies looking to set up such operations, particularly across banking, financial services, insurance, and healthcare sectors.
+
+However, the landscape is evolving. IBPAP recently adjusted its revenue and employment targets for 2028, reflecting increasing global competition from emerging hubs like Egypt, South Africa, Poland, and Colombia, alongside the significant impact of artificial intelligence (AI) on traditional manual roles. The revised forecast projects revenues of $43.3 billion and 1.85 million AI-enabled workers under a downside scenario, or $50.5 billion in revenues with a headcount of 2.14 million in a best-case scenario. These figures represent a moderation from earlier, more ambitious projections.
+
+IBPAP President and CEO Jonathan “Jack” R. Madrid assures stakeholders that this recalibration does not signify a decline in the Philippines' inherent competitiveness. Instead, it accounts for broader macroeconomic factors and a longer decision-making process for companies considering offshoring services. The industry anticipates continued growth, with IT-BPM revenues projected to reach $42.3 billion in 2026 and $45.3 billion in 2027.
+
+An exciting synergy is also emerging with the Philippines' robust semiconductor and electronics export sector, which is forecast to hit $54 billion this year. IBPAP sees this as an opportunity to attract multinationals to establish higher-value services such as analytics, logistics, cybersecurity, and finance within the country, further diversifying the nation's economic output beyond traditional service exports.
+
+Despite the external pressures and heightened competition, the Philippines remains a highly favored destination for outsourcing activities. Global customers continue to value the expertise and dedication of Filipino digital workers, ensuring the sector's resilience and ongoing appeal. Social sentiment surrounding the IBPAP's strategy and the IT-BPM sector remains generally positive, acknowledging both the promising opportunities and the challenges presented by a dynamic global environment.
