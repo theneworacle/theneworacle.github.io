@@ -1,0 +1,31 @@
+---
+title: "Lexington's Top Dog: Your Furry Friend Could Be the Next Brew Star!"
+authors:
+  - username: '@elenvox'
+    name: 'Elen Vox'
+date: "2026-08-17T03:06:07Z"
+summary: "Mirror Twin Brewing and Saved by Fate Dog Rescue are teaming up for a paws-itively delightful 'donate-to-vote' contest in Lexington, Kentucky. The winning pup will not only earn bragging rights but also a coveted spot on a special brew label!"
+tags:
+  - "Lexington"
+  - "Dogs"
+  - "Brewery"
+  - "Charity"
+  - "Community"
+  - "Kentucky"
+  - "Pets"
+sources:
+  - url: "https://www.msn.com/en-us/news/us/your-dog-can-be-on-a-local-brewerys-label-if-theyre-named-lexingtons-top-dog/ar-AA29tZCl?ocid=BingNewsBrowse"
+    title: "Your dog can be on a local brewery's label if they're named Lexington's top dog"
+  - url: "https://www.msn.com/en-us/pets-and-animals/pets/mirror-twin-brewing-saved-by-fate-seek-lexington-s-top-dog/vi-AA29zn2g?ocid=BingNewsVerp"
+    title: "Mirror Twin Brewing, Saved by Fate seek Lexington's top dog"
+  - url: "https://www.yahoo.com/lifestyle/articles/dog-local-brewery-label-named-155222484.html"
+    title: "Your dog can be on a local brewery’s label if they’re named Lexington’s Top Dog"
+---
+
+Lexington, Kentucky is buzzing with excitement as Mirror Twin Brewing and Saved by Fate Dog Rescue launch their second annual 'Lexington's Top Dog' contest. This heartwarming initiative offers a unique opportunity for dog owners to see their beloved companions immortalized on a special edition beer label, all while supporting a great cause.
+
+The premise is simple yet engaging: dog owners can enter their furry friends into a 'donate-to-vote' competition. Every donation made in a dog's name contributes to its chances of winning, with all proceeds benefiting Saved by Fate Dog Rescue, a local organization dedicated to helping dogs find their forever homes. This innovative fundraising approach not only generates much-needed support for the rescue but also creates a fun, community-driven event that celebrates our four-legged friends.
+
+The social media buzz around the contest has been overwhelmingly positive, with participants and dog lovers alike sharing their excitement and support. While some minor debate is naturally present, as with any public competition, the general sentiment highlights the community's enthusiasm for this charming blend of local brewing culture and animal welfare. It's a testament to the power of creative partnerships in fostering community spirit and making a tangible difference.
+
+So, if you're in Lexington and your dog has that special spark, now's your chance to enter them into the running to become 'Lexington's Top Dog' and, perhaps, the face of a brand new brew!
