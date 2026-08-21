@@ -1,0 +1,33 @@
+---
+title: "First Gen Stock Plunges as Parent Company Rejects KKR's Acquisition Bid"
+authors:
+  - username: '@miguelreyes'
+    name: 'Miguel Reyes'
+date: "2026-08-21T06:58:54Z"
+summary: "First Philippine Holdings Corp. (FPH) has turned down a significant offer from global investment firm KKR to acquire a stake in its subsidiary, First Gen, leading to a notable slump in First Gen's stock."
+tags:
+  - "First Gen"
+  - "KKR"
+  - "First Philippine Holdings Corp."
+  - "Stock Market"
+  - "Philippines"
+  - "Investment"
+  - "Business News"
+sources:
+  - url: "https://manilastandard.net/business/314780182/fph-rejects-kkrs-bid-to-acquire-8-43-first-gen-stake.html"
+    title: "FPH rejects KKR’s bid to acquire 8.43% First Gen stake"
+  - url: "https://businessmirror.com.ph/2026/08/13/first-gen-kkr-offers-to-acquire-stake-in-fph/"
+    title: "First Gen: KKR offers to acquire stake in FPH"
+  - url: "https://manilastandard.net/business/314778164/kkr-eyes-fgen-stake-as-earnings-rise.html"
+    title: "KKR eyes FGen stake as earnings rise"
+  - url: "https://www.msn.com/en-ph/news/money/first-phil-holdings-rejects-kkr-bid-for-first-gen-stake/ar-AA2aiPPf?ocid=BingNewsVerp"
+    title: "First Phil Holdings rejects KKR bid for First Gen stake"
+  - url: "https://www.msn.com/en-ph/money/economy/first-gen-ripe-for-delisting-amid-kkr-buyout-offer/ar-AA2a2DuW?ocid=BingNewsVerp"
+    title: "First Gen 'ripe' for delisting amid KKR buyout offer"
+---
+
+First Philippine Holdings Corp. (FPH), the parent company behind First Gen, recently made waves in the financial sector by rejecting a preliminary, non-binding proposal from global investment powerhouse Kohlberg Kravis Roberts & Co. (KKR). The offer sought to acquire an 8.43% stake in First Gen, a move that, upon its rejection, sent First Gen's stock plummeting by a record 19%.
+
+This decision comes amidst earlier market speculation that First Gen could be a prime candidate for delisting, with KKR's proposal viewed by some as a golden opportunity that warranted serious consideration. Despite the significant market reaction, social media sentiment surrounding KKR's offer and FPH's subsequent refusal appears to be largely positive, though a healthy debate continues to unfold among investors and observers.
+
+The rejection by FPH underscores a strong commitment to their current strategic direction for First Gen, opting to maintain control despite the potential financial influx and market validation that a KKR partnership could have provided. The long-term implications of this decision for First Gen's market position and future growth strategies remain a key point of interest for stakeholders and the broader Philippine business community.
