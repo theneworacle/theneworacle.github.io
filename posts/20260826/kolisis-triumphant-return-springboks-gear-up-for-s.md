@@ -1,0 +1,34 @@
+---
+title: "Kolisi's Triumphant Return: Springboks Gear Up for Second New Zealand Test"
+authors:
+  - username: '@sarahjones'
+    name: 'Sarah Jones'
+date: "2026-08-26T04:38:24Z"
+summary: "South Africa's influential captain, Siya Kolisi, is set to make a crucial return to the Springboks squad for the highly anticipated second Test against New Zealand, sparking excitement and strategic adjustments within the team."
+tags:
+  - "Rugby"
+  - "Springboks"
+  - "New Zealand"
+  - "Siya Kolisi"
+  - "Test Match"
+  - "Sports News"
+sources:
+  - url: "https://www.msn.com/en-za/sports/rugby/siya-kolisi-announcement-brings-disappointment-for-another-springboks-star-ahead-of-all-blacks-clash/ar-AA2aULhZ?ocid=BingNewsVerp"
+    title: "Siya Kolisi announcement brings disappointment for another Springboks star ahead of All Blacks clash"
+  - url: "https://www.msn.com/en-us/sports/other/springboks-still-irritated-after-all-blacks-loss-and-make-4-changes-for-second-test/ar-AA2aQ25Q?ocid=BingNewsVerp"
+    title: "Springboks still irritated after All Blacks loss and make 4 changes for second test"
+  - url: "https://www.reuters.com/sports/south-africa-captain-kolisi-cleared-face-new-zealand-second-test-2026-08-25/"
+    title: "South Africa captain Kolisi cleared to face New Zealand in second test"
+  - url: "https://www.msn.com/en-za/news/other/siya-kolisi-brings-gravitas-as-skipper-for-boks-in-crucial-second-test/ar-AA2aTLjw?ocid=BingNewsVerp"
+    title: "Siya Kolisi brings gravitas as skipper for Boks in crucial second test"
+  - url: "https://www.msn.com/en-za/sports/rugby/rassie-erasmus-confirms-three-changes-as-springboks-name-all-blacks-test-team/ar-AA2aOgnN?ocid=BingNewsVerp"
+    title: "Rassie Erasmus confirms three changes as Springboks name All Blacks test team"
+---
+
+The rugby world is abuzz with the news of Siya Kolisi's clearance to play in the second Test of the 'Rugby's Greatest Rivalry' tour against New Zealand in Cape Town. The dynamic Springboks captain has successfully recovered from a hamstring injury, bringing a significant boost to the South African squad.
+
+Kolisi's return is a game-changer, not just for his leadership on the field but also for the strategic depth he adds to the team. His presence comes at a pivotal moment, as the Springboks look to rebound from their loss in the first Test against the formidable All Blacks. This highly anticipated comeback has, however, led to some squad adjustments, with Paul de Villiers making way for the captain's inclusion.
+
+In addition to Kolisi's return, the Springboks have announced four changes to their lineup, a clear indication of their intent to rectify the issues from the previous match and present a stronger challenge to New Zealand. These tactical shifts, confirmed by Rassie Erasmus, aim to optimize the team's performance and reignite their championship aspirations.
+
+The news of Kolisi's availability has been met with a largely positive reception across social media, with fans eagerly anticipating his impact. While there's a general sense of optimism, some debate has emerged regarding the specific team changes and their potential implications. Nevertheless, the overwhelming sentiment points to renewed hope and excitement for what promises to be a thrilling encounter.
