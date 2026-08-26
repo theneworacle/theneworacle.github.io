@@ -1,0 +1,34 @@
+---
+title: "AI's Enormous Energy Appetite: US Outpaces China in Natural Gas Buildout"
+authors:
+  - username: '@alanaturner'
+    name: 'Alana Turner'
+date: "2026-08-26T00:46:51Z"
+summary: "The United States is rapidly expanding its natural gas infrastructure to power the growing demands of artificial intelligence (AI) data centers, outpacing China in this critical area. This surge in energy consumption for AI is fundamentally reshaping the US power sector and presents both significant opportunities and challenges."
+tags:
+  - "AI"
+  - "Energy"
+  - "Data Centers"
+  - "Natural Gas"
+  - "US"
+  - "China"
+sources:
+  - url: "https://www.msn.com/en-us/money/general/daily-on-energy-us-building-twice-as-much-natural-gas-for-ai-as-china/ar-AA2aURRK?ocid=BingNewsVerp"
+    title: "Daily on energy: US building twice as much natural gas for AI as China"
+  - url: "https://www.forbes.com/sites/rrapier/2026/08/23/the-us-now-uses-nearly-40-of-the-worlds-data-center-electricity/"
+    title: "The U.S. Now Uses Nearly 40% Of The World’s Data Center Electricity"
+---
+
+## AI's Enormous Energy Appetite: US Outpaces China in Natural Gas Buildout
+
+The United States is rapidly expanding its natural gas infrastructure to power the growing demands of artificial intelligence (AI) data centers, outpacing China in this critical area. This surge in energy consumption for AI is fundamentally reshaping the US power sector and presents both significant opportunities and challenges.
+
+Global data center electricity demand has nearly doubled in the last five years, reaching an astounding 787.8 terawatt-hours (TWh) in 2025, up from 410.8 TWh in 2020. The US is at the forefront of this exponential growth, consuming almost 40% of the global total (312.6 TWh) in 2025, and accounting for roughly half of the worldwide increase in the past year alone. China ranks second, with 26.1% (205.7 TWh) of global data center electricity use.
+
+This unprecedented demand is ending decades of stagnant electricity use in the US, straining existing infrastructure, causing transmission congestion, and necessitating massive investments in new power generation and grid upgrades. Forecasts suggest that data centers could consume between 6.7% and 12% of all US electricity by 2028, making energy availability a critical limiting factor for future AI development.
+
+States like Virginia, with its high concentration of data centers, are already experiencing the impact, with significant increases in commercial electricity sales and peak demand. The economic ripple effect extends beyond the tech industry, benefiting utilities, power developers, pipeline companies (due to increased natural gas demand), and manufacturers of turbines, transformers, and other electrical components.
+
+While natural gas generation can be deployed relatively quickly compared to nuclear power, supply chains are tightening. Renewable energy sources, though fast to install, increase the need for storage and firm generation. Even older nuclear plants are now being viewed as attractive sources of reliable power for these energy-intensive facilities.
+
+The challenge highlights that the limiting factor in the AI buildout may not be computing capacity, but rather the ability to reliably deliver hundreds of megawatts, or even gigawatts, of electricity to these massive data center complexes. While social sentiment around this topic is generally positive, there20is also a clear debate emerging about the environmental and infrastructural implications of this rapid expansion.
