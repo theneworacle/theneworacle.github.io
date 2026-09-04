@@ -1,0 +1,38 @@
+---
+title: "Philippines, Australia, US Bolster Alliance with Joint Naval Drills in West Philippine Sea"
+authors:
+  - username: '@miguelreyes'
+    name: 'Miguel Reyes'
+date: "2026-09-04T11:01:33Z"
+summary: "The Philippines, United States, and Australia recently concluded a significant week-long multilateral maritime exercise in the West Philippine Sea, aiming to enhance regional interoperability, operational coordination, and collective commitment to a free and open Indo-Pacific."
+tags:
+  - "Philippines"
+  - "Australia"
+  - "United States"
+  - "Naval Exercises"
+  - "West Philippine Sea"
+  - "Indo-Pacific"
+  - "Maritime Security"
+  - "Defense"
+  - "International Relations"
+  - "China"
+sources:
+  - url: "https://www.msn.com/en-ph/politics/government/philippines-australia-us-complete-naval-exercises-in-west-philippine-sea/ar-AA2aZdQZ"
+    title: "Philippines, Australia, US complete naval exercises in West Philippine Sea"
+  - url: "https://www.pna.gov.ph/articles/1282668"
+    title: "19th MMCA in WPS with US, Australia successful - AFP"
+  - url: "https://www.msn.com/en-ph/politics/government/chinese-warships-shadow-ph-us-australian-vessels-in-exercises-over-wps/ar-AA2aXije"
+    title: "Chinese warships shadow PH, US, Australian vessels in exercises over WPS"
+  - url: "https://seapowermagazine.org/australia-philippine-u-s-forces-conduct-multilateral-maritime-cooperative-activity-2/"
+    title: "Australia, Philippine, U.S. forces conduct Multilateral Maritime Cooperative Activity"
+---
+
+From August 19 to 25, 2026, the Philippines, United States, and Australia conducted their 10th Multilateral Maritime Cooperative Activity (MCA) in the West Philippine Sea. This seven-day naval exercise was a concerted effort to significantly enhance interoperability and operational coordination among the three nations, reinforcing their shared commitment to strengthening regional and international cooperation in support of a free and open Indo-Pacific.
+
+The drills focused on a wide array of tactical interoperability exercises. These included crucial procedures such as visit, board, search, and seizure operations; comprehensive search and rescue missions; challenging deck landing qualifications; efficient vertical replenishment and replenishment-at-sea maneuvers; and advanced anti-submarine warfare techniques. Notably, this iteration built upon and refined anti-submarine warfare serials developed in previous MCAs, demonstrating a continuous evolution in their joint capabilities. All activities were meticulously conducted in a manner consistent with international law, strictly adhering to the safety, navigational rights, and freedoms of all nations.
+
+Participating units showcased a robust display of naval and air power from all three countries. The Royal Australian Navy contributed the Supply-class replenishment oiler HMAS Supply (A 195) and an MH-60R Seahawk anti-submarine helicopter, complemented by a P-8A Poseidon maritime patrol and reconnaissance aircraft from the Royal Australian Air Force. The Philippine forces deployed two FA-50 fighter jets and a Cessna C-208B Grand Caravan EX utility aircraft from the Air Force, the BRP Teresa Magbanua (MRRV 9701) patrol vessel from the Coast Guard, and the Miguel Malvar-class guided missile frigate BRP Diego Silang (FFG-07) with an AW159 Wildcat helicopter from the Navy. The U.S. Navy participated with the Independence-variant littoral combat ship USS Santa Barbara (LCS 32) and a P-8A Poseidon.
+
+During the exercises, Chinese naval and coast guard vessels reportedly shadowed the allied ships. There were instances of radio challenges exchanged between a Chinese warship and a Philippine Navy vessel concerning competing claims around Sabina Shoal, highlighting the ongoing geopolitical sensitivities in the region.
+
+Social media sentiment surrounding these exercises was largely positive, albeit with some debate. The U.S. 7th Fleet reiterated its steadfast commitment to upholding the freedom of navigation and overflight, as well as other lawful uses of the sea and international airspace, in close cooperation with allies and partners to preserve a free and open Indo-Pacific.
