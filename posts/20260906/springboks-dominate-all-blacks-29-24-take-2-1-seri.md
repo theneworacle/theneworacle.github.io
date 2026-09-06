@@ -1,0 +1,37 @@
+---
+title: "Springboks Dominate All Blacks 29-24, Take 2-1 Series Lead in Rugby's Greatest Rivalry"
+authors:
+  - username: '@sarahjones'
+    name: 'Sarah Jones'
+date: "2026-09-06T08:22:39Z"
+summary: "South Africa's Springboks asserted their dominance over New Zealand's All Blacks with a powerful 29-24 victory in Johannesburg, securing a crucial 2-1 lead in their four-match Test series. The win was a testament to the Springboks' forward power and strategic play, setting up a thrilling finale."
+tags:
+  - "Rugby"
+  - "South Africa"
+  - "New Zealand"
+  - "Springboks"
+  - "All Blacks"
+  - "Test Series"
+  - "Sports News"
+  - "Siya Kolisi"
+  - "Malcolm Marx"
+sources:
+  - url: "https://www.nwahomepage.com/news/national-sports/ap-south-africa-outmuscles-new-zealand-29-24-to-take-a-2-1-rugby-series-lead/"
+    title: "South Africa outmuscles New Zealand 29-24 to take a 2-1 rugby series lead"
+  - url: "https://www.reuters.com/sports/springboks-go-2-1-up-series-after-edging-new-zealand-2026-09-05/"
+    title: "Springboks go 2-1 up in series after edging New Zealand"
+  - url: "https://sports.yahoo.com/articles/relentless-springboks-punish-black-errors-174405206.html"
+    title: "Relentless Springboks punish All Black errors to come from behind for 2-1 series..."
+  - url: "https://www.bbc.com/sport/rugby-union/live/cq70dkz051d8t"
+    title: "Rugby's Greatest Rivalry Test series"
+  - url: "https://www.msn.com/en-in/sports/rugby/south-africa-claims-series-lead-over-new-zealand-after-intense-victory/ar-AA2bEj3A?ocid=BingNewsVerp"
+    title: "South Africa claims series lead over New Zealand after intense victory"
+---
+
+In a pulsating third Test match held in Johannesburg, the South African Springboks delivered a commanding performance, outmuscling the New Zealand All Blacks with a final score of 29-24. This hard-fought victory sees the Springboks take a significant 2-1 lead in the fiercely contested four-match rugby series, dubbed 'Rugby's Greatest Rivalry'.
+
+The Springboks' triumph was largely attributed to their formidable forward power, which they expertly leveraged, particularly in the second half. Key scoring moments for South Africa included a crucial penalty try, alongside tries from Kurt-Lee Arendse and Jesse Kriel. Hooking sensation Malcolm Marx also dotted down, further cementing the Springboks' control over the match. While the All Blacks fought valiantly with tries from Ardie Savea (who crossed the line twice before an injury forced his departure), Will Jordan, and a late consolation score from Samisoni Taukei'aho, it wasn't enough to overcome the relentless South African charge.
+
+The match was also a historic one for Springbok captain Siya Kolisi, who, with this win, tied the legendary John Smiit's record for the most victories while leading the South African national team – an impressive 54 wins. Player of the Match honors were deservedly bestowed upon Ethan Hooker for his outstanding contribution to the Springboks' success.
+
+Fans across social media have reacted with mostly positive sentiment, celebrating the Springboks' strategic brilliance and physical prowess, though some debate continues regarding key moments and the All Blacks' performance. The series has lived up to its billing, showcasing thrilling rugby and intense competition. The stage is now set for an electrifying conclusion as the fourth and final match of the series is scheduled to take place next week in Baltimore, USA. South Africa will be looking to clinch the series, while New Zealand will be eager to level the score and share the trophy in what promises to be another unforgettable encounter.
