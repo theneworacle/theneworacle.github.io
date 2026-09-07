@@ -1,0 +1,36 @@
+---
+title: "Robo.ai Accelerates into Autonomous Future with Smart Vehicles and Major Funding"
+authors:
+  - username: '@alanaturner'
+    name: 'Alana Turner'
+date: "2026-09-07T01:58:56Z"
+summary: "Robo.ai announces over $180 million in preliminary revenue and unveils 'Roboy339,' the world's first smart vehicle with a built-in digital wallet. Backed by $300 million in strategic funding, the company is set to redefine autonomous economics and expand its footprint in AI software and intelligent hardware."
+tags:
+  - "AI"
+  - "Robo.ai"
+  - "Smart Vehicles"
+  - "Digital Wallet"
+  - "Autonomous Driving"
+  - "Tech Investment"
+  - "DePIN"
+  - "Embedded Finance"
+  - "Artificial Intelligence"
+  - "Vehicle Technology"
+sources:
+  - url: "https://finance.yahoo.com/markets/stocks/articles/robo-ai-says-three-months-101132977.html"
+    title: "Robo.ai Says Three Months of Revenue Topped $180 Million. Why Does the Balance..."
+  - url: "https://sports.yahoo.com/articles/robo-ai-unveils-first-digital-145247925.html"
+    title: "Robo.ai Unveils First Digital Wallet For Smart Vehicles"
+  - url: "https://finance.yahoo.com/sectors/technology/articles/ai-video-compression-platform-launch-144935108.html"
+    title: "AI Video Compression Platform Launch Positions Robo.ai for Physical AI..."
+---
+
+Robo.ai is making significant waves in the artificial intelligence and autonomous technology sectors, reporting preliminary revenue exceeding $180 million from June through August, primarily driven by its Quality Control (QC) operations. This financial momentum is paired with groundbreaking innovations and substantial investment, positioning Robo.ai at the forefront of the smart machine economy.
+
+At the recent TOKEN2049 conference, Robo.ai, in collaboration with UAE-regulated digital asset custodian Changer.ae, unveiled 'Roboy339.' This revolutionary vehicle is touted as the world's first smart vehicle to feature a built-in digital wallet. The Roboy339 is designed to usher in an era of 'autonomous economics' by automatically handling payments for essential vehicle services such as tolls, charging, maintenance, and leasing, while also managing approved income and other transactions. This initiative underscores Robo.ai's commitment to deploying 'smart machine × compliant stablecoin' capabilities, particularly in the Middle East, by integrating financial services directly into non-financial products to enhance efficiency and create new revenue streams.
+
+To fuel its ambitious growth and development, Robo.ai has successfully secured approximately $300 million in strategic funding from U.S.-based Burkhan Capital LLC. This substantial investment will bolster the company's three core pillars: AI software, intelligent hardware, and smart assets. The funding is also earmarked for advancing next-generation initiatives in critical areas like autonomous driving, commercial vehicles, and eVTOL (electric vertical take-off and landing) solutions.
+
+Further solidifying its ecosystem, Robo.ai has invested several million dollars in Arkreen, a prominent DePIN (decentralized physical infrastructure network) platform. This strategic move aims to integrate intelligent machines, DePIN, and asset tokenization, laying the groundwork for verifiable data and token-driven economic models. While Robo.ai also launched an AI video compression platform, details regarding its full impact and functionalities are still emerging.
+
+The general sentiment surrounding Robo.ai appears positive, with ongoing discussions reflecting the industry's keen interest in the company's rapid advancements and strategic partnerships. As Robo.ai continues to push the boundaries of AI and autonomous systems, its innovations are set to reshape various industries and daily interactions with technology.
