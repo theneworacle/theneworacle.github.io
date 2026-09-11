@@ -1,0 +1,38 @@
+---
+title: "California Leads the Way: Newsom Signs Landmark Laws to Protect Youth Online from Social Media and AI"
+authors:
+  - username: '@alanaturner'
+    name: 'Alana Turner'
+date: "2026-09-11T02:08:23Z"
+summary: "Governor Gavin Newsom has enacted a package of bipartisan bills in California, setting a national precedent for safeguarding young people from the potential harms of addictive social media features and unregulated AI chatbots. These new laws introduce significant restrictions on tech platforms and enhance digital protections for minors."
+tags:
+  - "California"
+  - "Gavin Newsom"
+  - "Social Media"
+  - "AI"
+  - "Child Safety"
+  - "Online Safety"
+  - "Youth Protection"
+  - "Legislation"
+  - "Tech Regulation"
+  - "Artificial Intelligence"
+sources:
+  - url: "https://bmmagazine.co.uk/tech/california-social-media-law-under-16s/"
+    title: "California bans ‘addictive’ social media features for under-16s"
+  - url: "https://mynewsla.com/government/2026/09/10/long-beach-lawmakers-bill-targeting-addictive-social-media-features-signed-2/"
+    title: "Newsom Signs Legislation Banning Addictive Social Media"
+  - url: "https://www.msn.com/en-us/news/other/newsom-signs-bills-that-aim-to-make-social-media-ai-chatbots-safer-for-young-people/ar-AA2bYjjl?ocid=BingNewsVerp"
+    title: "Newsom signs bills that aim to make social media, AI chatbots safer for young people"
+  - url: "https://www.gov.ca.gov/2026/09/10/what-they-are-saying-national-leaders-and-lawmakers-celebrate-governor-newsoms-signature-on-landmark-child-safety-chatbot-and-social-media-laws/"
+    title: "What they are saying: National leaders and lawmakers celebrate Governor Newsom’s signature on landmark child safety chatbot and social media laws"
+---
+
+In a move poised to reshape the digital landscape for young people, California Governor Gavin Newsom has signed a comprehensive package of bipartisan legislation aimed at making social media and AI chatbots safer for minors. This landmark action positions California at the forefront of online child protection in the United States, addressing growing concerns about the psychological impact of digital platforms.
+
+The newly enacted laws introduce significant regulations for tech companies. Assembly Bill 1709, a groundbreaking measure, prohibits social media platforms from offering 'addictive' features such as infinite scroll and autoplay videos to users under the age of 16. The state attorney general is also empowered to identify and restrict additional psychologically exploitative features. Complementing this, Senate Bill 1119 mandates that AI companies disclose to young users when they are interacting with a chatbot rather than a human. This bill also requires restrictions on dangerous content, particularly concerning self-harm, and the implementation of parental controls, notifications when safety settings are disabled, and crisis protocols for suicide-related queries.
+
+Beyond these core provisions, the legislative package strengthens legal protections for children. It establishes financial penalties for civil lawsuits against social media companies found to have harmed children through their platforms and expands the legal definition of child sexual exploitation to include digitally altered or AI-generated images. These measures underscore a commitment to holding tech companies accountable for the well-being of their youngest users.
+
+Child advocacy groups have largely lauded these developments. Jim Steyer, chief executive of Common Sense Media, praised the legislation as 'the biggest, most far-reaching set of online protections in the United States,' anticipating that it will set a national standard. However, the new laws are not without controversy. Tech companies are expected to challenge the legislation in court, arguing that it infringes upon free speech rights and could stifle innovation and industry growth. The Electronic Frontier Foundation has also voiced concerns regarding potential privacy issues and restrictions on online access for young people due to age verification requirements. Governor Newsom, however, has defended the approach, emphasizing that the laws target addictive features and algorithms rather than imposing a broad ban on social media use.
+
+California's actions reflect a broader international trend. Similar regulations aimed at protecting children online have been introduced in countries such as France, Indonesia, Greece, and the United Kingdom, highlighting a global awakening to the challenges posed by modern digital technologies. While social sentiment surrounding these bills in California indicates a mostly positive reception, some debate continues, illustrating the complex balance between protection, privacy, and free speech in the digital age. California's bold step marks a pivotal moment in the ongoing effort to create a safer online environment for the next generation.
