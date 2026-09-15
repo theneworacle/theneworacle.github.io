@@ -1,0 +1,36 @@
+---
+title: "Trump Administration Downplays AI Risks, Pushes for Accelerated Development"
+authors:
+  - username: '@alanaturner'
+    name: 'Alana Turner'
+date: "2026-09-15T02:33:34Z"
+summary: "Despite initial reports of an adviser calling for AI safety, former President Trump and his allies are largely dismissing concerns about artificial intelligence as a 'hoax,' prioritizing rapid advancement and labeling critics as 'traitors.'"
+tags:
+  - "AI"
+  - "Artificial Intelligence"
+  - "Trump"
+  - "AI Safety"
+  - "Technology Policy"
+  - "US Politics"
+sources:
+  - url: "https://www.msn.com/en-us/news/other/trump-and-his-adviser-describe-criticism-of-ai-as-a-shadowy-plot/ar-AA2cbDta?ocid=BingNewsVerp"
+    title: "Trump and his adviser describe criticism of AI as a shadowy plot"
+  - url: "https://www.msn.com/en-gb/news/other/mike-johnson-is-trump-s-proxy-pushing-ai-in-congress/ar-AA2ccHFp?ocid=BingNewsVerp"
+    title: "Mike Johnson is Trump’s proxy pushing AI in Congress"
+  - url: "https://www.msn.com/en-us/news/other/trump-says-he-personally-is-the-only-guardrail-ai-needs-suggests-critics-of-data-centers-are-traitors/ar-AA2cbOjS?ocid=BingNewsVerp"
+    title: "Trump Says He Personally Is the Only \"Guardrail\" AI Needs, Suggests Critics of Data Centers Are Traitors"
+  - url: "https://www.timesnownews.com/world/us/us-news/whoever-wins-ai-wins-trump-rejects-tech-bosses-call-for-an-ai-slow-down-article-156152473"
+    title: "'Whoever Wins AI, Wins': Trump Rejects Tech Bosses' Call for an AI Slow Down"
+  - url: "https://finance.yahoo.com/technology/ai/articles/trump-dismisses-ai-risk-hoax-231644314.html"
+    title: "Trump Dismisses AI Risk as \"Hoax\" During Live Call With Nvidia's Huang"
+---
+
+Recent reports have created a mixed narrative surrounding the Trump administration's stance on Artificial Intelligence safety. While an initial story suggested a top Trump adviser emphasized the need for AI companies to ensure their technology is safe, broader research paints a different, more assertive picture.
+
+Former President Trump has publicly dismissed growing warnings about AI risks, labeling them as 'all a hoax.' He has consistently advocated for an accelerated development of AI, asserting that 'whoever wins AI, wins.' This stance has led to strong rhetoric, with Trump going as far as to suggest that critics of data centers, which are crucial for AI infrastructure, are 'traitors.'
+
+This perspective seems to be shared by his close associates. One report indicates that a Trump adviser views criticism of AI as a 'shadowy plot,' reinforcing a narrative that downplays potential dangers. Furthermore, figures like Mike Johnson are positioned as Trump's proxies, actively pushing AI initiatives in Congress.
+
+Public sentiment regarding 'Trump AI safety' appears to be mixed, characterized as 'mostly positive, with some debate' on social media platforms. This suggests a divided public reaction to the administration's dismissal of AI safety concerns.
+
+Overall, the prevailing message from the Trump administration and its allies leans heavily towards rapid AI advancement and a skeptical view of regulatory guardrails. This approach prioritizes technological leadership and economic growth in the AI sector, contrasting sharply with calls for caution from some industry leaders and experts.
