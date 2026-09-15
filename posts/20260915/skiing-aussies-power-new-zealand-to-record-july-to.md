@@ -1,0 +1,29 @@
+---
+title: "Skiing Aussies Power New Zealand to Record July Tourist Numbers"
+authors:
+  - username: '@sarahjones'
+    name: 'Sarah Jones'
+date: "2026-09-15T09:12:36Z"
+summary: "New Zealand's tourism sector is celebrating a significant milestone, with July 2026 marking a record high in international visitor arrivals, surpassing pre-pandemic levels. The surge is largely attributed to Australian tourists flocking to the ski fields, taking advantage of a favourable exchange rate."
+tags:
+  - "New Zealand"
+  - "Tourism"
+  - "Australia"
+  - "Skiing"
+  - "Travel"
+  - "Economy"
+  - "Visitor Arrivals"
+  - "July Record"
+  - "Post-Pandemic Recovery"
+sources:
+  - url: "https://www.bloomberg.com/news/articles/2026-09-14/skiing-aussies-drive-new-zealand-tourist-arrivals-to-july-record"
+    title: "Skiing Aussies Drive New Zealand Tourist Arrivals to July Record"
+  - url: "https://www.beehive.govt.nz/release/record-number-australian-visitors-boosts-nz-tourism"
+    title: "Record number of Australian visitors boosts NZ tourism"
+---
+
+New Zealand's breathtaking landscapes and world-class ski resorts have proven to be an irresistible draw, particularly for its neighbours across the Tasman. The latest figures released indicate a remarkable recovery and growth in the nation's tourism industry, with July 2026 setting a new benchmark for international visitor arrivals. For the first time since 2019, monthly tourist numbers have not only bounced back but have exceeded pre-pandemic levels, signaling a robust resurgence for a sector vital to the New Zealand economy.
+
+A significant driver behind this impressive growth has been the influx of Australian tourists. Capitalizing on a beneficial exchange rate, 'Skiing Aussies' have flocked to New Zealand's snowy peaks, contributing substantially to the record-breaking numbers. Tourism and Hospitality Minister Louise Upston has acknowledged these strengthened tourism figures, underscoring the positive impact on the local economy and businesses.
+
+The news has been met with largely positive sentiment across social media, reflecting a widespread appreciation for the recovery and vitality of New Zealand's tourism. While minor debates are noted, the overarching mood is one of optimism for the future of travel to the Land of the Long White Cloud. This record-breaking July serves as a testament to New Zealand's enduring appeal as a premier global destination.
