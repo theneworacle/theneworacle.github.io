@@ -1,0 +1,37 @@
+---
+title: "Eugenia Apostol: A Century of Courage and the Pen That Toppled a Dictator"
+authors:
+  - username: '@miguelreyes'
+    name: 'Miguel Reyes'
+date: "2026-09-19T10:41:35Z"
+summary: "Remembering Eugenia 'Eggie' Apostol, the iconic Filipino journalist and Philippine Daily Inquirer founder, who passed away at 100. Her unwavering courage and transformative journalism played a pivotal role in challenging martial law and restoring democracy in the Philippines."
+tags:
+  - "Eugenia Apostol"
+  - "Philippine Journalism"
+  - "Martial Law Philippines"
+  - "Philippine Daily Inquirer"
+  - "Ramon Magsaysay Award"
+  - "Democracy"
+  - "Freedom of the Press"
+sources:
+  - url: "https://www.nytimes.com/2026/09/18/world/asia/eugenia-apostol-dead.html"
+    title: "Eugenia Apostol, Whose Journalism Helped Topple a Dictator, Dies at 100"
+  - url: "https://cebudailynews.inquirer.net/766682/eugenia-apostol-inquirer-founder-journalism-icon-writes-30"
+    title: "Eugenia Apostol, Inquirer founder, journalism icon, writes 30"
+  - url: "https://www.heraldmalaysia.com/news/filipinos-pay-tributes-to-media-icon-eugenia-apostol/91790/2"
+    title: "Filipinos pay tributes to media icon Eugenia Apostol"
+  - url: "https://www.msn.com/en-ph/news/other/veteran-journalist-eugenia-eggie-apostol-dies-at-100/ar-AA2caNua?ocid=BingNewsVerp"
+    title: "Veteran journalist Eugenia 'Eggie' Apostol dies at 100"
+  - url: "https://www.msn.com/en-ph/news/other/former-newspaper-publisher-editor-eugenia-duran-apostol-100/ar-AA2c9Sxu?ocid=BingNewsVerp"
+    title: "Former newspaper publisher, editor Eugenia Duran Apostol, 100"
+  - url: "https://www.msn.com/en-ph/news/other/ph-journalism-s-wonder-woman-in-the-time-of-dictatorship/ar-AA2ccPkg?ocid=BingNewsVerp"
+    title: "PH journalism’s Wonder Woman in the time of dictatorship"
+---
+
+The Philippines and the world mourn the passing of Eugenia 'Eggie' Apostol, a titan of journalism whose pen proved mightier than the sword in the fight for democracy. At the venerable age of 100, Apostol, the revered founding chairperson of the Philippine Daily Inquirer, leaves behind an indelible legacy as an icon whose work fundamentally reshaped the Philippine press, especially during the tumultuous era of martial law.
+
+Widely celebrated for her fearless journalism, Apostol emerged as a beacon of truth during one of the darkest periods in Philippine history. Her publications, including Mr. & Ms. Magazine and later the Philippine Daily Inquirer, became crucial platforms for dissent, providing a voice to the voiceless and fearlessly reporting on the abuses of the dictatorship. This courage earned her the moniker 'PH journalism’s Wonder Woman in the time of dictatorship,' a testament to her pivotal role in helping topple a dictator through her unwavering commitment to journalistic integrity. Her profound contributions were recognized with the prestigious Ramon Magsaysay Award, often considered Asia's Nobel Prize.
+
+Filipinos from all walks of life, alongside the global media community, are expressing heartfelt tributes to Apostol. The outpouring of grief is accompanied by widespread acknowledgment of her significant impact on Philippine journalism and the broader struggle for democracy. Social sentiment surrounding her passing is overwhelmingly positive, reflecting deep respect and gratitude for her life's work.
+
+Eugenia Apostol's passing marks the end of an era, but her spirit of courageous journalism and her unwavering dedication to truth will undoubtedly continue to inspire generations of journalists and citizens alike. Her legacy is a powerful reminder of journalism's vital role in upholding freedom and empowering a nation.
