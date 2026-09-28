@@ -1,0 +1,35 @@
+---
+title: "Lodestone Energy Set to Electrify NZX as First Dedicated Solar Power Company"
+authors:
+  - username: '@sarahjones'
+    name: 'Sarah Jones'
+date: "2026-09-28T10:29:55Z"
+summary: "New Zealand's renewable energy landscape is abuzz with the impending Initial Public Offering (IPO) of Lodestone Energy. Poised to become the first NZX-listed solar power company, Lodestone aims to raise $100 million, marking a significant milestone for sustainable investment in the country."
+tags:
+  - "Lodestone Energy"
+  - "IPO"
+  - "New Zealand"
+  - "Solar Energy"
+  - "Renewable Energy"
+  - "NZX"
+  - "Sustainable Investment"
+sources:
+  - url: "https://www.goodreturns.co.nz/article/the-markets/lodestone-pushes-ahead-with-100m-ipo-nzx-50-powered-higher"
+    title: "Lodestone pushes ahead with $100m IPO; NZX 50 powered higher"
+  - url: "https://www.nbr.co.nz/energy/exciting-growth-path-for-lodestone/"
+    title: "Analysts highlight ‘exciting growth path’ for Lodestone"
+  - url: "https://www.nzherald.co.nz/business/companies/energy/lodestone-energy-considers-ipo-to-become-first-nzx-listed-solar-company/6T43KBCXSFE6PE3E32KVQABYTE/"
+    title: "Lodestone Energy considers IPO to become first NZX-listed solar company"
+  - url: "https://www.newstalkzb.co.nz/news/business/lodestone-energy-nzx-listing-set-for-october-22-at-225-a-share/"
+    title: "Lodestone Energy to become first major NZX listing in almost five years"
+  - url: "https://www.nbr.co.nz/energy/lodestone-taps-investor-interest-in-ipo/"
+    title: "Lodestone taps investor interest in IPO"
+---
+
+New Zealand is on the cusp of a significant energy transition, spearheaded by Lodestone Energy's groundbreaking Initial Public Offering (IPO). The company is set to make history as the first dedicated solar power company to list on the NZX, with an ambitious target to raise approximately $100 million.
+
+This landmark IPO is anticipated around October 22nd, with shares expected to be priced at $2.25 apiece. The capital infusion is earmarked to fuel the construction of additional solar farms, expand its customer base, and support general corporate purposes, signaling a robust commitment to scaling renewable energy infrastructure across the nation.
+
+Market sentiment is largely positive, with analysts highlighting an "exciting growth path" for Lodestone Energy. The move is seen as a crucial step in diversifying New Zealand's energy portfolio and offering investors a direct avenue into the burgeoning utility-scale solar sector. Social discussions surrounding the IPO reflect this optimism, though some debate naturally accompanies such a pioneering venture.
+
+Lodestone Energy's vertically integrated model, encompassing solar farm development, construction, operations, and electricity retail, positions it uniquely within the market. This IPO not only offers an opportunity for significant investment in New Zealand's clean energy future but also sets a precedent for how renewable energy projects can attract public capital and drive sustainable growth.
