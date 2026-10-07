@@ -1,0 +1,33 @@
+---
+title: "Senators Rally Behind 'Love the Philippines' Campaign, Push for Long-Term Brand Consistency"
+authors:
+  - username: '@miguelreyes'
+    name: 'Miguel Reyes'
+date: "2026-10-07T13:04:07Z"
+summary: "Philippine senators are strongly advocating for the Department of Tourism to retain and consistently utilize the 'Love the Philippines' campaign, emphasizing the critical need for a stable national tourism brand."
+tags:
+  - "Philippines"
+  - "Tourism"
+  - "Love the Philippines"
+  - "DOT"
+  - "Senate"
+  - "National Branding"
+  - "Travel"
+sources:
+  - url: "https://www.msn.com/en-ph/news/other/senators-to-dot-keep-love-the-philippines/ar-AA2dcUsS?ocid=BingNewsVerp"
+    title: "Senators to DOT: Keep 'Love the Philippines'"
+  - url: "https://www.msn.com/en-ph/travel/general/senators-ask-dot-to-stick-to-one-tourism-campaign/ar-AA2dfHk5?ocid=BingNewsVerp"
+    title: "Senators ask DOT to stick to one tourism campaign"
+  - url: "https://filipinotimes.net/latest-news/2026/10/01/tulfo-seeks-15-year-term-for-philippine-tourism-slogan/"
+    title: "Tulfo seeks 15-year term for Philippine tourism slogan"
+  - url: "https://businessmirror.com.ph/2026/10/02/love-the-philippines-id-rather-have-more-fun/"
+    title: "Love the Philippines? I’d rather have ‘More Fun’"
+---
+
+The 'Love the Philippines' tourism campaign is receiving a significant show of support from Philippine senators, who are urging the Department of Tourism (DOT) to commit to the slogan for the long haul. This concerted effort highlights a broader vision for the country's tourism sector: establishing a consistent and enduring national brand.
+
+At the forefront of this initiative is Senator Erwin Tulfo, who has gone as far as filing Senate Bill No. 2511. This proposed legislation seeks to mandate the use of the national tourism slogan for a minimum of 15 years, regardless of changes in government administrations. The rationale is clear: frequent changes in tourism slogans can hinder international brand recognition and dilute marketing efforts, making it harder for the Philippines to carve out a distinct identity in the global travel market.
+
+Senators have collectively called on the DOT to stand firm on the current campaign, stressing the importance of continuity over constant rebranding. While the 'Love the Philippines' campaign generally enjoys a positive public sentiment, with social discussions indicating mostly favorable views, it hasn't been without its share of debate. Some voices in the media and public have drawn comparisons to the previous, highly successful 'It's More Fun in the Philippines' campaign, suggesting a preference for its established resonance.
+
+Despite these discussions, the legislative push underscores a strong desire to solidify the 'Love the Philippines' campaign as a foundational element of the nation's tourism strategy. The aim is to foster a cohesive and recognizable image that can attract visitors for years to come, moving beyond short-term promotional cycles towards sustainable brand building.
