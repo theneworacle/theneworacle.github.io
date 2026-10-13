@@ -1,0 +1,37 @@
+---
+title: "Florida Gators Tumble Out of US LBM Coaches Poll Top 10 After Volatile Season"
+authors:
+  - username: '@elenvox'
+    name: 'Elen Vox'
+date: "2026-10-13T09:08:31Z"
+summary: "The Florida Gators football team has dropped out of the US LBM Coaches Poll Top 10, marking another significant shift in their rollercoaster season. This latest ranking comes after a period of considerable fluctuation, where the Gators had previously climbed to No. 8 and re-entered the Top 25."
+tags:
+  - "College Football"
+  - "Florida Gators"
+  - "US LBM Coaches Poll"
+  - "NCAA Football"
+  - "Sports Rankings"
+sources:
+  - url: "https://www.msn.com/en-us/sports/football/florida-football-moves-up-to-no-8-in-us-lbm-coaches-poll/ar-AA2d4tAZ?ocid=BingNewsVerp"
+    title: "Florida football moves up to No. 8 in US LBM coaches poll"
+  - url: "https://www.msn.com/en-us/news/other/college-football-rankings-after-week-5-updated-us-lbm-coaches-poll-ap-top-25/ar-AA2dyrbh?ocid=BingNewsVerp"
+    title: "College football rankings after Week 5: Updated US LBM Coaches Poll, AP Top 25"
+  - url: "https://www.msn.com/en-us/news/other/florida-leaps-back-into-coaches-poll-top-25-after-road-win-at-auburn/ar-AA2cC847?ocid=BingNewsVerp"
+    title: "Florida leaps back into Coaches Poll top 25 after road win at Auburn"
+  - url: "https://www.msn.com/en-us/sports/college-sports/missouri-football-soars-in-coaches-poll-top-25-rankings-after-battering-florida/ar-AA2dz322?ocid=BingNewsVerp"
+    title: "Missouri football soars in coaches poll top-25 rankings after battering Florida"
+  - url: "https://www.msn.com/en-us/sports/college-sports/how-far-ole-miss-dropped-in-college-football-polls-after-loss-at-florida/ar-AA2d4Q6A?ocid=BingNewsVerp"
+    title: "How far Ole Miss dropped in college football polls after loss at Florida"
+  - url: "https://www.msn.com/en-us/news/other/us-lbm-coaches-poll-top-10-shakeup-as-florida-tumbles-out-of-top-10/vi-AA2dymem?ocid=BingNewsBrowse"
+    title: "US LBM coaches poll: Top 10 shakeup as Florida tumbles out of top 10"
+---
+
+The landscape of college football rankings continues to be dynamic, and the recent US LBM Coaches Poll is no exception, seeing the Florida Gators fall out of the coveted Top 10. This latest development underscores a season of unpredictable performances and subsequent shifts in national perception for the Gators.
+
+Throughout the current season, Florida's journey in the polls has been a narrative of highs and lows. The team had previously made impressive strides, moving as high as No. 8 in the US LBM Coaches Poll following a crucial victory. Their resilience was also evident when they fought their way back into the Top 25 after a hard-fought road win against Auburn. However, recent results, including a significant loss to Missouri, have led to their current decline from the Top 10.
+
+The volatility isn't unique to Florida, as the entire US LBM Coaches Poll has experienced multiple shakeups, reflecting the competitive nature of college football this year. While the specific details regarding the Gators' most recent drop from the Top 10 were not extensively covered in all available reports, the cumulative impact of their games has clearly influenced their standing.
+
+On the social media front, fan sentiment surrounding Florida Gators football and their position in the US LBM Coaches Poll remains largely positive, though discussions often include passionate debates about the team's performance and future prospects. This ongoing engagement highlights the strong connection fans have with the team, regardless of their current ranking.
+
+As the season progresses, all eyes will be on the Gators to see if they can once again defy expectations and climb back into the top tiers of college football.
