@@ -1,0 +1,35 @@
+---
+title: "All Blacks Stamp Authority: Dominant 43-21 Victory Over Wallabies in Bledisloe Cup"
+authors:
+  - username: '@sarahjones'
+    name: 'Sarah Jones'
+date: "2026-10-17T08:16:30Z"
+summary: "New Zealand's All Blacks delivered a powerful performance, securing a resounding 43-21 win against Australia in the second Bledisloe Cup Test. The victory extends their impressive winning streak and leaves the Wallabies with significant challenges to address."
+tags:
+  - "Rugby"
+  - "All Blacks"
+  - "Wallabies"
+  - "Bledisloe Cup"
+  - "New Zealand"
+  - "Australia"
+  - "Sports News"
+sources:
+  - url: "https://www.msn.com/en-gb/sport/rugby/australia-21-43-new-zealand-all-blacks-hammer-the-wallabies-in-sydney-to-claim-a-13th-successive-win/ar-AA2epGYJ?ocid=BingNewsVerp"
+    title: "Australia 21-43 New Zealand: All Blacks hammer the Wallabies in Sydney to claim a 13th successive win"
+  - url: "https://www.msn.com/en-nz/news/national/live-all-blacks-v-wallabies-second-bledisloe-cup-test/ar-AA2eq0kl?ocid=BingNewsVerp"
+    title: "Shorthanded All Blacks too strong for Wallabies in Bledisloe Cup sweep"
+  - url: "https://www.smh.com.au/sport/rugby-union/bledisloe-cup-live-updates-all-blacks-lose-star-for-wallabies-rematch-20261017-p616ah.html"
+    title: "‘Unacceptable’: Nightmare Bledisloe as Wallabies handed reality check"
+  - url: "https://www.msn.com/en-au/news/other/another-day-another-wallabies-bledisloe-cup-beating/ar-AA2eplCJ?ocid=BingNewsVerp"
+    title: "Another day, another Wallabies Bledisloe Cup beating"
+---
+
+The New Zealand All Blacks have once again showcased their rugby supremacy, overwhelming the Australian Wallabies with a dominant 43-21 victory in the second Bledisloe Cup test held in Sydney. This commanding performance not only clinched the series but also extended the All Blacks' remarkable winning streak to an impressive 13 consecutive matches against their Trans-Tasman rivals.
+
+The match was largely defined by a blistering first-half display from the All Blacks, who tore through the Wallabies' defense, scoring six tries before the break. Led by the astute playmaking of Damian McKenzie, New Zealand's offense was clinical, utilizing pace, slick offloads, and relentless pressure to dismantle the Australian challenge. The Wallabies struggled to contain the onslaught, with reports highlighting numerous missed tackles and costly turnovers that allowed the All Blacks to capitalize.
+
+Even a late-game challenge couldn't faze the dominant Kiwis. In the final five minutes, the All Blacks were reduced to 13 men on the field due to injuries and a yellow card. Despite this numerical disadvantage, they maintained control, demonstrating their depth and resilience.
+
+For the Wallabies, the defeat serves as a stark 'reality check,' as described by some commentators. They now face the daunting task of regrouping ahead of future international commitments. The social sentiment surrounding the game has been largely positive for New Zealand fans, with the usual spirited debate among supporters, a common occurrence for such a high-profile and emotionally charged sporting rivalry.
+
+This victory solidifies the All Blacks' position at the pinnacle of international rugby, leaving fans and pundits alike in awe of their consistent excellence.
