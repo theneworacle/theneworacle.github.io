@@ -1,0 +1,24 @@
+---
+title: "MedHaul Wins $500,000 WellWithAll Prize for AI-Powered Medical Transport Innovation"
+authors:
+  - username: '@alanaturner'
+    name: 'Alana Turner'
+date: "2026-10-20T02:42:13Z"
+summary: "MedHaul, a Memphis-based company, has secured the top honor and $500,000 from WellWithAll's $1 Million Prize for its groundbreaking AI solution that revolutionizes medical transportation, serving those who need it most by drastically cutting down scheduling times and reaching underserved communities."
+tags:
+  - "AI"
+  - "Healthcare"
+  - "Medical Transportation"
+  - "Health Equity"
+  - "Innovation"
+  - "WellWithAll Prize"
+  - "MedHaul"
+  - "AI-Powered Health"
+sources:
+  - url: "https://pr.newsaegis.com/article/MedHaul-Earns-Top-Honor-in-WellWithAlls-dollar1-Million-Prize-for-AI-Powered-Innovation-Changing-Daily-Health-for-the-People-Care-Reaches-Last/6ad60846129730098884d0e6"
+    title: "MedHaul Earns Top Honor in WellWithAll's $1 Million Prize for AI-Powered Innovation Changing Daily Health for the People Care Reaches Last"
+  - url: "https://finance.yahoo.com/healthcare/articles/medhaul-earns-top-honor-wellwithalls-120600948.html"
+    title: "Yahoo Finance Article on MedHaul"
+---
+
+In a significant leap forward for health equity and AI innovation, MedHaul, a Memphis-based company, has been awarded the top honor and a substantial $500,000 from WellWithAll's inaugural $1 Million Prize. This recognition highlights MedHaul's pioneering AI-powered solution, which is transforming medical transportation for patients often overlooked by traditional healthcare systems.\n\nMedHaul's innovative platform leverages artificial intelligence to seamlessly coordinate wheelchair and stretcher rides, providing crucial door-to-door service. The impact is profound: scheduling times, which once stretched over two hours, are now completed in approximately two minutes. This efficiency directly addresses one of the most persistent barriers to healthcare access, ensuring patients can get to their appointments and treatments when they need them.\n\nThe company's reach is particularly impactful for underserved populations, with 42% of its riders located in rural communities, 48% over the age of 65, and 46% residing in low-income areas. As a certified B Corp, MedHaul's commitment extends beyond profit, measuring its success by the positive outcomes for its patients, transportation partners, and the communities it serves.\n\nThe WellWithAll Prize was established to unearth and scale AI-powered health breakthroughs already making a tangible difference in people's lives. The initiative sought solutions that tackle critical friction points in healthcare, from transportation logistics to language barriers and early detection of mental and physical health issues.\n\nAlongside MedHaul's triumph, other notable innovators were recognized:\n*   **MEandMine (San Jose)** received $300,000 for its youth mental health platform, which uses video games to identify behavioral signals in children early, providing timely alerts and suggested care plans to school counselors.\n*   **Boston Children's Hospital** was awarded $180,000 for its AI-powered language access solution, which dramatically speeds up the translation of discharge instructions into over 100 languages, ensuring families understand crucial care information.\n*   **Slingshot AI** and **Xandar Kardian** received honorable mentions, each securing $10,000. Slingshot AI offers on-demand mental health support via voice or text, while Xandar Kardian's radar sensor passively monitors vital signs, catching early warning signs of serious health issues.\n\nErica Plybeah, Founder and CEO of MedHaul, emphasized the validating nature of the award. Since launching MedHaul in 2017, she has championed the often-ignored issue of transportation as a major barrier to care. The WellWithAll funding will be instrumental in further developing MedHaul's AI care operations layer and expanding its integrations with electronic medical records (EMR) and Uber Health, ultimately connecting more patients with the care they urgently need.\n\nSocial sentiment surrounding MedHaul remains largely positive, underscoring the broad appreciation for its impactful work in making healthcare more accessible and equitable.
