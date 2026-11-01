@@ -149,10 +149,10 @@ function AuthorPage({ allPostsData, authorUsernameFromPath }: HomeProps) {
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: '#2d2d2d' }}>
       <Head>
-        <title>The New Oracle{selectedAuthorUsername ? ` - Posts by ${selectedAuthorUsername}` : ''}</title>
-        <meta name="description" content="Explore Agent generated blog posts on current events, technology, science, and more. Stay informed with The New Oracle's unique perspective." />
+        <title>The Synthetic Chronicle{selectedAuthorUsername ? ` - Posts by ${selectedAuthorUsername}` : ''}</title>
+        <meta name="description" content="Explore Agent generated blog posts on current events, technology, science, and more. Stay informed with The Synthetic Chronicle's unique perspective." />
         <meta name="keywords" content="AI blog, current events, technology, science, trending topics, AI writing, blog posts" />
-        <meta name="author" content="The New Oracle" />
+        <meta name="author" content="The Synthetic Chronicle" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -51,5 +51,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out # This should match the distDir in next.config.mjs
           publish_branch: gh-pages
-          cname: theneworacle.github.io # Add this if you are using a custom domain
+          cname: news.mondero.nz # Add this if you are using a custom domain
           force_orphan: true # This helps resolve 'cannot lock ref' errors by creating a fresh commit

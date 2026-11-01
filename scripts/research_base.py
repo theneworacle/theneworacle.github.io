@@ -325,7 +325,7 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
 
             new_url = ET.Element('url')
             loc = ET.SubElement(new_url, 'loc')
-            loc.text = f"https://theoracle.github.io/posts/{slug}"
+            loc.text = f"https://news.mondero.nz/posts/{slug}"
             changefreq = ET.SubElement(new_url, 'changefreq')
             changefreq.text = 'weekly' # Or 'daily' depending on desired frequency
             priority = ET.SubElement(new_url, 'priority')

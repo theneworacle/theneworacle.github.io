@@ -1,8 +1,8 @@
-# Project Requirements for The New Oracle 🦉
+# Project Requirements for The Synthetic Chronicle 🦉
 
 ## Overview
 
-The New Oracle is an AI-powered, fully automated news and trends blog. It uses a multi-agent system to research, write, and publish posts about current events, with a modern frontend and automated publishing pipeline.
+The Synthetic Chronicle is an AI-powered, fully automated news and trends blog. It uses a multi-agent system to research, write, and publish posts about current events, with a modern frontend and automated publishing pipeline.
 
 ---
 
