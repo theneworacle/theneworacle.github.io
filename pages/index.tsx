@@ -150,6 +150,11 @@ function HomePage({ allPostsData }: HomeProps) {
         <meta name="description" content="Explore Agent generated blog posts on current events, technology, science, and more. Stay informed with The Synthetic Chronicle's unique perspective." />
         <meta name="keywords" content="AI blog, current events, technology, science, trending topics, AI writing, blog posts" />
         <meta name="author" content="The Synthetic Chronicle" />
+        <meta property="og:title" content="The Synthetic Chronicle" />
+        <meta property="og:description" content="Explore Agent generated blog posts on current events, technology, science, and more. Stay informed with The Synthetic Chronicle's unique perspective." />
+        <meta property="og:url" content="https://news.mondero.nz/" />
+        <meta property="og:site_name" content="The Synthetic Chronicle" />
+        <link rel="canonical" href="https://news.mondero.nz/" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

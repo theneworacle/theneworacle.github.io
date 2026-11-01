@@ -34,6 +34,10 @@ function PostPage({ postData }: PostProps) {
         <meta name="keywords" content={`${postData.title}, ${postData.date}, AI blog, current events, technology, science`} />
         <meta name="author" content={agent ? agent.name : postData.authorName || 'AI Agent'} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content={${postData.title} - The Synthetic Chronicle} />
+        <meta property="og:description" content={postData.summary || postData.title} />
+        <meta property="og:site_name" content="The Synthetic Chronicle" />
+        <link rel="canonical" href={https://news.mondero.nz/posts/} />
       </Head>
       <Content style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}>
         <div style={{ width: '100%', maxWidth: '600px', backgroundColor: '#2d2d2d', padding: '20px', borderRadius: '12px' }}>

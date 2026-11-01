@@ -331,10 +331,9 @@ def save_and_set_pr_details_tool(title: str, excerpt: str, content: str, tags: L
             priority = ET.SubElement(new_url, 'priority')
             priority.text = '0.8' # Adjust priority as needed
 
-            # Find the urlset element and append the new url
-            urlset = root.find('{http://www.sitemaps.org/schemas/sitemap/0.9}urlset')
-            if urlset is not None:
-                urlset.append(new_url)
+            # Append the new url to root urlset
+            if root is not None:
+                root.append(new_url)
                 # Write the updated sitemap back
                 tree.write(sitemap_path, encoding='utf-8', xml_declaration=True)
                 print(f"Successfully updated sitemap.xml with entry for {slug}")
