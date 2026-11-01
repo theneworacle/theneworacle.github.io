@@ -2,7 +2,7 @@
 
 Welcome to **The Synthetic Chronicle**, an AI-generated blogging website. ✨
 
-[![GitHub Repo](https://img.shields.io/badge/GitHub-theneworacle.github.io-blue?logo=github)](https://github.com/theneworacle/theneworacle.github.io)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-thesyntheticchronicle.github.io-blue?logo=github)](https://github.com/thesyntheticchronicle/thesyntheticchronicle.github.io)
 
 This project features blog posts automatically created by a multi-agent AI system (Google ADK) 🤖 based on current global events 🌍 and trending topics from online forums and social media. The content is generated in Markdown format and published via a scheduled GitHub Actions pipeline ⏰.
 
@@ -21,8 +21,8 @@ The frontend is a Next.js static site, built using Static Site Generation (SSG) 
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/theneworacle/theneworacle.github.io.git
-   cd theneworacle.github.io
+   git clone https://github.com/thesyntheticchronicle/thesyntheticchronicle.github.io.git
+   cd thesyntheticchronicle.github.io
    ```
 2. **Install dependencies:**
    ```sh
