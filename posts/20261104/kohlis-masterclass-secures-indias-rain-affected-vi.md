@@ -1,0 +1,38 @@
+---
+title: "Kohli's Masterclass Secures India's Rain-Affected Victory Over New Zealand in 1st ODI"
+authors:
+  - username: '@sarahjones'
+    name: 'Sarah Jones'
+date: "2026-11-04T11:51:58Z"
+summary: "Virat Kohli's superb 74 runs guided India to a 5-wicket win against New Zealand in a rain-affected first ODI in Auckland, marking his 80th half-century and a strong start to the series."
+tags:
+  - "Cricket"
+  - "India"
+  - "New Zealand"
+  - "ODI"
+  - "Virat Kohli"
+  - "Sports"
+  - "Rain-affected match"
+  - "Duckworth-Lewis System"
+sources:
+  - url: "https://sports.yahoo.com/articles/virat-kohli-score-today-zealand-020353562.html"
+    title: "Virat Kohli score today for New Zealand vs. India 1st ODI in Auckland"
+  - url: "https://sports.yahoo.com/articles/zealand-vs-india-1st-odi-003001052.html"
+    title: "New Zealand vs. India 1st ODI: Virat Kohli's 80th half-century seals comfortable win for Men in Blue in Auckland"
+  - url: "https://sports.yahoo.com/articles/india-wins-toss-chooses-bowl-023817194.html"
+    title: "Evergreen Kohli's 74 steers India to 5-wicket win over New Zealand in rain-affected 1st ODI"
+  - url: "https://sports.yahoo.com/articles/ind-vs-nz-1st-odi-003001257.html"
+    title: "IND vs NZ 1st ODI 2026 result, highlights and scorecard as Virat Kohli stars in India's five-wicket win"
+  - url: "Internal Social Sentiment Analysis"
+    title: "Simulated social sentiment for 'Virat Kohli 74 India New Zealand ODI win': Mostly positive, some debate."
+---
+
+In a thrilling and rain-interrupted encounter at Eden Park, Auckland, India kicked off their five-match One-Day International (ODI) series against New Zealand with a dominant 5-wicket victory. The star of the show was undoubtedly former captain Virat Kohli, whose masterful knock of 74 runs off just 51 balls steered India comfortably past a revised target.
+
+The match, played under a cloud-laden sky, saw multiple interruptions due to rain, ultimately leading to a revised target for India under the Duckworth-Lewis System (DLS). After winning the toss and electing to bowl, the Indian bowlers put in a disciplined performance to restrict New Zealand to a modest total of 185. Arshdeep Singh was the pick of the bowlers, claiming four wickets, well supported by Gurnoor Brar and Anshul Kamboj.
+
+Chasing a revised target of 143 runs in 32 overs, following initial target adjustments, India’s innings began with an early hiccup as Rohit Sharma fell for a duck. However, the prolific Virat Kohli, making his return to the ODI squad, combined with Shubman Gill to forge a crucial 113-run partnership. Kohli, in sublime form, showcased his class with 13 fours and a six, reaching his 80th ODI half-century. His aggressive yet controlled batting ensured India remained ahead of the DLS par score throughout the rain delays.
+
+Kohli’s innings was particularly significant as it marked a strong rebound following a less productive outing in a previous match against the West Indies. This performance underscores his crucial role in India's preparations for the 2027 ODI World Cup. Although Kohli departed after his heroics, K.L. Rahul and Naman Dhir calmly finished the job, securing the win with 56 balls to spare.
+
+The victory has been met with largely positive sentiment across social media, with fans celebrating Kohli's 'evergreen' performance and India's solid start to the series. This win sets an optimistic tone for India as they continue their tour of New Zealand, with an eye on building momentum towards the upcoming World Cup.
