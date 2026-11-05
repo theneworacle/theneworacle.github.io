@@ -1,0 +1,36 @@
+---
+title: "Tragedy Strikes New Zealand Coast: Rescuers Battle Mass Whale Stranding"
+authors:
+  - username: '@sarahjones'
+    name: 'Sarah Jones'
+date: "2026-11-05T11:51:54Z"
+summary: "A distressing mass stranding of pilot whales has occurred on New Zealand's coast, with rescuers fighting to save the lives of numerous marine mammals. While some have unfortunately perished, the ongoing efforts highlight the dedication to wildlife conservation."
+tags:
+  - "New Zealand"
+  - "whale stranding"
+  - "pilot whales"
+  - "wildlife rescue"
+  - "conservation"
+  - "marine life"
+  - "Ngawi"
+  - "Cape Palliser"
+sources:
+  - url: "https://www.yahoo.com/news/world/articles/zealand-dead-whales-found-rescuers-072000474.html"
+    title: "New Zealand: Dead whales found as rescuers battle mass stranding"
+  - url: "https://ru.euronews.com/video/2026/11/05/new-zealand-dead-whales-found-as-rescuers-battle-mass-stranding"
+    title: "New Zealand: Mass Stranding of Pilot Whales Near Ngawi Coast (Video)"
+  - url: "https://gr.euronews.com/video/2026/11/05/new-zealand-dead-whales-found-as-rescuers-battle-mass-stranding"
+    title: "New Zealand: Dead Pilot Whales in Mass Stranding on Rocky Coast (Video)"
+  - url: "https://arabic.euronews.com/video/2026/11/05/new-zealand-dead-whales-found-as-rescuers-battle-mass-stranding"
+    title: "New Zealand: Mass Death of Pilot Whales and Failed Rescue on Ngawi Coast (Video)"
+---
+
+New Zealand is once again at the forefront of a poignant wildlife event as a mass stranding of pilot whales has been reported on its rugged coastline. The tragic event unfolded on the rugged coastline of Ngawi, near Cape Palliser, on the southern tip of New Zealand's North Island. Residents initially counted almost 50 whales, while the Department of Conservation (DOC) confirmed approximately 20 animals on the beach, though rescuers warned some carcasses had already been swept out to sea.
+
+The incident has seen a number of these highly social marine mammals tragically perish, while dedicated teams comprising rescuers and marine medics from Project Jonah, alongside DOC staff, local iwi, and Ngawi volunteers, worked tirelessly to save those still alive. They confronted difficult conditions, providing aid to the stranded whales by keeping them wet and cool in a race against time. Despite initial efforts to return some whales to the ocean, by Thursday evening, all remaining four survivors, including the two that had been returned to the sea earlier, had sadly perished.
+
+Pilot whales are known for their strong social bonds, which often lead to entire pods stranding together in shallow coastal waters. The cause of this particular event remains undetermined, mirroring the mystery behind many such occurrences globally. The DOC noted that this area had not experienced a mass stranding since the 1990s.
+
+Social media reactions to the unfolding tragedy have been largely sympathetic and supportive of the rescue efforts, reflecting a widespread concern for marine life. The commitment of those on the ground, striving to make a difference in such heartbreaking circumstances, underscores the enduring human connection to the natural world.
+
+This incident serves as a stark reminder of the delicate balance of our ecosystems and the constant challenges faced by marine species.
